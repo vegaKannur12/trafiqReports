@@ -1,62 +1,116 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:reports/components/customColor.dart';
 import 'package:reports/components/customDatePicker.dart';
 import 'package:reports/components/customappbar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+    final _draweItems = [
+    new DrawerItem("sales report ", Icons.report),
+    new DrawerItem("purchase report", Icons.report),
+    new DrawerItem("sales report", Icons.report)
+  ];
+  // HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() {
+    return new _HomePageState();
+  } 
 }
 
 class _HomePageState extends State<HomePage> {
   String searchkey = "";
   bool isSearch = false;
-
+  int _selectedIndex = 0;
   bool buttonClicked = false;
   List<String> drawerItems = ["level 1", "level 2", "level3"];
   // List<Map<String, dynamic>>? newList = [];
 
+
+  _onSelectItem(int index) {
+    setState(() => _selectedIndex = index);
+
+    Navigator.of(context).pop(); // close the drawer
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    //////////////////////////////////////////
+    List<Widget> drawerOpts = [];
+    
+    for (var i = 0; i <widget._draweItems.length; i++) {
+      var d = widget._draweItems[i];
+      drawerOpts.add(new ListTile(
+        leading: new Icon(d.icon),
+        title: new Text(d.title),
+        selected: i == _selectedIndex,
+        onTap: () => _onSelectItem(i),
+      ));
+    }
+    //////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      // appBar: AppBar(title: Text(widget._draweItems[_selectedIndex].title)),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: CustomAppbar(title: "Reports"),
+        child: CustomAppbar(title:widget. _draweItems[_selectedIndex].title),
       ),
 
       ///////////////////////////////////////////////////////////////////
       drawer: Drawer(
-        child: ListView.builder(
-          itemCount: drawerItems.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.tab),
-                    onTap: (() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Test(
-                                  text: drawerItems[index],
-                                )),
-                      );
-                    }),
-                    title: Text(drawerItems[index]),
-                  ),
-                  // Divider(),
-                ],
-              ),
-            );
-          },
+        child: new Column(
+          children: <Widget>[
+            Container(
+              height: size.height * 0.2,
+              color: P_Settings.color3,
+            ),
+            // UserAccountsDrawerHeader(
+            //   accountEmail: new Text("email@gmail.com", style: TextStyle(fontSize: 18),),
+            //   accountName: new Text("Your Name", style: TextStyle(fontSize: 16),),
+            //   currentAccountPicture: new GestureDetector(
+            //     // child: new CircleAvatar(
+            //     //   backgroundImage: new NetworkImage(picsUrl),
+            //     // ),
+            //     onTap: () => print("This is your current account."),
+            //   ),
+            // ),
+            Column(children: drawerOpts)
+          ],
         ),
       ),
+      // child: ListView.builder(
+      //   itemCount: drawerItems.length,
+      //   itemBuilder: (context, index) {
+      //     return Padding(
+      //       padding: const EdgeInsets.all(8.0),
+      //       child: Column(
+      //         children: [
+      //           ListTile(
+      //             leading: Icon(Icons.tab),
+      //             onTap: (() {
+
+      //               // Navigator.push(
+      //               //   context,
+      //               //   MaterialPageRoute(
+      //               //       builder: (context) => Test(
+      //               //             text: drawerItems[index],
+      //               //           )),
+      //               // );
+
+      //               Navigator.pop(context);
+      //             }),
+      //             title: Text(drawerItems[index]),
+      //           ),
+      //           // Divider(),
+      //         ],
+      //       ),
+      //     );
+      //   },
+      // ),
+
       body: Column(
         children: [
           buttonClicked
@@ -133,19 +187,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 /////////////////////////////////////////////////////////////
-class Test extends StatelessWidget {
-  String? text;
-  Test({this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(text.toString())),
-      body: Center(
-        child: Text(
-          text.toString(),
-        ),
-      ),
-    );
-  }
+class DrawerItem {
+  String title;
+  IconData icon;
+  DrawerItem(this.title, this.icon);
 }

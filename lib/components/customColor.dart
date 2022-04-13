@@ -14,12 +14,15 @@ class P_Settings {
   static String get title => 'Order';
 
   // font color 
-   static Color get fontColor => Color.fromARGB(255, 0, 0, 0);
+  static Color get fontColor => Color.fromARGB(255, 0, 0, 0);
   /// [color1] 
   static Color get color1 => Color.fromARGB(255, 199, 192, 207);
 
   /// [color2]  
   static Color get color2 => Color.fromARGB(255, 253, 255, 253);
+
+  ////[color3]
+  static Color get color3 => Colors.purple;
   // list tile color
   static Color get listColor => Color.fromARGB(255, 216, 196, 218);
   // table header color
