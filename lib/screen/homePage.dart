@@ -6,7 +6,7 @@ import 'package:reports/components/customDatePicker.dart';
 import 'package:reports/components/customappbar.dart';
 
 class HomePage extends StatefulWidget {
-    final _draweItems = [
+  final _draweItems = [
     new DrawerItem("sales report ", Icons.report),
     new DrawerItem("purchase report", Icons.report),
     new DrawerItem("sales report", Icons.report)
@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() {
     return new _HomePageState();
-  } 
+  }
 }
 
 class _HomePageState extends State<HomePage> {
@@ -28,20 +28,18 @@ class _HomePageState extends State<HomePage> {
   List<String> drawerItems = ["level 1", "level 2", "level3"];
   // List<Map<String, dynamic>>? newList = [];
 
-
   _onSelectItem(int index) {
     setState(() => _selectedIndex = index);
 
     Navigator.of(context).pop(); // close the drawer
   }
 
-
   @override
   Widget build(BuildContext context) {
     //////////////////////////////////////////
     List<Widget> drawerOpts = [];
-    
-    for (var i = 0; i <widget._draweItems.length; i++) {
+
+    for (var i = 0; i < widget._draweItems.length; i++) {
       var d = widget._draweItems[i];
       drawerOpts.add(new ListTile(
         leading: new Icon(d.icon),
@@ -57,7 +55,7 @@ class _HomePageState extends State<HomePage> {
       // appBar: AppBar(title: Text(widget._draweItems[_selectedIndex].title)),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: CustomAppbar(title:widget. _draweItems[_selectedIndex].title),
+        child: CustomAppbar(title: widget._draweItems[_selectedIndex].title),
       ),
 
       ///////////////////////////////////////////////////////////////////
@@ -82,36 +80,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // child: ListView.builder(
-      //   itemCount: drawerItems.length,
-      //   itemBuilder: (context, index) {
-      //     return Padding(
-      //       padding: const EdgeInsets.all(8.0),
-      //       child: Column(
-      //         children: [
-      //           ListTile(
-      //             leading: Icon(Icons.tab),
-      //             onTap: (() {
-
-      //               // Navigator.push(
-      //               //   context,
-      //               //   MaterialPageRoute(
-      //               //       builder: (context) => Test(
-      //               //             text: drawerItems[index],
-      //               //           )),
-      //               // );
-
-      //               Navigator.pop(context);
-      //             }),
-      //             title: Text(drawerItems[index]),
-      //           ),
-      //           // Divider(),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
-
       body: Column(
         children: [
           buttonClicked
@@ -168,15 +136,18 @@ class _HomePageState extends State<HomePage> {
           Container(
             // color: P_Settings.datatableColor,
             height: size.height * 0.6,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: drawerItems.length,
-                itemBuilder: ((context, index) {
-                  return Ink(
-                    color: (index % 2 == 0)
-                        ? P_Settings.datatableColor
-                        : Color.fromARGB(255, 153, 202, 155),
+            child: ListView.builder(
+              itemCount: drawerItems.length,
+              itemBuilder: ((context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: (index % 2 == 0)
+                          ? P_Settings.datatableColor
+                          : P_Settings.color4,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
@@ -189,11 +160,10 @@ class _HomePageState extends State<HomePage> {
                         },
                         title: Text(drawerItems[index]),
                       ),
-                      
                     ),
-                  );
-                }),
-              ),
+                  ),
+                );
+              }),
             ),
           )
         ],

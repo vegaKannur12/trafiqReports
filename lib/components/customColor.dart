@@ -23,6 +23,10 @@ class P_Settings {
 
   ////[color3]
   static Color get color3 => Colors.purple;
+
+  ////[color4]
+  static Color get color4 => Color.fromARGB(255, 206, 147, 216);
+  
   // list tile color
   static Color get listColor => Color.fromARGB(255, 216, 196, 218);
   // table header color
