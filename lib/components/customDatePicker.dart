@@ -64,7 +64,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                         : Text(formattedDate.toString()))
                 : Container(
                     child: formattedDate == null
-                        ? Text("pishkuu")
+                        ? Text(crntDateFormat.toString())
                         : Text(formattedDate.toString())),
           ],
         ),
