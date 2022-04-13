@@ -12,6 +12,9 @@ class P_Image {
 class P_Settings {
   /// [title] Project Title
   static String get title => 'Order';
+
+  // font color 
+   static Color get fontColor => Color.fromARGB(255, 0, 0, 0);
   /// [color1] 
   static Color get color1 => Color.fromARGB(255, 199, 192, 207);
 
