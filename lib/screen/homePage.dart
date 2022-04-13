@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   String searchkey = "";
   bool isSearch = false;
   int _selectedIndex = 0;
+  bool isSelected = true;
   bool buttonClicked = false;
   List<String> drawerItems = ["level 1", "level 2", "level3"];
   // List<Map<String, dynamic>>? newList = [];
@@ -165,20 +166,35 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
           Container(
+            // color: P_Settings.datatableColor,
             height: size.height * 0.6,
-            child: ListView.builder(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
                 itemCount: drawerItems.length,
                 itemBuilder: ((context, index) {
-                  return ListTile(
-                    onTap: () {
-                      setState(() {
-                        buttonClicked = true;
-                      });
-                      print(buttonClicked);
-                    },
-                    title: Text(drawerItems[index]),
+                  return Ink(
+                    color: (index % 2 == 0)
+                        ? P_Settings.datatableColor
+                        : Color.fromARGB(255, 153, 202, 155),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        minLeadingWidth: 10,
+                        onTap: () {
+                          setState(() {
+                            buttonClicked = true;
+                          });
+                          print(buttonClicked);
+                        },
+                        title: Text(drawerItems[index]),
+                      ),
+                      
+                    ),
                   );
-                })),
+                }),
+              ),
+            ),
           )
         ],
       ),
