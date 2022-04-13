@@ -10,8 +10,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String searchkey = "";
+  bool isSearch = false;
+
   bool buttonClicked = false;
   List<String> drawerItems = ["level 1", "level 2", "level3"];
+  // List<Map<String, dynamic>>? newList = [];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -19,8 +24,10 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: CustomAppbar(),
+        child: CustomAppbar(title: "Reports"),
       ),
+
+      ///////////////////////////////////////////////////////////////////
       drawer: Drawer(
         child: ListView.builder(
           itemCount: drawerItems.length,
@@ -30,15 +37,19 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   ListTile(
+                    leading: Icon(Icons.tab),
                     onTap: (() {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Test(text: drawerItems[index],)),
+                        MaterialPageRoute(
+                            builder: (context) => Test(
+                                  text: drawerItems[index],
+                                )),
                       );
                     }),
                     title: Text(drawerItems[index]),
                   ),
-                  Divider()
+                  // Divider(),
                 ],
               ),
             );
@@ -49,8 +60,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           buttonClicked
               ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ConstrainedBox(
@@ -66,20 +77,11 @@ class _HomePageState extends State<HomePage> {
                                     buttonClicked = false;
                                   });
                                 }),
-                                child: Icon(Icons.calendar_month))
-                            // child: IconButton(
-                            //     onPressed: () {
-                            //       print("Icon button --${buttonClicked}");
-                            //       setState(() {
-                            //         buttonClicked = false;
-                            //       });print("Icon button --${buttonClicked}");
-                            //     },
-                            //     icon: Icon(Icons.calendar_today)),
-                            ),
+                                child: Icon(Icons.calendar_month))),
                       ),
                     ],
                   ),
-              )
+                )
               : Container(
                   height: size.height * 0.2,
                   color: Colors.grey[200],
@@ -92,62 +94,56 @@ class _HomePageState extends State<HomePage> {
                           CustomDatePicker(dateType: "To Date"),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  buttonClicked = true;
-                                });
-                                print(buttonClicked);
-                              },
-                              child: Text("View"),
-                            ),
-                          ],
-                        ),
-                      )
+                      // Padding(
+                      //   padding: const EdgeInsets.all(10.0),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       ElevatedButton(
+                      //         onPressed: () {},
+                      //         child: Text("View"),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
-          buttonClicked
-              ? Container(
-                  height: size.height * 0.6,
-                  child: ListView.builder(
-                      itemCount: drawerItems.length,
-                      itemBuilder: ((context, index) {
-                        return ListTile(
-                          title: Text(drawerItems[index]),
-                        );
-                      })),
-                )
-              : Container(
-                
-                height: size.height * 0.6,
-                child: ListView.builder(
-                  itemCount: drawerItems.length,
-                  itemBuilder: ((context, index) {
-                  return ListTile(title: Text(drawerItems[index]));
+          Container(
+            height: size.height * 0.6,
+            child: ListView.builder(
+                itemCount: drawerItems.length,
+                itemBuilder: ((context, index) {
+                  return ListTile(
+                    onTap: () {
+                      setState(() {
+                        buttonClicked = true;
+                      });
+                      print(buttonClicked);
+                    },
+                    title: Text(drawerItems[index]),
+                  );
                 })),
-              )
+          )
         ],
       ),
     );
   }
 }
+
 /////////////////////////////////////////////////////////////
 class Test extends StatelessWidget {
- String? text;
- Test({this.text});
+  String? text;
+  Test({this.text});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(text.toString())),
       body: Center(
-        child: Text(text.toString()),
+        child: Text(
+          text.toString(),
+        ),
       ),
     );
   }

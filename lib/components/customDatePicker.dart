@@ -5,15 +5,15 @@ import 'package:intl/intl.dart';
 class CustomDatePicker extends StatefulWidget {
   String dateType;
   // const CustomDatePicker({Key? key}) : super(key: key);
-CustomDatePicker({required this.dateType});
+  CustomDatePicker({required this.dateType});
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
-  
   DateTime currentDate = DateTime.now();
   String? formattedDate;
+  String? crntDateFormat;
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -31,32 +31,44 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
+    print(crntDateFormat);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Size size=MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Container(
       // width: double.infinity,
-        // color: Colors.grey[200],
-        width: size.width*0.4,
-        height: size.height*0.1,
-        child: Center(
-          child: Row(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment:MainAxisAlignment.center ,
-            children: [
-              IconButton(
-                onPressed: () {
-                  _selectDate(context);
-                },
-                icon: Icon(Icons.calendar_month),
-              ),
-              Container(
-                  child: formattedDate == null
-                      ? Text(widget.dateType.toString())
-                      : Text(formattedDate.toString())),
-            ],
-          ),
+      // color: Colors.grey[200],
+      width: size.width * 0.4,
+      height: size.height * 0.1,
+      child: Center(
+        child: Row(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisAlignment:MainAxisAlignment.center ,
+          children: [
+            IconButton(
+              onPressed: () {
+                _selectDate(context);
+              },
+              icon: Icon(Icons.calendar_month),
+            ),
+            widget.dateType == "From Date"
+                ? Container(
+                    child: formattedDate == null
+                        ? Text(crntDateFormat.toString())
+                        : Text(formattedDate.toString()))
+                : Container(
+                    child: formattedDate == null
+                        ? Text("pishkuu")
+                        : Text(formattedDate.toString())),
+          ],
         ),
-      
+      ),
     );
   }
 }
