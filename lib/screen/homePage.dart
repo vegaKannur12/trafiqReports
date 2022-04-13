@@ -30,40 +30,35 @@ class _HomePageState extends State<HomePage> {
             //other styles
           ),
           child: Drawer(
-            child: Column(
-              children: [
-               
-                ListView.builder(
-                  itemCount: drawerItems.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Ink(
-                            color: isSelected
-                                ? P_Settings.datatableColor
-                                : P_Settings.fontColor,
-                            child: ListTile(
-                              onTap: (() {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Test(
-                                            text: drawerItems[index],
-                                          )),
-                                );
-                              }),
-                              title: Text(drawerItems[index]),
-                            ),
-                          ),
-                          Divider()
-                        ],
+            child: ListView.builder(
+              itemCount: drawerItems.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Ink(
+                        color: isSelected
+                            ? P_Settings.datatableColor
+                            : P_Settings.fontColor,
+                        child: ListTile(
+                          onTap: (() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Test(
+                                        text: drawerItems[index],
+                                      )),
+                            );
+                          }),
+                          title: Text(drawerItems[index]),
+                        ),
                       ),
-                    );
-                  },
-                ),
-              ],
+                      Divider()
+                    ],
+                  ),
+                );
+              },
             ),
           )),
       body: Column(
