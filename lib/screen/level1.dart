@@ -21,61 +21,73 @@ class _LevelOneState extends State<LevelOne> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Report"),
+        title: Text(P_Settings.title),
       ),
       body: Column(children: [
         Container(
           margin: EdgeInsets.all(10),
-          color: Colors.green,
           child: ExpansionPanelList(
-            animationDuration: Duration(milliseconds: 2000),
+            // animationDuration: Duration(milliseconds: 2000),
             children: [
               ExpansionPanel(
                 headerBuilder: (context, isExpanded) {
                   return Ink(
-                    color:
-                        isSelected ? P_Settings.listColor : Colors.transparent,
+                    color: isSelected
+                        ? P_Settings.listColor
+                        : Colors.transparent,
                     child: ListTile(
                       title: Column(
                         children: [
+                          Text(
+                            'Main Heading',
+                            style: TextStyle(color: P_Settings.fontColor),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                'Main Heading',
-                                style: TextStyle(color: Colors.black),
-                              ),
                               SizedBox(
                                 width: size.height * 0.12,
                               ),
                             ],
                           ),
                           SizedBox(height: size.height * 0.02),
-                          // DataTable(columns: [
-                          //   DataColumn(
-                          //     label: Text('h1'),
-                          //   ),
-                          //   DataColumn(
-                          //     label: Text('h2'),
-                          //   ),
-                          //   DataColumn(
-                          //     label: Text('h3'),
-                          //   ),
-                          //   DataColumn(
-                          //     label: Text('h4'),
-                          //   ),
-                          //   DataColumn(
-                          //     label: Text('h5'),
-                          //   ),
-                          // ], rows: [
-                          //   DataRow(cells: [
-                          //     DataCell(Text('f1')),
-                          //     DataCell(Text('f2')),
-                          //     DataCell(Text('f3')),
-                          //     DataCell(Text('f4')),
-                          //     DataCell(Text('f5')),
-                          //   ])
-                          // ]),
+                          isExpanded
+                              ? Container(
+                                  child: Text(""),
+                                )
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: DataTable(
+                                      border: TableBorder.all(
+                                        color: P_Settings.datatableColor,
+                                      ),
+                                      columns: [
+                                        DataColumn(
+                                          label: Text('h1'),
+                                        ),
+                                        DataColumn(
+                                          label: Text('h2'),
+                                        ),
+                                        DataColumn(
+                                          label: Text('h3'),
+                                        ),
+                                        DataColumn(
+                                          label: Text('h4'),
+                                        ),
+                                        DataColumn(
+                                          label: Text('h5'),
+                                        ),
+                                      ],
+                                      rows: [
+                                        DataRow(cells: [
+                                          DataCell(Text('f1')),
+                                          DataCell(Text('f2')),
+                                          DataCell(Text('f3')),
+                                          DataCell(Text('f4')),
+                                          DataCell(Text('f5')),
+                                        ])
+                                      ]),
+                                ),
                         ],
                       ),
                       onTap: () {
@@ -92,9 +104,9 @@ class _LevelOneState extends State<LevelOne> {
                 body: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
-                    border: TableBorder.all(
-                      color:P_Settings.datatableColor,
-                    ),
+                      border: TableBorder.all(
+                          // color: P_Settings.datatableColor,
+                          ),
                       // headingRowColor: MaterialStateColor.resolveWith(
                       //     (states) => P_Settings.datatableColor),
                       columns: [
@@ -123,21 +135,30 @@ class _LevelOneState extends State<LevelOne> {
                       rows: [
                         DataRow(cells: [
                           DataCell(Text('1')),
-                          DataCell(Text('Arshik')),
+                          DataCell(Text('Anusha')),
                           DataCell(Text('5644645')),
                           DataCell(Text('3')),
-                          DataCell(Text('265')),
+                          DataCell(Text('10')),
                           DataCell(Text('3')),
-                          DataCell(Text('265')),
+                          DataCell(Text('10')),
                         ]),
                         DataRow(cells: [
                           DataCell(Text('1')),
-                          DataCell(Text('Arshik')),
+                          DataCell(Text('Anu')),
                           DataCell(Text('5644645')),
                           DataCell(Text('3')),
-                          DataCell(Text('265')),
+                          DataCell(Text('19')),
                           DataCell(Text('3')),
-                          DataCell(Text('265')),
+                          DataCell(Text('10')),
+                        ]),
+                        DataRow(cells: [
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
                         ]),
                       ]),
                 ),

@@ -3,6 +3,8 @@ import 'package:reports/components/customColor.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
 
+import 'screen/dataTabletest.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: LevelOne(),
+      home: HomePage(),
     );
   }
 }

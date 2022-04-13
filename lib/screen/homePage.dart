@@ -11,6 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isSelected = true;
   bool buttonClicked = false;
   List<String> drawerItems = ["level 1", "level 2", "level3"];
   @override
@@ -22,36 +23,55 @@ class _HomePageState extends State<HomePage> {
         preferredSize: const Size.fromHeight(60),
         child: CustomAppbar(),
       ),
-      drawer: Drawer(
-        child: ListView.builder(
-          itemCount: drawerItems.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  ListTile(
-                    onTap: (() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Test(text: drawerItems[index],)),
-                      );
-                    }),
-                    title: Text(drawerItems[index]),
-                  ),
-                  Divider()
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+      drawer: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: P_Settings
+                .color2, //This will change the drawer background to blue.
+            //other styles
+          ),
+          child: Drawer(
+            child: Column(
+              children: [
+               
+                ListView.builder(
+                  itemCount: drawerItems.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Ink(
+                            color: isSelected
+                                ? P_Settings.datatableColor
+                                : P_Settings.fontColor,
+                            child: ListTile(
+                              onTap: (() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Test(
+                                            text: drawerItems[index],
+                                          )),
+                                );
+                              }),
+                              title: Text(drawerItems[index]),
+                            ),
+                          ),
+                          Divider()
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          )),
       body: Column(
         children: [
           buttonClicked
               ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ConstrainedBox(
@@ -80,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-              )
+                )
               : Container(
                   height: size.height * 0.2,
                   color: P_Settings.dateviewColor,
@@ -125,23 +145,23 @@ class _HomePageState extends State<HomePage> {
                       })),
                 )
               : Container(
-                
-                height: size.height * 0.6,
-                child: ListView.builder(
-                  itemCount: drawerItems.length,
-                  itemBuilder: ((context, index) {
-                  return ListTile(title: Text(drawerItems[index]));
-                })),
-              )
+                  height: size.height * 0.6,
+                  child: ListView.builder(
+                      itemCount: drawerItems.length,
+                      itemBuilder: ((context, index) {
+                        return ListTile(title: Text(drawerItems[index]));
+                      })),
+                )
         ],
       ),
     );
   }
 }
+
 /////////////////////////////////////////////////////////////
 class Test extends StatelessWidget {
- String? text;
- Test({this.text});
+  String? text;
+  Test({this.text});
 
   @override
   Widget build(BuildContext context) {
