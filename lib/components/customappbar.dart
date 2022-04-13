@@ -13,7 +13,7 @@ class CustomAppbar extends StatefulWidget {
 
 class _CustomAppbarState extends State<CustomAppbar> {
   //   final scaffoldKey = GlobalKey<ScaffoldState>();
-  // final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   Widget? appBarTitle;
   Icon actionIcon = Icon(Icons.search);
   TextEditingController _controller = TextEditingController();
@@ -46,8 +46,12 @@ class _CustomAppbarState extends State<CustomAppbar> {
   void didUpdateWidget(covariant CustomAppbar oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    print("update----${widget.title.toString()}");
-    appBarTitle = Text(widget.title.toString());
+    if (widget.title != oldWidget.title) {
+      print("update----${widget.title.toString()}");
+      appBarTitle = Text(widget.title.toString());
+    }else{
+      print("elseee");
+    }
   }
 
   @override
@@ -60,9 +64,8 @@ class _CustomAppbarState extends State<CustomAppbar> {
 
   @override
   Widget build(BuildContext context) {
-    
     print("widget build context----${appBarTitle}");
-  // final formKey = GlobalKey<FormState>();
+    // final formKey = GlobalKey<FormState>();
     // print("widget build context----${widget.title.toString()}");
     return AppBar(
       title: appBarTitle,
