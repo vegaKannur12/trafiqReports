@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:reports/screen/homePage.dart';
 
 class LevelOne extends StatefulWidget {
   @override
@@ -32,9 +33,17 @@ class _LevelOneState extends State<LevelOne> {
                   return ListTile(
                     title: Column(
                       children: [
-                        Text(
-                          'Main Heading',
-                          style: TextStyle(color: Colors.black),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Main Heading',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            SizedBox(
+                              width: size.height * 0.12,
+                            ),
+                          ],
                         ),
                         SizedBox(height: size.height * 0.02),
                         // DataTable(columns: [
@@ -64,10 +73,16 @@ class _LevelOneState extends State<LevelOne> {
                         // ]),
                       ],
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    },
                   );
                 },
                 isExpanded: _expanded,
-                canTapOnHeader: true,
+                canTapOnHeader: false,
                 body: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(columns: [
@@ -86,7 +101,7 @@ class _LevelOneState extends State<LevelOne> {
                     DataColumn(
                       label: Text('Amount'),
                     ),
-                     DataColumn(
+                    DataColumn(
                       label: Text('Quantity'),
                     ),
                     DataColumn(
