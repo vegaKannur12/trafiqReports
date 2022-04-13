@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reports/components/customColor.dart';
 
 class CustomAppbar extends StatelessWidget {
   late String appbar;
@@ -6,7 +7,7 @@ class CustomAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text("Reports"),
+      title: Text(P_Settings.title),
      
     );
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:reports/components/customColor.dart';
 import 'package:reports/screen/homePage.dart';
 
 class LevelOne extends StatefulWidget {
@@ -13,6 +14,7 @@ class LevelOne extends StatefulWidget {
 
 class _LevelOneState extends State<LevelOne> {
   bool _expanded = false;
+  bool isSelected = true;
   var _test = "Full Screen";
   @override
   Widget build(BuildContext context) {
@@ -30,103 +32,114 @@ class _LevelOneState extends State<LevelOne> {
             children: [
               ExpansionPanel(
                 headerBuilder: (context, isExpanded) {
-                  return ListTile(
-                    title: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Main Heading',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            SizedBox(
-                              width: size.height * 0.12,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: size.height * 0.02),
-                        // DataTable(columns: [
-                        //   DataColumn(
-                        //     label: Text('h1'),
-                        //   ),
-                        //   DataColumn(
-                        //     label: Text('h2'),
-                        //   ),
-                        //   DataColumn(
-                        //     label: Text('h3'),
-                        //   ),
-                        //   DataColumn(
-                        //     label: Text('h4'),
-                        //   ),
-                        //   DataColumn(
-                        //     label: Text('h5'),
-                        //   ),
-                        // ], rows: [
-                        //   DataRow(cells: [
-                        //     DataCell(Text('f1')),
-                        //     DataCell(Text('f2')),
-                        //     DataCell(Text('f3')),
-                        //     DataCell(Text('f4')),
-                        //     DataCell(Text('f5')),
-                        //   ])
-                        // ]),
-                      ],
+                  return Ink(
+                    color:
+                        isSelected ? P_Settings.listColor : Colors.transparent,
+                    child: ListTile(
+                      title: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Main Heading',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              SizedBox(
+                                width: size.height * 0.12,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: size.height * 0.02),
+                          // DataTable(columns: [
+                          //   DataColumn(
+                          //     label: Text('h1'),
+                          //   ),
+                          //   DataColumn(
+                          //     label: Text('h2'),
+                          //   ),
+                          //   DataColumn(
+                          //     label: Text('h3'),
+                          //   ),
+                          //   DataColumn(
+                          //     label: Text('h4'),
+                          //   ),
+                          //   DataColumn(
+                          //     label: Text('h5'),
+                          //   ),
+                          // ], rows: [
+                          //   DataRow(cells: [
+                          //     DataCell(Text('f1')),
+                          //     DataCell(Text('f2')),
+                          //     DataCell(Text('f3')),
+                          //     DataCell(Text('f4')),
+                          //     DataCell(Text('f5')),
+                          //   ])
+                          // ]),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      },
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    },
                   );
                 },
                 isExpanded: _expanded,
                 canTapOnHeader: false,
                 body: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: DataTable(columns: [
-                    DataColumn(
-                      label: Text('ID'),
+                  child: DataTable(
+                    border: TableBorder.all(
+                      color:P_Settings.datatableColor,
                     ),
-                    DataColumn(
-                      label: Text('Name'),
-                    ),
-                    DataColumn(
-                      label: Text('Code'),
-                    ),
-                    DataColumn(
-                      label: Text('Quantity'),
-                    ),
-                    DataColumn(
-                      label: Text('Amount'),
-                    ),
-                    DataColumn(
-                      label: Text('Quantity'),
-                    ),
-                    DataColumn(
-                      label: Text('Amount'),
-                    ),
-                  ], rows: [
-                    DataRow(cells: [
-                      DataCell(Text('1')),
-                      DataCell(Text('Arshik')),
-                      DataCell(Text('5644645')),
-                      DataCell(Text('3')),
-                      DataCell(Text('265')),
-                      DataCell(Text('3')),
-                      DataCell(Text('265')),
-                    ]),
-                    DataRow(cells: [
-                      DataCell(Text('1')),
-                      DataCell(Text('Arshik')),
-                      DataCell(Text('5644645')),
-                      DataCell(Text('3')),
-                      DataCell(Text('265')),
-                      DataCell(Text('3')),
-                      DataCell(Text('265')),
-                    ]),
-                  ]),
+                      // headingRowColor: MaterialStateColor.resolveWith(
+                      //     (states) => P_Settings.datatableColor),
+                      columns: [
+                        DataColumn(
+                          label: Text('ID'),
+                        ),
+                        DataColumn(
+                          label: Text('Name'),
+                        ),
+                        DataColumn(
+                          label: Text('Code'),
+                        ),
+                        DataColumn(
+                          label: Text('Quantity'),
+                        ),
+                        DataColumn(
+                          label: Text('Amount'),
+                        ),
+                        DataColumn(
+                          label: Text('Quantity'),
+                        ),
+                        DataColumn(
+                          label: Text('Amount'),
+                        ),
+                      ],
+                      rows: [
+                        DataRow(cells: [
+                          DataCell(Text('1')),
+                          DataCell(Text('Arshik')),
+                          DataCell(Text('5644645')),
+                          DataCell(Text('3')),
+                          DataCell(Text('265')),
+                          DataCell(Text('3')),
+                          DataCell(Text('265')),
+                        ]),
+                        DataRow(cells: [
+                          DataCell(Text('1')),
+                          DataCell(Text('Arshik')),
+                          DataCell(Text('5644645')),
+                          DataCell(Text('3')),
+                          DataCell(Text('265')),
+                          DataCell(Text('3')),
+                          DataCell(Text('265')),
+                        ]),
+                      ]),
                 ),
               ),
             ],

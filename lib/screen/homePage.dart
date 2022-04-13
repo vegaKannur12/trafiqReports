@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reports/components/customColor.dart';
 import 'package:reports/components/customDatePicker.dart';
 import 'package:reports/components/customappbar.dart';
 
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
               )
               : Container(
                   height: size.height * 0.2,
-                  color: Colors.grey[200],
+                  color: P_Settings.dateviewColor,
                   child: Column(
                     children: [
                       Row(

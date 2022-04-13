@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reports/components/customColor.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
 
@@ -14,12 +15,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Raleway',
-        primaryColor: Color.fromARGB(255, 236, 173, 178),
-        primarySwatch: Colors.green,
+        primaryColor: P_Settings.color1,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.purple,
+        ),
+        scaffoldBackgroundColor: P_Settings.color2,
         //  brightness: Brightness.dark,
         //  fontFamily: 'Georgia',
 
-        textTheme:  TextTheme(
+        textTheme: TextTheme(
           headline1: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           headline6: TextStyle(
             fontSize: 25.0,
