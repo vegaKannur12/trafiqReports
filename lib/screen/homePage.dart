@@ -11,9 +11,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isSelected = true;
+  String searchkey = "";
+  bool isSearch = false;
+
   bool buttonClicked = false;
   List<String> drawerItems = ["level 1", "level 2", "level3"];
+  // List<Map<String, dynamic>>? newList = [];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -21,46 +25,38 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: CustomAppbar(),
+        child: CustomAppbar(title: "Reports"),
       ),
-      drawer: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: P_Settings
-                .color2, //This will change the drawer background to blue.
-            //other styles
-          ),
-          child: Drawer(
-            child: ListView.builder(
-              itemCount: drawerItems.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Ink(
-                        color: isSelected
-                            ? P_Settings.datatableColor
-                            : P_Settings.fontColor,
-                        child: ListTile(
-                          onTap: (() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Test(
-                                        text: drawerItems[index],
-                                      )),
-                            );
-                          }),
-                          title: Text(drawerItems[index]),
-                        ),
-                      ),
-                      Divider()
-                    ],
+
+      ///////////////////////////////////////////////////////////////////
+      drawer: Drawer(
+        child: ListView.builder(
+          itemCount: drawerItems.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.tab),
+                    onTap: (() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Test(
+                                  text: drawerItems[index],
+                                )),
+                      );
+                    }),
+                    title: Text(drawerItems[index]),
                   ),
-                );
-              },
-            ),
-          )),
+                  // Divider(),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
       body: Column(
         children: [
           buttonClicked
@@ -82,16 +78,7 @@ class _HomePageState extends State<HomePage> {
                                     buttonClicked = false;
                                   });
                                 }),
-                                child: Icon(Icons.calendar_month))
-                            // child: IconButton(
-                            //     onPressed: () {
-                            //       print("Icon button --${buttonClicked}");
-                            //       setState(() {
-                            //         buttonClicked = false;
-                            //       });print("Icon button --${buttonClicked}");
-                            //     },
-                            //     icon: Icon(Icons.calendar_today)),
-                            ),
+                                child: Icon(Icons.calendar_month))),
                       ),
                     ],
                   ),
@@ -108,45 +95,37 @@ class _HomePageState extends State<HomePage> {
                           CustomDatePicker(dateType: "To Date"),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  buttonClicked = true;
-                                });
-                                print(buttonClicked);
-                              },
-                              child: Text("View"),
-                            ),
-                          ],
-                        ),
-                      )
+                      // Padding(
+                      //   padding: const EdgeInsets.all(10.0),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       ElevatedButton(
+                      //         onPressed: () {},
+                      //         child: Text("View"),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
-          buttonClicked
-              ? Container(
-                  height: size.height * 0.6,
-                  child: ListView.builder(
-                      itemCount: drawerItems.length,
-                      itemBuilder: ((context, index) {
-                        return ListTile(
-                          title: Text(drawerItems[index]),
-                        );
-                      })),
-                )
-              : Container(
-                  height: size.height * 0.6,
-                  child: ListView.builder(
-                      itemCount: drawerItems.length,
-                      itemBuilder: ((context, index) {
-                        return ListTile(title: Text(drawerItems[index]));
-                      })),
-                )
+          Container(
+            height: size.height * 0.6,
+            child: ListView.builder(
+                itemCount: drawerItems.length,
+                itemBuilder: ((context, index) {
+                  return ListTile(
+                    onTap: () {
+                      setState(() {
+                        buttonClicked = true;
+                      });
+                      print(buttonClicked);
+                    },
+                    title: Text(drawerItems[index]),
+                  );
+                })),
+          )
         ],
       ),
     );
@@ -163,7 +142,9 @@ class Test extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(text.toString())),
       body: Center(
-        child: Text(text.toString()),
+        child: Text(
+          text.toString(),
+        ),
       ),
     );
   }

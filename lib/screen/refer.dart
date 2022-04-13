@@ -70,30 +70,30 @@
 //     );
 //   }
 
-  // List<ItemModel> itemData = <ItemModel>[
-  //   ItemModel(
-  //     headerItem: 'Android',
-  //     discription:
-  //         "Android is a mobile operating system based on a modified version of the Linux kernel and other open source software, designed primarily for touchscreen mobile devices such as smartphones and tablets.",
-  //     colorsItem: Colors.green,
-  //   ),
-  //   ItemModel(
-  //     headerItem: 'iOS',
-  //     discription:
-  //         "iOS is a mobile operating system created and developed by Apple Inc. exclusively for its hardware.",
-  //     colorsItem: Colors.grey,
-  //   ),
-  //   ItemModel(
-  //     headerItem: 'Windows',
-  //     discription:
-  //         "Microsoft Windows, commonly referred to as Windows, is a group of several proprietary graphical operating system families, all of which are developed and marketed by Microsoft. ",
-  //     colorsItem: Colors.blue,
-  //   ),
-  //   ItemModel(
-  //     headerItem: 'Linux',
-  //     discription:
-  //         "Linux is a family of open-source Unix-like operating systems based on the Linux kernel, an operating system.",
-  //     colorsItem: Colors.orange,
-  //   ),
-  // ];
+//   // List<ItemModel> itemData = <ItemModel>[
+//   //   ItemModel(
+//   //     headerItem: 'Android',
+//   //     discription:
+//   //         "Android is a mobile operating system based on a modified version of the Linux kernel and other open source software, designed primarily for touchscreen mobile devices such as smartphones and tablets.",
+//   //     colorsItem: Colors.green,
+//   //   ),
+//   //   ItemModel(
+//   //     headerItem: 'iOS',
+//   //     discription:
+//   //         "iOS is a mobile operating system created and developed by Apple Inc. exclusively for its hardware.",
+//   //     colorsItem: Colors.grey,
+//   //   ),
+//   //   ItemModel(
+//   //     headerItem: 'Windows',
+//   //     discription:
+//   //         "Microsoft Windows, commonly referred to as Windows, is a group of several proprietary graphical operating system families, all of which are developed and marketed by Microsoft. ",
+//   //     colorsItem: Colors.blue,
+//   //   ),
+//   //   ItemModel(
+//   //     headerItem: 'Linux',
+//   //     discription:
+//   //         "Linux is a family of open-source Unix-like operating systems based on the Linux kernel, an operating system.",
+//   //     colorsItem: Colors.orange,
+//   //   ),
+//   // ];
 // }
