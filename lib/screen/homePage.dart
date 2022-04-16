@@ -25,7 +25,10 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   bool isSelected = true;
   bool buttonClicked = false;
-  List<String> drawerItems = ["level 1", "level 2", "level3"];
+  List<String> purchseItems = ["level 1", "level 2", "level3"];
+  List<String> salesItems = ["level 1", "level 2", "level3"];
+  List<String> sales2Items = ["level 1", "level 2", "level3"];
+
   // List<Map<String, dynamic>>? newList = [];
 
   _onSelectItem(int index) {
@@ -41,14 +44,17 @@ class _HomePageState extends State<HomePage> {
 
     for (var i = 0; i < widget._draweItems.length; i++) {
       var d = widget._draweItems[i];
-      drawerOpts.add(new ListTile(
-        leading: new Icon(d.icon),
-        title: new Text(d.title),
+      drawerOpts.add(ListTile(
+        // leading: new Icon(d.icon),
+        title: new Text(
+          d.title,
+          style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
+        ),
         selected: i == _selectedIndex,
         onTap: () => _onSelectItem(i),
       ));
     }
-    //////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -66,22 +72,13 @@ class _HomePageState extends State<HomePage> {
               height: size.height * 0.2,
               color: P_Settings.color3,
             ),
-            // UserAccountsDrawerHeader(
-            //   accountEmail: new Text("email@gmail.com", style: TextStyle(fontSize: 18),),
-            //   accountName: new Text("Your Name", style: TextStyle(fontSize: 16),),
-            //   currentAccountPicture: new GestureDetector(
-            //     // child: new CircleAvatar(
-            //     //   backgroundImage: new NetworkImage(picsUrl),
-            //     // ),
-            //     onTap: () => print("This is your current account."),
-            //   ),
-            // ),
             Column(children: drawerOpts)
           ],
         ),
       ),
       body: Column(
         children: [
+          // Text(widget._draweItems[_selectedIndex].title),
           buttonClicked
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -137,20 +134,23 @@ class _HomePageState extends State<HomePage> {
             // color: P_Settings.datatableColor,
             height: size.height * 0.6,
             child: ListView.builder(
-              itemCount: drawerItems.length,
+              itemCount: purchseItems.length,
               itemBuilder: ((context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Ink(
+                    height: size.height * 0.09,
                     decoration: BoxDecoration(
                       color: (index % 2 == 0)
                           ? P_Settings.datatableColor
                           : P_Settings.color4,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
+                        // contentPadding: EdgeInsets.zero,
+                        // dense: true,
                         minLeadingWidth: 10,
                         onTap: () {
                           setState(() {
@@ -158,7 +158,11 @@ class _HomePageState extends State<HomePage> {
                           });
                           print(buttonClicked);
                         },
-                        title: Text(drawerItems[index]),
+                        title: Text(
+                          purchseItems[index],
+                          // overflow: TextOverflow.ellipsis,
+                          // softWrap: true,
+                        ),
                       ),
                     ),
                   ),
@@ -178,3 +182,6 @@ class DrawerItem {
   IconData icon;
   DrawerItem(this.title, this.icon);
 }
+
+
+//////////////////////////////////////////////////////////

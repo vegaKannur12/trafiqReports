@@ -44,7 +44,7 @@ class _LevelOneState extends State<LevelOne> {
                                 'Main Heading',
                                 style: TextStyle(color: P_Settings.fontColor),
                               ),
-                               Text(
+                              Text(
                                 '/report page flow',
                                 style: TextStyle(
                                     color: P_Settings.fontColor, fontSize: 10),
@@ -67,35 +67,36 @@ class _LevelOneState extends State<LevelOne> {
                               : SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: DataTable(
-                                      border: TableBorder.all(
-                                        color: P_Settings.datatableColor,
+                                    border: TableBorder.all(
+                                      color: P_Settings.datatableColor,
+                                    ),
+                                    columns: [
+                                      DataColumn(
+                                        label: Text('h1'),
                                       ),
-                                      columns: [
-                                        DataColumn(
-                                          label: Text('h1'),
-                                        ),
-                                        DataColumn(
-                                          label: Text('h2'),
-                                        ),
-                                        DataColumn(
-                                          label: Text('h3'),
-                                        ),
-                                        DataColumn(
-                                          label: Text('h4'),
-                                        ),
-                                        DataColumn(
-                                          label: Text('h5'),
-                                        ),
-                                      ],
-                                      rows: [
-                                        DataRow(cells: [
-                                          DataCell(Text('f1')),
-                                          DataCell(Text('f2')),
-                                          DataCell(Text('f3')),
-                                          DataCell(Text('f4')),
-                                          DataCell(Text('f5')),
-                                        ])
-                                      ]),
+                                      DataColumn(
+                                        label: Text('h2'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('h3'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('h4'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('h5'),
+                                      ),
+                                    ],
+                                    rows: [
+                                      DataRow(cells: [
+                                        DataCell(Text('f1')),
+                                        DataCell(Text('f2')),
+                                        DataCell(Text('f3')),
+                                        DataCell(Text('f4')),
+                                        DataCell(Text('f5')),
+                                      ])
+                                    ],
+                                  ),
                                 ),
                         ],
                       ),
@@ -181,6 +182,11 @@ class _LevelOneState extends State<LevelOne> {
           ),
         ),
       ]),
+    );
+  }
+  Widget datatableShrinked(){
+    return SingleChildScrollView(
+
     );
   }
 }

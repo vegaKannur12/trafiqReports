@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:reports/components/customColor.dart';
 import 'package:reports/drawersample.dart';
+import 'package:reports/screen/call.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
+import 'package:reports/screen/level1Sample.dart';
+import 'package:reports/screen/sampleDataTable.dart';
 
 import 'screen/dataTabletest.dart';
 
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp(debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Raleway',
         primaryColor: P_Settings.color1,
@@ -36,7 +39,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomePage(),
+      home: Level1Sample(),
     );
   }
 }
