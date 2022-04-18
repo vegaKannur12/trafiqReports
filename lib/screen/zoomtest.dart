@@ -17,25 +17,26 @@ class _ZoomableWidgetState extends State<ZoomableWidget> {
         title: Text(P_Settings.title),
       ),
       body: Zoom(
-          doubleTapZoom: true,
-          maxZoomWidth: 800,
-          maxZoomHeight: 800,
-          backgroundColor: Colors.white,
-          onPositionUpdate: (Offset position) {
-            print(position);
-          },
-          onScaleUpdate: (double scale, double zoom) {
-            print("$scale  $zoom");
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Text(
-                "Happy zoom!!",
-                style: TextStyle(fontSize: 50),
-              ),
+        doubleTapZoom: true,
+        maxZoomWidth: 800,
+        maxZoomHeight: 800,
+        backgroundColor: Colors.white,
+        onPositionUpdate: (Offset position) {
+          print(position);
+        },
+        onScaleUpdate: (double scale, double zoom) {
+          print("$scale  $zoom");
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Text(
+              "Zoom Data",
+              style: TextStyle(fontSize: 50),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

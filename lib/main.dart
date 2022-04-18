@@ -6,6 +6,7 @@ import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
 import 'package:reports/screen/level1Sample.dart';
 import 'package:reports/screen/sampleDataTable.dart';
+import 'package:reports/screen/splashscreen.dart';
 import 'package:reports/screen/zoomtest.dart';
 
 import 'screen/dataTabletest.dart';
@@ -29,7 +30,6 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: P_Settings.color2,
         //  brightness: Brightness.dark,
         //  fontFamily: 'Georgia',
-
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           headline6: TextStyle(
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: ZoomableWidget(),
+      home: SplashScreen(),
     );
   }
 }
