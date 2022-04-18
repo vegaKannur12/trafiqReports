@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Level1Sample(),
+      home: LevelOne(),
     );
   }
 }

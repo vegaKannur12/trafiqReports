@@ -6,14 +6,14 @@ import 'package:reports/components/customColor.dart';
 import 'package:reports/screen/homePage.dart';
 
 class LevelOne extends StatefulWidget {
-  const LevelOne({ Key? key }) : super(key: key);
+  const LevelOne({Key? key}) : super(key: key);
 
   @override
   State<LevelOne> createState() => _LevelOneState();
 }
 
 class _LevelOneState extends State<LevelOne> {
-    bool isExpanded = false;
+  bool isExpanded = false;
   bool visible = true;
   Icon actionIcon = Icon(Icons.arrow_downward);
   List<String> listString = ["Main Heading", "level1", "level2"];
@@ -23,6 +23,7 @@ class _LevelOneState extends State<LevelOne> {
     super.initState();
     visible = true;
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,11 +41,11 @@ class _LevelOneState extends State<LevelOne> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: ListTile(
-                onTap: (){
-                   Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
-                        );
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
                 },
                 title: Column(
                   children: [
@@ -61,14 +62,12 @@ class _LevelOneState extends State<LevelOne> {
                       setState(() {
                         visible = !visible;
                         isExpanded = !isExpanded;
-                        if(this.actionIcon.icon==Icons.arrow_downward){
+                        if (this.actionIcon.icon == Icons.arrow_downward) {
                           print("to up");
-                          this.actionIcon=Icon(Icons.arrow_upward);
-                        }
-                        else if(this.actionIcon.icon==Icons.arrow_upward){
+                          this.actionIcon = Icon(Icons.arrow_upward);
+                        } else if (this.actionIcon.icon == Icons.arrow_upward) {
                           print("to down");
-                        this.actionIcon=Icon(Icons.arrow_downward);
-
+                          this.actionIcon = Icon(Icons.arrow_downward);
                         }
                       });
                     }),
@@ -81,49 +80,58 @@ class _LevelOneState extends State<LevelOne> {
               visible: visible,
               child: shrinkedDataTable(),
             ),
-            
             Visibility(visible: isExpanded, child: datatable()),
           ],
         ),
       ),
     );
   }
-    Widget shrinkedDataTable() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        width: 650,
-        decoration: BoxDecoration(color: P_Settings.datatableColor),
-        child: DataTable(
-          border: TableBorder.all(
-            color: P_Settings.datatableColor,
+
+  Widget shrinkedDataTable() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          width: 650,
+          // height: 90,
+          decoration: BoxDecoration(color: P_Settings.datatableColor),
+          child: DataTable(
+            headingRowHeight: 25,
+            dataRowHeight: 25,
+            dataRowColor:
+                MaterialStateColor.resolveWith((states) => P_Settings.color4),
+            columnSpacing: 2,
+            border: TableBorder.all(
+              color: P_Settings.datatableColor,
+            ),
+            columns: [
+              DataColumn(
+                label: Text('h1'),
+              ),
+              DataColumn(
+                label: Text('h2'),
+              ),
+              DataColumn(
+                label: Text('h3'),
+              ),
+              DataColumn(
+                label: Text('h4'),
+              ),
+              DataColumn(
+                label: Text('h5'),
+              ),
+            ],
+            rows: [
+              DataRow(cells: [
+                DataCell(Text('f1')),
+                DataCell(Text('f2')),
+                DataCell(Text('f3')),
+                DataCell(Text('f4')),
+                DataCell(Text('f5')),
+              ])
+            ],
           ),
-          columns: [
-            DataColumn(
-              label: Text('h1'),
-            ),
-            DataColumn(
-              label: Text('h2'),
-            ),
-            DataColumn(
-              label: Text('h3'),
-            ),
-            DataColumn(
-              label: Text('h4'),
-            ),
-            DataColumn(
-              label: Text('h5'),
-            ),
-          ],
-          rows: [
-            DataRow(cells: [
-              DataCell(Text('f1')),
-              DataCell(Text('f2')),
-              DataCell(Text('f3')),
-              DataCell(Text('f4')),
-              DataCell(Text('f5')),
-            ])
-          ],
         ),
       ),
     );
@@ -131,69 +139,74 @@ class _LevelOneState extends State<LevelOne> {
 
   ////////////////////////////////////////
   Widget datatable() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        width: 700,
-        decoration: BoxDecoration(color: P_Settings.datatableColor),
-        child: DataTable(
-            border: TableBorder.all(
-                // color: P_Settings.datatableColor,
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          width: 700,
+          decoration: BoxDecoration(color: P_Settings.datatableColor),
+          child: DataTable(
+              dataRowColor:
+                  MaterialStateColor.resolveWith((states) => P_Settings.color4),
+              border: TableBorder.all(
+                color: P_Settings.datatableColor,
+              ),
+              // headingRowColor: MaterialStateColor.resolveWith(
+              //     (states) => P_Settings.datatableColor),
+              columns: [
+                DataColumn(
+                  label: Text('ID'),
                 ),
-            // headingRowColor: MaterialStateColor.resolveWith(
-            //     (states) => P_Settings.datatableColor),
-            columns: [
-              DataColumn(
-                label: Text('ID'),
-              ),
-              DataColumn(
-                label: Text('Name'),
-              ),
-              DataColumn(
-                label: Text('Code'),
-              ),
-              DataColumn(
-                label: Text('Quantity'),
-              ),
-              DataColumn(
-                label: Text('Amount'),
-              ),
-              DataColumn(
-                label: Text('Quantity'),
-              ),
-              DataColumn(
-                label: Text('Amount'),
-              ),
-            ],
-            rows: [
-              DataRow(cells: [
-                DataCell(Text('1')),
-                DataCell(Text('Anusha')),
-                DataCell(Text('5644645')),
-                DataCell(Text('3')),
-                DataCell(Text('10')),
-                DataCell(Text('3')),
-                DataCell(Text('10')),
+                DataColumn(
+                  label: Text('Name'),
+                ),
+                DataColumn(
+                  label: Text('Code'),
+                ),
+                DataColumn(
+                  label: Text('Quantity'),
+                ),
+                DataColumn(
+                  label: Text('Amount'),
+                ),
+                DataColumn(
+                  label: Text('Quantity'),
+                ),
+                DataColumn(
+                  label: Text('Amount'),
+                ),
+              ],
+              rows: [
+                DataRow(cells: [
+                  DataCell(Text('1')),
+                  DataCell(Text('Anusha')),
+                  DataCell(Text('5644645')),
+                  DataCell(Text('3')),
+                  DataCell(Text('10')),
+                  DataCell(Text('3')),
+                  DataCell(Text('10')),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('1')),
+                  DataCell(Text('Anu')),
+                  DataCell(Text('5644645')),
+                  DataCell(Text('3')),
+                  DataCell(Text('19')),
+                  DataCell(Text('3')),
+                  DataCell(Text('10')),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                ]),
               ]),
-              DataRow(cells: [
-                DataCell(Text('1')),
-                DataCell(Text('Anu')),
-                DataCell(Text('5644645')),
-                DataCell(Text('3')),
-                DataCell(Text('19')),
-                DataCell(Text('3')),
-                DataCell(Text('10')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('')),
-                DataCell(Text('')),
-                DataCell(Text('')),
-                DataCell(Text('')),
-                DataCell(Text('')),
-                DataCell(Text('')),
-                DataCell(Text('')),
-              ]),
-            ]),
+        ),
       ),
     );
   }
