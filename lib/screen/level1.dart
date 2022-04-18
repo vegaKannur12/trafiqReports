@@ -95,6 +95,7 @@ class _LevelOneState extends State<LevelOne> {
         width: 650,
         decoration: BoxDecoration(color: P_Settings.datatableColor),
         child: DataTable(
+          
           border: TableBorder.all(
             color: P_Settings.datatableColor,
           ),
