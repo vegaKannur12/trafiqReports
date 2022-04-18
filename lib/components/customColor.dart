@@ -34,4 +34,7 @@ class P_Settings {
   // home page date color
   static Color get dateviewColor => Color.fromARGB(255, 248, 246, 246);
 
+  static Color get rowcolor => Color.fromARGB(255, 220, 178, 228);
+
+
 }

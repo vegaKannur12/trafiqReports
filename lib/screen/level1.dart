@@ -6,208 +6,195 @@ import 'package:reports/components/customColor.dart';
 import 'package:reports/screen/homePage.dart';
 
 class LevelOne extends StatefulWidget {
+  const LevelOne({ Key? key }) : super(key: key);
+
   @override
-  _LevelOneState createState() {
-    return _LevelOneState();
-  }
+  State<LevelOne> createState() => _LevelOneState();
 }
 
 class _LevelOneState extends State<LevelOne> {
-  bool _expanded = false;
-  bool isSelected = true;
-  var _test = "Full Screen";
+    bool isExpanded = false;
+  bool visible = true;
+  Icon actionIcon = Icon(Icons.arrow_downward);
+  List<String> listString = ["Main Heading", "level1", "level2"];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    visible = true;
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(P_Settings.title),
+        title: Text("Order"),
       ),
-      body: Column(children: [
-        Container(
-          margin: EdgeInsets.all(10),
-          child: ExpansionPanelList(
-            // animationDuration: Duration(milliseconds: 2000),
-            children: [
-              ExpansionPanel(
-                headerBuilder: (context, isExpanded) {
-                  return Ink(
-                    color:
-                        isSelected ? P_Settings.listColor : Colors.transparent,
-                    child: ListTile(
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                'Main Heading',
-                                style: TextStyle(color: P_Settings.fontColor),
-                              ),
-                              Text(
-                                '/report page flow',
-                                style: TextStyle(
-                                    color: P_Settings.fontColor, fontSize: 10),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: size.height * 0.12,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: size.height * 0.02),
-                          isExpanded
-                              ? Container(
-                                  child: Text(""),
-                                )
-                              : SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: DataTable(
-                                    border: TableBorder.all(
-                                      color: P_Settings.datatableColor,
-                                    ),
-                                    columns: [
-                                      DataColumn(
-                                        label: Text('h1'),
-                                      ),
-                                      DataColumn(
-                                        label: Text('h2'),
-                                      ),
-                                      DataColumn(
-                                        label: Text('h3'),
-                                      ),
-                                      DataColumn(
-                                        label: Text('h4'),
-                                      ),
-                                      DataColumn(
-                                        label: Text('h5'),
-                                      ),
-                                    ],
-                                    rows: [
-                                      DataRow(cells: [
-                                        DataCell(Text('f1')),
-                                        DataCell(Text('f2')),
-                                        DataCell(Text('f3')),
-                                        DataCell(Text('f4')),
-                                        DataCell(Text('f5')),
-                                      ])
-                                    ],
-                                  ),
-                                ),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Ink(
+              decoration: BoxDecoration(
+                color: P_Settings.color4,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListTile(
+                onTap: (){
+                   Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => HomePage()),
                         );
-                      },
-                    ),
-                  );
                 },
-                isExpanded: _expanded,
-                canTapOnHeader: false,
-                body: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                      border: TableBorder.all(
-                          // color: P_Settings.datatableColor,
-                          ),
-                      // headingRowColor: MaterialStateColor.resolveWith(
-                      //     (states) => P_Settings.datatableColor),
-                      columns: [
-                        DataColumn(
-                          label: Text('ID'),
-                        ),
-                        DataColumn(
-                          label: Text('Name'),
-                        ),
-                        DataColumn(
-                          label: Text('Code'),
-                        ),
-                        DataColumn(
-                          label: Text('Quantity'),
-                        ),
-                        DataColumn(
-                          label: Text('Amount'),
-                        ),
-                        DataColumn(
-                          label: Text('Quantity'),
-                        ),
-                        DataColumn(
-                          label: Text('Amount'),
-                        ),
-                      ],
-                      rows: [
-                        DataRow(cells: [
-                          DataCell(Text('1')),
-                          DataCell(Text('Anusha')),
-                          DataCell(Text('5644645')),
-                          DataCell(Text('3')),
-                          DataCell(Text('10')),
-                          DataCell(Text('3')),
-                          DataCell(Text('10')),
-                        ]),
-                        DataRow(cells: [
-                          DataCell(Text('1')),
-                          DataCell(Text('Anu')),
-                          DataCell(Text('5644645')),
-                          DataCell(Text('3')),
-                          DataCell(Text('19')),
-                          DataCell(Text('3')),
-                          DataCell(Text('10')),
-                        ]),
-                        DataRow(cells: [
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                          DataCell(Text('')),
-                        ]),
-                      ]),
+                title: Column(
+                  children: [
+                    Text("main heading"),
+                    Text('/report page flow'),
+                  ],
                 ),
+                trailing: IconButton(
+                    icon: Icon(
+                      actionIcon.icon,
+                      size: 18,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        visible = !visible;
+                        isExpanded = !isExpanded;
+                        if(this.actionIcon.icon==Icons.arrow_downward){
+                          print("to up");
+                          this.actionIcon=Icon(Icons.arrow_upward);
+                        }
+                        else if(this.actionIcon.icon==Icons.arrow_upward){
+                          print("to down");
+                        this.actionIcon=Icon(Icons.arrow_downward);
+
+                        }
+                      });
+                    }),
               ),
-            ],
-            dividerColor: Colors.grey,
-            expansionCallback: (panelIndex, isExpanded) {
-              _expanded = !_expanded;
-              setState(() {});
-            },
-          ),
+            ),
+            SizedBox(
+              height: size.height * 0.01,
+            ),
+            Visibility(
+              visible: visible,
+              child: shrinkedDataTable(),
+            ),
+            
+            Visibility(visible: isExpanded, child: datatable()),
+          ],
         ),
-      ]),
+      ),
     );
   }
-  Widget datatableShrinked(){
+    Widget shrinkedDataTable() {
     return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        width: 650,
+        decoration: BoxDecoration(color: P_Settings.datatableColor),
+        child: DataTable(
+          border: TableBorder.all(
+            color: P_Settings.datatableColor,
+          ),
+          columns: [
+            DataColumn(
+              label: Text('h1'),
+            ),
+            DataColumn(
+              label: Text('h2'),
+            ),
+            DataColumn(
+              label: Text('h3'),
+            ),
+            DataColumn(
+              label: Text('h4'),
+            ),
+            DataColumn(
+              label: Text('h5'),
+            ),
+          ],
+          rows: [
+            DataRow(cells: [
+              DataCell(Text('f1')),
+              DataCell(Text('f2')),
+              DataCell(Text('f3')),
+              DataCell(Text('f4')),
+              DataCell(Text('f5')),
+            ])
+          ],
+        ),
+      ),
+    );
+  }
 
+  ////////////////////////////////////////
+  Widget datatable() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        width: 700,
+        decoration: BoxDecoration(color: P_Settings.datatableColor),
+        child: DataTable(
+            border: TableBorder.all(
+                // color: P_Settings.datatableColor,
+                ),
+            // headingRowColor: MaterialStateColor.resolveWith(
+            //     (states) => P_Settings.datatableColor),
+            columns: [
+              DataColumn(
+                label: Text('ID'),
+              ),
+              DataColumn(
+                label: Text('Name'),
+              ),
+              DataColumn(
+                label: Text('Code'),
+              ),
+              DataColumn(
+                label: Text('Quantity'),
+              ),
+              DataColumn(
+                label: Text('Amount'),
+              ),
+              DataColumn(
+                label: Text('Quantity'),
+              ),
+              DataColumn(
+                label: Text('Amount'),
+              ),
+            ],
+            rows: [
+              DataRow(cells: [
+                DataCell(Text('1')),
+                DataCell(Text('Anusha')),
+                DataCell(Text('5644645')),
+                DataCell(Text('3')),
+                DataCell(Text('10')),
+                DataCell(Text('3')),
+                DataCell(Text('10')),
+              ]),
+              DataRow(cells: [
+                DataCell(Text('1')),
+                DataCell(Text('Anu')),
+                DataCell(Text('5644645')),
+                DataCell(Text('3')),
+                DataCell(Text('19')),
+                DataCell(Text('3')),
+                DataCell(Text('10')),
+              ]),
+              DataRow(cells: [
+                DataCell(Text('')),
+                DataCell(Text('')),
+                DataCell(Text('')),
+                DataCell(Text('')),
+                DataCell(Text('')),
+                DataCell(Text('')),
+                DataCell(Text('')),
+              ]),
+            ]),
+      ),
     );
   }
 }
-
-/////////// while using api connection add multiple row dynamically/////////////////
-// your array data
-// var datas = [...]
-
-// // add new data to it
-// setState((){
-//   datas.add(...);
-// });
-
-// // use them for your DataRow
-// DataTable(
-//   row: datas.map((data){
-//     return DataRow(
-//        cells:[
-//          // your cells
-//          DataCell(Text(data.fieldValue))
-//        ]
-//     );
-//   }).toList()
-// )
