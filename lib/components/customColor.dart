@@ -26,6 +26,9 @@ class P_Settings {
 
   ////[color4]
   static Color get color4 => Color.fromARGB(255, 206, 147, 216);
+  ////[color5]
+  // static Color get color5 => Color.fromARGB(255, 100, 15, 82);
+  
   
   // list tile color
   static Color get listColor => Color.fromARGB(255, 216, 196, 218);

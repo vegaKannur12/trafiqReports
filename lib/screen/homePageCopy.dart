@@ -24,23 +24,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
-  
+  late ValueNotifier<int> _selectedIndex=ValueNotifier(0);
+  late ValueNotifier<bool> buttonClicked=ValueNotifier(false);
+
   String searchkey = "";
   bool isSearch = false;
-  // int _selectedIndex = 0;
+
   bool isSelected = true;
-  bool buttonClicked = false;
+  // bool buttonClicked = false;
   // List<String> purchseItems = ["level 1", "level 2", "level3"];
   // List<String> salesItems = ["level 1", "level 2", "level3"];
   // List<String> sales2Items = ["level 1", "level 2", "level3"];
 
   // List<Map<String, dynamic>>? newList = [];
 
-  _onSelectItem(int index, String reportType) {
+  _onSelectItem(int index,String reportType) {
     print("report  ---${reportType}");
-    _selectedIndex.value = index;
-    print(_selectedIndex.value);
+    _selectedIndex.value=index;
+    Provider.of<Controller>(context, listen: false).getreportResults(reportType);
     Navigator.of(context).pop(); // close the drawer
   }
 
@@ -55,19 +56,20 @@ class _HomePageState extends State<HomePage> {
       // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
       drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
         return ListTile(
-            // leading: new Icon(d.icon),
-            title: new Text(
-              value.drawerItems[i],
-              style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
-            ),
-            selected: i == _selectedIndex.value,
-            onTap: () {
-              _onSelectItem(i, value.drawerItems[i]);
-              // Navigator.push(
-              //                 context,
-              //                 MaterialPageRoute(builder: (context) => Level1Sample()),
-              //               );
-            });
+          // leading: new Icon(d.icon),
+          title: new Text(
+            value.drawerItems[i],
+            style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
+          ),
+          selected: i == _selectedIndex,
+          onTap: (){
+            _onSelectItem(i,value.drawerItems[i]);
+            // Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(builder: (context) => Level1Sample()),
+            //               );
+          } 
+        );
       }));
     }
     /////////////////////////////////////////////////////////////////////
@@ -77,13 +79,9 @@ class _HomePageState extends State<HomePage> {
       // appBar: AppBar(title: Text(widget._draweItems[_selectedIndex].title)),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: ValueListenableBuilder(
-            valueListenable: _selectedIndex,
-            builder: (BuildContext context, int selectedValue, Widget? child) {
-              return CustomAppbar(
-                  title: Provider.of<Controller>(context, listen: false)
-                      .drawerItems[selectedValue]);
-            }),
+        child: CustomAppbar(
+            title: Provider.of<Controller>(context, listen: false)
+                .drawerItems[_selectedIndex.value]),
       ),
 
       ///////////////////////////////////////////////////////////////////
@@ -101,7 +99,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           // Text(widget._draweItems[_selectedIndex].title),
-          buttonClicked
+          buttonClicked.value
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -116,9 +114,9 @@ class _HomePageState extends State<HomePage> {
                             child: InkWell(
                                 onTap: (() {
                                   print("Icon button --${buttonClicked}");
-                                  setState(() {
-                                    buttonClicked = false;
-                                  });
+                                  
+                                    buttonClicked.value = false;
+                                  
                                 }),
                                 child: Icon(Icons.calendar_month))),
                       ),
@@ -177,9 +175,9 @@ class _HomePageState extends State<HomePage> {
                             // dense: true,
                             minLeadingWidth: 10,
                             onTap: () {
-                              setState(() {
-                                buttonClicked = true;
-                              });
+                             
+                                buttonClicked.value = true;
+                             
                               print(buttonClicked);
                             },
                             title: Text(

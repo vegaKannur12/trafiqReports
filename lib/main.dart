@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reports/components/customColor.dart';
+import 'package:reports/controller/controller.dart';
 import 'package:reports/drawersample.dart';
 import 'package:reports/screen/call.dart';
 import 'package:reports/screen/homePage.dart';
@@ -10,7 +12,13 @@ import 'package:reports/screen/sampleDataTable.dart';
 import 'screen/dataTabletest.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) =>Controller())
+      ],
+    child:MyApp(),)
+    );
 }
 
 class MyApp extends StatelessWidget {
@@ -39,7 +47,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Level1Sample(),
+      home: SampleDataTable(),
     );
   }
 }

@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 
 class SampleDataTable extends StatefulWidget {
@@ -8,7 +10,9 @@ class SampleDataTable extends StatefulWidget {
 }
 
 class _SampleDataTableState extends State<SampleDataTable> {
+  final rows = <DataRow>[];
   final columns = ['First Name', 'Last Name', 'Age'];
+  final myRowDataList=['First Name', 'Last Name', 'Age'];
   List<String> list = ["dksjd", "kjdksjk", "sjdksjak"];
   List<NameOne> namelist = [
     NameOne(sn: "", name: "asa", address: "fdshifdji", phone: "9061259261"),
@@ -25,11 +29,11 @@ class _SampleDataTableState extends State<SampleDataTable> {
         child: DataTable(
           columns: getColumns(columns),
           rows: [
-            DataRow(cells: [
+            DataRow(
+              cells: [
               DataCell(Text('f1')),
               DataCell(Text('f2')),
               DataCell(Text('f3')),
-            
             ])
           ],
           // rows:list
@@ -60,6 +64,30 @@ class _SampleDataTableState extends State<SampleDataTable> {
       );
     }).toList();
   }
+  ///////////////////
+    List<DataRow>  getRows(){
+      for (var rowData in myRowDataList) {
+      rows.add(
+        DataRow(
+          cells: for(var i = 0; i < columns; i++) 
+             return  DataCell(Text(rowData[e].toString()));
+          
+        ));
+    }
+  }
+  //   List<DataRow> getRows(List<String> rows) {
+  //   return rows.map((String row) {
+  //     // final isAge = column == columns[2];
+
+  //     return DataRow(
+  //       cells: [
+  //         DataCell(Text())
+  //         // DataCell(Text(row["id"].toString()),
+  //       ],
+  //       // numeric: isAge,
+  //     );
+  //   }).toList();
+  // }
 }
 
 //////////////////////////////////////////////////
