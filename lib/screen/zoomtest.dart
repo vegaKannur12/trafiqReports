@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reports/components/customColor.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
+
 class ZoomableWidget extends StatefulWidget {
   @override
   _ZoomableWidgetState createState() => _ZoomableWidgetState();

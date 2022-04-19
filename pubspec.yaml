@@ -38,7 +38,10 @@ dependencies:
   url_launcher: ^6.0.20
   flutter_phone_direct_caller: ^2.1.0
   provider: ^6.0.2
+<<<<<<< HEAD
 
+=======
+>>>>>>> f2eeffdd0f46927073ea78be1ad81833932fc988
   zoom_widget: ^0.2.1
 
 dev_dependencies:
