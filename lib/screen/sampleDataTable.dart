@@ -65,16 +65,16 @@ class _SampleDataTableState extends State<SampleDataTable> {
     }).toList();
   }
   ///////////////////
-    List<DataRow>  getRows(){
-      for (var rowData in myRowDataList) {
-      rows.add(
-        DataRow(
-          cells: for(var i = 0; i < columns; i++) 
-             return  DataCell(Text(rowData[e].toString()));
+  //   List<DataRow>  getRows(){
+  //     for (var rowData in myRowDataList) {
+  //     rows.add(
+  //       DataRow(
+  //         cells: for(var i = 0; i < columns; i++) 
+  //            return  DataCell(Text(rowData[e].toString()));
           
-        ));
-    }
-  }
+  //       ));
+  //   }
+  // }
   //   List<DataRow> getRows(List<String> rows) {
   //   return rows.map((String row) {
   //     // final isAge = column == columns[2];

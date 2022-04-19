@@ -41,70 +41,63 @@ class _LevelOneState extends State<LevelOne> {
       appBar: AppBar(
         title: Text("Order"),
       ),
-      body:
-          // Zoom(
-          //   maxZoomWidth: 1800,
-          //   maxZoomHeight: 1800,
-          //   backgroundColor: Colors.white,
-          ListView.builder(
-              itemCount: listString.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4, right: 4),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            color: P_Settings.color4,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
-                            },
-                            title: Column(
-                              children: [
-                                Text(listString[index]),
-                                Text('/report page flow'),
-                              ],
-                            ),
-                            trailing: IconButton(
-                                icon: isExpanded[index]
-                                    ? Icon(
-                                        Icons.arrow_upward,
-
-                                        // actionIcon.icon,
-                                        size: 18,
-                                      )
-                                    : Icon(
-                                        Icons.arrow_downward,
-                                        // actionIcon.icon,
-                                        size: 18,
-                                      ),
-                                onPressed: () {
-                                  toggle(index);
-                                }),
-                          ),
+      body: ListView.builder(
+          itemCount: listString.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4, right: 4),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: P_Settings.color4,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        },
+                        title: Column(
+                          children: [
+                            Text(listString[index]),
+                            Text('/report page flow'),
+                          ],
                         ),
+                        trailing: IconButton(
+                            icon: isExpanded[index]
+                                ? Icon(
+                                    Icons.arrow_upward,
+
+                                    // actionIcon.icon,
+                                    size: 18,
+                                  )
+                                : Icon(
+                                    Icons.arrow_downward,
+                                    // actionIcon.icon,
+                                    size: 18,
+                                  ),
+                            onPressed: () {
+                              toggle(index);
+                            }),
                       ),
-                      SizedBox(height: size.height * 0.004),
-                      Visibility(
-                        visible: visible[index],
-                        child: shrinkedDataTable(context),
-                      ),
-                      Visibility(
-                          visible: isExpanded[index],
-                          child: datatable(context)),
-                    ],
+                    ),
                   ),
-                );
-              }),
+                  SizedBox(height: size.height * 0.004),
+                  Visibility(
+                    visible: visible[index],
+                    child: shrinkedDataTable(context),
+                  ),
+                  Visibility(
+                      visible: isExpanded[index], child: datatable(context)),
+                ],
+              ),
+            );
+          }),
       // ),
     );
   }
@@ -180,7 +173,7 @@ class _LevelOneState extends State<LevelOne> {
           width: size.width * 1.8,
           decoration: BoxDecoration(color: P_Settings.datatableColor),
           child: DataTable(
-              sortAscending: _isAscending ,
+              sortAscending: _isAscending,
               headingRowHeight: 30,
               dataRowHeight: 30,
               dataRowColor:

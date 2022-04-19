@@ -24,8 +24,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ValueNotifier<int> _selectedIndex=ValueNotifier(0);
-  late ValueNotifier<bool> buttonClicked=ValueNotifier(false);
+  late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
+  late ValueNotifier<bool> buttonClicked = ValueNotifier(false);
 
   String searchkey = "";
   bool isSearch = false;
@@ -38,10 +38,11 @@ class _HomePageState extends State<HomePage> {
 
   // List<Map<String, dynamic>>? newList = [];
 
-  _onSelectItem(int index,String reportType) {
+  _onSelectItem(int index, String reportType) {
     print("report  ---${reportType}");
-    _selectedIndex.value=index;
-    Provider.of<Controller>(context, listen: false).getreportResults(reportType);
+    _selectedIndex.value = index;
+    Provider.of<Controller>(context, listen: false)
+        .getreportResults(reportType);
     Navigator.of(context).pop(); // close the drawer
   }
 
@@ -56,20 +57,19 @@ class _HomePageState extends State<HomePage> {
       // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
       drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
         return ListTile(
-          // leading: new Icon(d.icon),
-          title: new Text(
-            value.drawerItems[i],
-            style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
-          ),
-          selected: i == _selectedIndex,
-          onTap: (){
-            _onSelectItem(i,value.drawerItems[i]);
-            // Navigator.push(
-            //                 context,
-            //                 MaterialPageRoute(builder: (context) => Level1Sample()),
-            //               );
-          } 
-        );
+            // leading: new Icon(d.icon),
+            title: new Text(
+              value.drawerItems[i],
+              style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
+            ),
+            selected: i == _selectedIndex,
+            onTap: () {
+              _onSelectItem(i, value.drawerItems[i]);
+              // Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(builder: (context) => Level1Sample()),
+              //               );
+            });
       }));
     }
     /////////////////////////////////////////////////////////////////////
@@ -114,9 +114,8 @@ class _HomePageState extends State<HomePage> {
                             child: InkWell(
                                 onTap: (() {
                                   print("Icon button --${buttonClicked}");
-                                  
-                                    buttonClicked.value = false;
-                                  
+
+                                  buttonClicked.value = false;
                                 }),
                                 child: Icon(Icons.calendar_month))),
                       ),
@@ -175,9 +174,8 @@ class _HomePageState extends State<HomePage> {
                             // dense: true,
                             minLeadingWidth: 10,
                             onTap: () {
-                             
-                                buttonClicked.value = true;
-                             
+                              buttonClicked.value = true;
+
                               print(buttonClicked);
                             },
                             title: Text(

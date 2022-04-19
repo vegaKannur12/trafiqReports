@@ -48,11 +48,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-<<<<<<< HEAD
-      home: SampleDataTable(),
-=======
       home: SplashScreen(),
->>>>>>> 344a2276ef5823c19dff75079190cba86bea59a9
     );
   }
 }

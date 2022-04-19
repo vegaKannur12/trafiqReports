@@ -16,4 +16,13 @@ class Controller extends ChangeNotifier{
     }
     notifyListeners();
   }
+//////////////////////////////////////////////////
+  getReportApi()async{
+    try {
+          
+        } catch (e) {
+          print(e);
+          return null;
+        }
+  }
 }
