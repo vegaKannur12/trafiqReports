@@ -31,12 +31,6 @@ class _HomePageState extends State<HomePage> {
   // int _selectedIndex = 0;
   bool isSelected = true;
   bool buttonClicked = false;
-  // List<String> purchseItems = ["level 1", "level 2", "level3"];
-  // List<String> salesItems = ["level 1", "level 2", "level3"];
-  // List<String> sales2Items = ["level 1", "level 2", "level3"];
-
-  // List<Map<String, dynamic>>? newList = [];
-
   _onSelectItem(int index, String reportType) {
     print("report  ---${reportType}");
     _selectedIndex.value = index;
@@ -203,11 +197,5 @@ class _HomePageState extends State<HomePage> {
 }
 
 /////////////////////////////////////////////////////////////
-// class DrawerItem {
-//   String title;
-//   IconData icon;
-//   DrawerItem(this.title, this.icon);
-// }
 
 
-//////////////////////////////////////////////////////////
