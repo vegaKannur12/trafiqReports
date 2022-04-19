@@ -9,31 +9,23 @@ import 'package:reports/components/customDatePicker.dart';
 import 'package:reports/components/customappbar.dart';
 import 'package:reports/controller/controller.dart';
 import 'package:reports/screen/level1Sample.dart';
-import 'package:reports/screen/level2.dart';
 
-class HomePage extends StatefulWidget {
-  // final _draweItems = [
-  //   new DrawerItem("sales report ", Icons.report),
-  //   new DrawerItem("purchase report", Icons.report),
-  //   new DrawerItem("sales report", Icons.report)
-  // ];
-  // HomePage({Key? key}) : super(key: key);
-
+class HomePage1 extends StatefulWidget {
   @override
-  State<HomePage> createState() {
-    return new _HomePageState();
+  State<HomePage1> createState() {
+    return new _HomePage1State();
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePage1State extends State<HomePage1> {
   late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   DateTime currentDate = DateTime.now();
   String? formattedDate;
   String? crntDateFormat;
   String searchkey = "";
   bool isSearch = false;
-  bool visible = true;
-  // int _selectedIndex = 0;
+  bool datevisible = true;
+  bool qtyvisible = false;
   bool isSelected = true;
   bool buttonClicked = false;
   _onSelectItem(int index, String reportType) {
@@ -53,9 +45,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     //////////////////////////////////////////
     List<Widget> drawerOpts = [];
+    String? specialList;
     String? type;
     String? type1;
     String? type2;
+    String dropdownValue = 'QTY';
+    List<String> qtylist = [];
     //// date picker ////////////////
     Future<void> _selectDate(BuildContext context) async {
       final DateTime? pickedDate = await showDatePicker(
@@ -155,7 +150,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )
               : Consumer<Controller>(builder: (context, value, child) {
-                  // type = value.reportList![4]["report_elements"].toString();
                   if (value.reportList != null &&
                       value.reportList!.isNotEmpty) {
                     type = value.reportList![4]["report_elements"].toString();
@@ -171,63 +165,110 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.yellow,
                       // height: size.height * 0.27,
                       child: Container(
-                        height: size.height * 0.19,
+                        height: size.height * 0.2,
                         color: P_Settings.dateviewColor,
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: size.width * 0.1,
-                                  // height: size.height * 0.05,
-                                  child: Center(
-                                    child: Row(
-                                      // crossAxisAlignment: CrossAxisAlignment.center,
-                                      // mainAxisAlignment:MainAxisAlignment.center ,
-                                      children: [
-                                        // IconButton(
-                                        //   onPressed: () {
-                                        //     _selectDate(context);
-                                        //   },
-                                        //   icon: Icon(Icons.calendar_month),
-                                        // ),
-
-                                        // visible == true
-                                        //     ? Container(
-                                        //         child: formattedDate == null
-                                        //             ? Text(crntDateFormat
-                                        //                 .toString())
-                                        //             : Text(formattedDate
-                                        //                 .toString()))
-                                        //     : Container(
-                                        //         child: formattedDate == null
-                                        //             ? Text(crntDateFormat
-                                        //                 .toString())
-                                        //             : Text(formattedDate
-                                        //                 .toString())),
-                                      ],
-                                    ),
+                                Flexible(
+                                  child: Container(
+                                    width: size.width * 0.1,
                                   ),
                                 ),
                                 type1 != "F" && type2 != "T"
                                     ? CustomDatePicker(dateType: "To Date")
                                     : CustomDatePicker(dateType: "From Date "),
-                                CustomDatePicker(dateType: "To Date")
+                                CustomDatePicker(dateType: "To Date"),
+                                SizedBox(
+                                  width: size.width * 0.2,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.arrow_downward,
+                                        color: Colors.deepPurple),
+                                    onPressed: () {
+                                      setState(() {
+                                        qtyvisible = true;
+                                      });
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
+                            Visibility(
+                              visible: qtyvisible,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    child: Icon(Icons.arrow_downward),
-                                  ),
+                                  Consumer<Controller>(
+                                      builder: (context, value, child) {
+                                    {
+                                      
+                                      return Flexible(
+                                        child: Container(
+                                          // color: P_Settings.datatableColor,
+                                          height: size.height * 0.1,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: ((context, index) {
+                    specialList = value.reportList![index]['special_element2'];
+                    print("Speciallist .............${specialList}");
+                    List<String> result = specialList!.split(" , ");
+                    print("result .............${result}");
+
+
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Ink(
+                        height: size.height * 0.09,
+                        decoration: BoxDecoration(
+                          color: (index % 2 == 0)
+                              ? P_Settings.datatableColor
+                              : P_Settings.color4,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            // contentPadding: EdgeInsets.zero,
+                            // dense: true,
+                            minLeadingWidth: 10,
+                            onTap: () {
+                              setState(() {
+                                buttonClicked = true;
+                              });
+                              print(buttonClicked);
+                            },
+                            title: Column(
+                              children: [
+                                // Text(
+                                //   specialList![index][0],
+                                  
+                                // ),
+                                // SizedBox(
+                                //   height: size.height * 0.01,
+                                // ),
+                                // Text(
+                                //   value.reportList![index]['special_element2'],
+                                //   style: TextStyle(fontSize: 12),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  })
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -262,28 +303,21 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               setState(() {
                                 buttonClicked = true;
-                                
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomePage1()),
-                                );
                               });
                               print(buttonClicked);
                             },
                             title: Column(
                               children: [
-                                Text(
-                                  value.reportList![index]['report_name'],
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Text(
-                                  value.reportList![index]['filter_names'],
-                                  style: TextStyle(fontSize: 12),
-                                ),
+                                // Text(
+                                //   value.reportList![index]['report_name'],
+                                // ),
+                                // SizedBox(
+                                //   height: size.height * 0.01,
+                                // ),
+                                // Text(
+                                //   value.reportList![index]['filter_names'],
+                                //   style: TextStyle(fontSize: 12),
+                                // ),
                               ],
                             ),
                           ),

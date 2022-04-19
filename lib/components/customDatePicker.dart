@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 //this is an external package for formatting date and time
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:reports/controller/controller.dart';
 
 class CustomDatePicker extends StatefulWidget {
   String dateType;
@@ -36,11 +38,13 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     super.initState();
     crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     print(crntDateFormat);
+    Provider.of<Controller>(context, listen: false).getReportApi();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Container(
       // width: double.infinity,
       // color: Colors.grey[200],
@@ -57,15 +61,17 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               },
               icon: Icon(Icons.calendar_month),
             ),
-            widget.dateType == "From Date"
-                ? Container(
-                    child: formattedDate == null
-                        ? Text(crntDateFormat.toString())
-                        : Text(formattedDate.toString()))
-                : Container(
-                    child: formattedDate == null
-                        ? Text(crntDateFormat.toString())
-                        : Text(formattedDate.toString())),
+            Consumer<Controller>(builder: (context, value, child) {
+              return widget.dateType == "From Date" 
+                  ? Container(
+                      child: formattedDate == null 
+                          ? Text(crntDateFormat.toString())
+                          : Text(formattedDate.toString()))
+                  : Container(
+                      child: formattedDate == null
+                          ? Text(crntDateFormat.toString())
+                          : Text(formattedDate.toString()));
+            }),
           ],
         ),
       ),
