@@ -19,6 +19,8 @@ class HomePage1 extends StatefulWidget {
 
 class _HomePage1State extends State<HomePage1> {
   late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
+  List<String> listString = ["Main Heading", "level1", "level2"];
+  List<String> listShrinkData = ["F1", "F2", "F3"];
   DateTime currentDate = DateTime.now();
   String? formattedDate;
   String? crntDateFormat;
@@ -28,16 +30,25 @@ class _HomePage1State extends State<HomePage1> {
   bool qtyvisible = false;
   bool isSelected = true;
   bool buttonClicked = false;
+  bool isExpanded = false;
+  bool visible = false;
   _onSelectItem(int index, String reportType) {
-    print("report  ---${reportType}");
     _selectedIndex.value = index;
-    print(_selectedIndex.value);
     Navigator.of(context).pop(); // close the drawer
+  }
+
+  toggle(int i) {
+    setState(() {
+      isExpanded = !isExpanded;
+      visible = !visible;
+    });
   }
 
   @override
   void initState() {
     Provider.of<Controller>(context, listen: false).getReportApi();
+    isExpanded = false;
+    visible = true;
     super.initState();
   }
 
@@ -46,11 +57,10 @@ class _HomePage1State extends State<HomePage1> {
     //////////////////////////////////////////
     List<Widget> drawerOpts = [];
     String? specialList;
+    String? newlist;
     String? type;
     String? type1;
     String? type2;
-    String dropdownValue = 'QTY';
-    List<String> qtylist = [];
     //// date picker ////////////////
     Future<void> _selectDate(BuildContext context) async {
       final DateTime? pickedDate = await showDatePicker(
@@ -153,12 +163,12 @@ class _HomePage1State extends State<HomePage1> {
                   if (value.reportList != null &&
                       value.reportList!.isNotEmpty) {
                     type = value.reportList![4]["report_elements"].toString();
-                    print("type....${type}");
+                    // print("type....${type}");
                     List<String> parts = type!.split(',');
                     type1 = parts[0].trim(); // prefix: "date"
                     type2 = parts[1].trim(); // prefix: "date"
-                    print("type1....${type1}");
-                    print("type2....${type2}");
+                    //  print("type1....${type1}");
+                    // print("type2....${type2}");
                   }
                   {
                     return Container(
@@ -181,18 +191,31 @@ class _HomePage1State extends State<HomePage1> {
                                     ? CustomDatePicker(dateType: "To Date")
                                     : CustomDatePicker(dateType: "From Date "),
                                 CustomDatePicker(dateType: "To Date"),
-                                SizedBox(
-                                  width: size.width * 0.2,
-                                  child: IconButton(
-                                    icon: const Icon(Icons.arrow_downward,
-                                        color: Colors.deepPurple),
-                                    onPressed: () {
-                                      setState(() {
-                                        qtyvisible = true;
-                                      });
-                                    },
-                                  ),
-                                ),
+                                qtyvisible
+                                    ? SizedBox(
+                                        width: size.width * 0.2,
+                                        child: IconButton(
+                                          icon: const Icon(Icons.arrow_downward,
+                                              color: Colors.deepPurple),
+                                          onPressed: () {
+                                            setState(() {
+                                              qtyvisible = false;
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        width: size.width * 0.2,
+                                        child: IconButton(
+                                          icon: const Icon(Icons.arrow_upward,
+                                              color: Colors.deepPurple),
+                                          onPressed: () {
+                                            setState(() {
+                                              qtyvisible = true;
+                                            });
+                                          },
+                                        ),
+                                      )
                               ],
                             ),
                             Visibility(
@@ -202,65 +225,85 @@ class _HomePage1State extends State<HomePage1> {
                                   Consumer<Controller>(
                                       builder: (context, value, child) {
                                     {
-                                      
                                       return Flexible(
                                         child: Container(
+                                          alignment: Alignment.topRight,
                                           // color: P_Settings.datatableColor,
-                                          height: size.height * 0.1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: ((context, index) {
-                    specialList = value.reportList![index]['special_element2'];
-                    print("Speciallist .............${specialList}");
-                    List<String> result = specialList!.split(" , ");
-                    print("result .............${result}");
+                                          height: size.height * 0.08,
+                                          width: size.width * 1,
+                                          child: Row(
+                                            children: [
+                                              Flexible(
+                                                child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  physics:
+                                                      const PageScrollPhysics(),
+                                                  itemCount: value
+                                                      .specialelements.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      child: ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          shadowColor: P_Settings
+                                                              .datatableColor,
+                                                        ),
+                                                        onPressed: () {},
+                                                        child: Text(
+                                                          value.specialelements[
+                                                              index]["label"],
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ),
+                                                    );
 
-
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Ink(
-                        height: size.height * 0.09,
-                        decoration: BoxDecoration(
-                          color: (index % 2 == 0)
-                              ? P_Settings.datatableColor
-                              : P_Settings.color4,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            // contentPadding: EdgeInsets.zero,
-                            // dense: true,
-                            minLeadingWidth: 10,
-                            onTap: () {
-                              setState(() {
-                                buttonClicked = true;
-                              });
-                              print(buttonClicked);
-                            },
-                            title: Column(
-                              children: [
-                                // Text(
-                                //   specialList![index][0],
-                                  
-                                // ),
-                                // SizedBox(
-                                //   height: size.height * 0.01,
-                                // ),
-                                // Text(
-                                //   value.reportList![index]['special_element2'],
-                                //   style: TextStyle(fontSize: 12),
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
+                                                    // return Padding(
+                                                    //   padding:
+                                                    //       EdgeInsets.all(5.0),
+                                                    //   child: Ink(
+                                                    //     decoration:
+                                                    //         BoxDecoration(
+                                                    //       borderRadius:
+                                                    //           BorderRadius
+                                                    //               .circular(10),
+                                                    //     ),
+                                                    //     child: ListTile(
+                                                    // title: Text(
+                                                    //   value.specialelements[
+                                                    //       index]["label"],
+                                                    //   style: TextStyle(
+                                                    //       color: P_Settings
+                                                    //           .color3),
+                                                    // ),
+                                                    //       onTap: () {
+                                                    //         showAlertDialog(
+                                                    //             context,
+                                                    //             value.specialelements[
+                                                    //                     index]
+                                                    //                 ["value"]);
+                                                    //       },
+                                                    //     ),
+                                                    //   ),
+                                                    // );
+                                                  },
+                                                ),
+                                              ),
+                                              // IconButton(
+                                              //   icon: const Icon(
+                                              //       Icons.arrow_downward,
+                                              //       color: Colors.deepPurple),
+                                              //   onPressed: () {
+                                              //     setState(() {});
+                                              //   },
+                                              // ),
+                                            ],
                                           ),
                                         ),
                                       );
@@ -282,50 +325,63 @@ class _HomePage1State extends State<HomePage1> {
                 // color: P_Settings.datatableColor,
                 height: size.height * 0.6,
                 child: ListView.builder(
-                  itemCount: value.reportList!.length,
-                  itemBuilder: ((context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Ink(
-                        height: size.height * 0.09,
-                        decoration: BoxDecoration(
-                          color: (index % 2 == 0)
-                              ? P_Settings.datatableColor
-                              : P_Settings.color4,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            // contentPadding: EdgeInsets.zero,
-                            // dense: true,
-                            minLeadingWidth: 10,
-                            onTap: () {
-                              setState(() {
-                                buttonClicked = true;
-                              });
-                              print(buttonClicked);
-                            },
-                            title: Column(
-                              children: [
-                                // Text(
-                                //   value.reportList![index]['report_name'],
-                                // ),
-                                // SizedBox(
-                                //   height: size.height * 0.01,
-                                // ),
-                                // Text(
-                                //   value.reportList![index]['filter_names'],
-                                //   style: TextStyle(fontSize: 12),
-                                // ),
-                              ],
+                    itemCount: listString.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4, right: 4),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  color: P_Settings.color4,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ListTile(
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => HomePage()),
+                                    // );
+                                  },
+                                  title: Column(
+                                    children: [
+                                      Text(listString[index]),
+                                      Text('/report page flow'),
+                                    ],
+                                  ),
+                                  trailing: IconButton(
+                                      icon: isExpanded
+                                          ? Icon(
+                                              Icons.arrow_upward,
+                                              // actionIcon.icon,
+                                              size: 18,
+                                            )
+                                          : Icon(
+                                              Icons.arrow_downward,
+                                              // actionIcon.icon,
+                                              size: 18,
+                                            ),
+                                      onPressed: () {
+                                        toggle(index);
+                                      }),
+                                ),
+                              ),
                             ),
-                          ),
+                            SizedBox(height: size.height * 0.004),
+                            Visibility(
+                              visible: visible,
+                              child: shrinkedDataTable(context),
+                            ),
+                            Visibility(
+                                visible: isExpanded,
+                                child: datatable(context)),
+                          ],
                         ),
-                      ),
-                    );
-                  }),
-                ),
+                      );
+                    }),
               );
             }
           })
@@ -333,6 +389,175 @@ class _HomePage1State extends State<HomePage1> {
       ),
     );
   }
+
+  ///////////////////////////////////////////////////////////
+  Widget shrinkedDataTable(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.only(left: 6, right: 6),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          width: size.width * 1.8,
+          // height: 90,
+          decoration: BoxDecoration(color: P_Settings.datatableColor),
+          child: DataTable(
+            headingRowHeight: 25,
+            dataRowHeight: 25,
+            dataRowColor:
+                MaterialStateColor.resolveWith((states) => P_Settings.color4),
+            columnSpacing: 2,
+            border: TableBorder.all(
+              color: P_Settings.datatableColor,
+            ),
+            columns: [
+              DataColumn(
+                label: Text('ID'),
+              ),
+              DataColumn(
+                label: Text('Name'),
+              ),
+              DataColumn(
+                label: Text('Code'),
+              ),
+              DataColumn(
+                label: Text('Quantity'),
+              ),
+              DataColumn(
+                label: Text('Amount'),
+              ),
+              DataColumn(
+                label: Text('Quantity'),
+              ),
+              DataColumn(
+                label: Text('Amount'),
+              ),
+            ],
+            rows: [
+              DataRow(cells: [
+                DataCell(Text('f1')),
+                DataCell(Text('f2')),
+                DataCell(Text('f3')),
+                DataCell(Text('f4')),
+                DataCell(Text('f5')),
+                DataCell(Text('f6')),
+                DataCell(Text('f7')),
+              ])
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///////////////////////////////////////////////
+  Widget datatable(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    bool _isAscending = true;
+    return Padding(
+      padding: const EdgeInsets.only(left: 6, right: 6),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          width: size.width * 1.8,
+          decoration: BoxDecoration(color: P_Settings.datatableColor),
+          child: DataTable(
+              sortAscending: _isAscending,
+              headingRowHeight: 30,
+              dataRowHeight: 30,
+              dataRowColor:
+                  MaterialStateColor.resolveWith((states) => P_Settings.color4),
+              border: TableBorder.all(
+                color: P_Settings.datatableColor,
+              ),
+              // headingRowColor: MaterialStateColor.resolveWith(
+              //     (states) => P_Settings.datatableColor),
+              columns: [
+                DataColumn(
+                  // onSort: (columnIndex, ascending) {},
+                  label: Text('ID'),
+                ),
+                DataColumn(
+                  label: Text('Name'),
+                ),
+                DataColumn(
+                  label: Text('Code'),
+                ),
+                DataColumn(
+                  label: Text('Quantity'),
+                ),
+                DataColumn(
+                  label: Text('Amount'),
+                ),
+                DataColumn(
+                  label: Text('Quantity'),
+                ),
+                DataColumn(
+                  label: Text('Amount'),
+                ),
+              ],
+              rows: [
+                DataRow(cells: [
+                  DataCell(Text('1')),
+                  DataCell(Text('knusha')),
+                  DataCell(Text('5644645')),
+                  DataCell(Text('3')),
+                  DataCell(Text('10')),
+                  DataCell(Text('3')),
+                  DataCell(Text('10')),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('1')),
+                  DataCell(Text('Anu')),
+                  DataCell(Text('5644645')),
+                  DataCell(Text('3')),
+                  DataCell(Text('19')),
+                  DataCell(Text('3')),
+                  DataCell(Text('10')),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                  DataCell(Text('')),
+                ]),
+              ]),
+        ),
+      ),
+    );
+  }
 }
 
 /////////////////////////////////////////////////////////////
+showAlertDialog(BuildContext context, String value) {
+  print("values...........${value}");
+  // set up the buttons
+  // Widget cancelButton = TextButton(
+  //   child: Text("Cancel"),
+  //   onPressed: () {},
+  // );
+  Widget continueButton = TextButton(
+    child: Text("Ok"),
+    onPressed: () {},
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(value),
+    actions: [
+      // cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

@@ -37,9 +37,9 @@ class _HomePageState extends State<HomePage> {
   bool isSelected = true;
   bool buttonClicked = false;
   _onSelectItem(int index, String reportType) {
-    print("report  ---${reportType}");
+    // print("report  ---${reportType}");
     _selectedIndex.value = index;
-    print(_selectedIndex.value);
+    //  print(_selectedIndex.value);
     Navigator.of(context).pop(); // close the drawer
   }
 
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                         child: SizedBox.shrink(
                           child: InkWell(
                             onTap: (() {
-                              print("Icon button --${buttonClicked}");
+                              // print("Icon button --${buttonClicked}");
                               setState(() {
                                 buttonClicked = false;
                               });
@@ -159,75 +159,69 @@ class _HomePageState extends State<HomePage> {
                   if (value.reportList != null &&
                       value.reportList!.isNotEmpty) {
                     type = value.reportList![4]["report_elements"].toString();
-                    print("type....${type}");
+                    // print("type....${type}");
                     List<String> parts = type!.split(',');
                     type1 = parts[0].trim(); // prefix: "date"
                     type2 = parts[1].trim(); // prefix: "date"
-                    print("type1....${type1}");
-                    print("type2....${type2}");
+                    //  print("type1....${type1}");
+                    //  print("type2....${type2}");
                   }
                   {
                     return Container(
                       color: Colors.yellow,
                       // height: size.height * 0.27,
                       child: Container(
-                        height: size.height * 0.19,
+                        height: size.height * 0.1,
                         color: P_Settings.dateviewColor,
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: size.width * 0.1,
-                                  // height: size.height * 0.05,
-                                  child: Center(
-                                    child: Row(
-                                      // crossAxisAlignment: CrossAxisAlignment.center,
-                                      // mainAxisAlignment:MainAxisAlignment.center ,
-                                      children: [
-                                        // IconButton(
-                                        //   onPressed: () {
-                                        //     _selectDate(context);
-                                        //   },
-                                        //   icon: Icon(Icons.calendar_month),
-                                        // ),
+                                Flexible(
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.09,
+                                    child: Center(
+                                      child: Row(
+                                        // crossAxisAlignment: CrossAxisAlignment.center,
+                                        // mainAxisAlignment:MainAxisAlignment.center ,
+                                        children: [
+                                          // IconButton(
+                                          //   onPressed: () {
+                                          //     _selectDate(context);
+                                          //   },
+                                          //   icon: Icon(Icons.calendar_month),
+                                          // ),
 
-                                        // visible == true
-                                        //     ? Container(
-                                        //         child: formattedDate == null
-                                        //             ? Text(crntDateFormat
-                                        //                 .toString())
-                                        //             : Text(formattedDate
-                                        //                 .toString()))
-                                        //     : Container(
-                                        //         child: formattedDate == null
-                                        //             ? Text(crntDateFormat
-                                        //                 .toString())
-                                        //             : Text(formattedDate
-                                        //                 .toString())),
-                                      ],
+                                          // visible == true
+                                          //     ? Container(
+                                          //         child: formattedDate == null
+                                          //             ? Text(crntDateFormat
+                                          //                 .toString())
+                                          //             : Text(formattedDate
+                                          //                 .toString()))
+                                          //     : Container(
+                                          //         child: formattedDate == null
+                                          //             ? Text(crntDateFormat
+                                          //                 .toString())
+                                          //             : Text(formattedDate
+                                          //                 .toString())),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                                 type1 != "F" && type2 != "T"
                                     ? CustomDatePicker(dateType: "To Date")
                                     : CustomDatePicker(dateType: "From Date "),
-                                CustomDatePicker(dateType: "To Date")
+                                CustomDatePicker(dateType: "To Date"),
+                                // ElevatedButton(
+                                //   onPressed: () {},
+                                //   child: Icon(Icons.arrow_downward),
+                                // ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    child: Icon(Icons.arrow_downward),
-                                  ),
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       ),
@@ -262,15 +256,14 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               setState(() {
                                 buttonClicked = true;
-                                
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomePage1()),
+                                      builder: (context) => HomePage1()),
                                 );
                               });
-                              print(buttonClicked);
+                              // print(buttonClicked);
                             },
                             title: Column(
                               children: [

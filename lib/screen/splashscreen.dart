@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
+import 'package:reports/screen/level2.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(Duration(seconds: 2), () async {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LevelOne()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     });
   }
