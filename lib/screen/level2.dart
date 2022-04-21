@@ -1,23 +1,23 @@
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:reports/components/customColor.dart';
 import 'package:reports/components/customDatePicker.dart';
-import 'package:reports/components/customappbar.dart';
 import 'package:reports/controller/controller.dart';
-import 'package:reports/screen/level1Sample.dart';
 
 class HomePage1 extends StatefulWidget {
   @override
   State<HomePage1> createState() {
-    return new _HomePage1State();
+    return _HomePage1State();
   }
 }
 
 class _HomePage1State extends State<HomePage1> {
+  Widget? appBarTitle;
+  Icon actionIcon = Icon(Icons.search);
+  List<bool> visible = [];
+  List<bool> isExpanded = [];
   late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   List<String> listString = ["Main Heading", "level1", "level2"];
   List<String> listShrinkData = ["F1", "F2", "F3"];
@@ -30,8 +30,7 @@ class _HomePage1State extends State<HomePage1> {
   bool qtyvisible = false;
   bool isSelected = true;
   bool buttonClicked = false;
-  bool isExpanded = false;
-  bool visible = false;
+
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
@@ -39,22 +38,22 @@ class _HomePage1State extends State<HomePage1> {
 
   toggle(int i) {
     setState(() {
-      isExpanded = !isExpanded;
-      visible = !visible;
+      isExpanded[i] = !isExpanded[i];
+      visible[i] = !visible[i];
     });
   }
 
   @override
   void initState() {
     Provider.of<Controller>(context, listen: false).getReportApi();
-    isExpanded = false;
-    visible = true;
+    isExpanded = List.generate(listString.length, (index) => false);
+    visible = List.generate(listString.length, (index) => true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    //////////////////////////////////////////
+    TextEditingController _controller = TextEditingController();
     List<Widget> drawerOpts = [];
     String? specialList;
     String? newlist;
@@ -104,8 +103,44 @@ class _HomePage1State extends State<HomePage1> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // title: Text(widget._draweItems[_selectedIndex].title),
-        title: Text("Reports"),
+        title: appBarTitle,
+        actions: [
+          IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              // toggle(i);
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  _controller.clear();
+                  this.actionIcon = Icon(Icons.close);
+                  this.appBarTitle = TextField(
+                      controller: _controller,
+                      style:  const TextStyle(
+                        color: Colors.white,
+                      ),
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.search, color: Colors.white),
+                        hintText: "Search...",
+                        hintStyle: TextStyle(color: Colors.white),
+                      ),
+                      // onChanged: ((value) {
+                      //   print(value);
+                      //   onChangedValue(value);
+                      // }),
+                      cursorColor: Colors.black);
+                } else {
+                  if (this.actionIcon.icon == Icons.close) {
+                    print("hellooo");
+                    this.actionIcon = Icon(Icons.search);
+                    this.appBarTitle = Text("Report");
+                    // Provider.of<Controller>(context, listen: false)
+                    //     .setIssearch(false);
+                  }
+                }
+              });
+            },
+          ),
+        ],
       ),
       // appBar: PreferredSize(
       //   preferredSize: const Size.fromHeight(60),
@@ -163,60 +198,61 @@ class _HomePage1State extends State<HomePage1> {
                   if (value.reportList != null &&
                       value.reportList!.isNotEmpty) {
                     type = value.reportList![4]["report_elements"].toString();
-                    // print("type....${type}");
                     List<String> parts = type!.split(',');
                     type1 = parts[0].trim(); // prefix: "date"
                     type2 = parts[1].trim(); // prefix: "date"
-                    //  print("type1....${type1}");
-                    // print("type2....${type2}");
                   }
                   {
                     return Container(
                       color: Colors.yellow,
                       // height: size.height * 0.27,
                       child: Container(
-                        height: size.height * 0.2,
+                        height: size.height * 0.15,
                         color: P_Settings.dateviewColor,
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  child: Container(
-                                    width: size.width * 0.1,
+                            Flexible(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                      width: size.width * 0.1,
+                                    ),
                                   ),
-                                ),
-                                type1 != "F" && type2 != "T"
-                                    ? CustomDatePicker(dateType: "To Date")
-                                    : CustomDatePicker(dateType: "From Date "),
-                                CustomDatePicker(dateType: "To Date"),
-                                qtyvisible
-                                    ? SizedBox(
-                                        width: size.width * 0.2,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.arrow_downward,
-                                              color: Colors.deepPurple),
-                                          onPressed: () {
-                                            setState(() {
-                                              qtyvisible = false;
-                                            });
-                                          },
-                                        ),
-                                      )
-                                    : SizedBox(
-                                        width: size.width * 0.2,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.arrow_upward,
-                                              color: Colors.deepPurple),
-                                          onPressed: () {
-                                            setState(() {
-                                              qtyvisible = true;
-                                            });
-                                          },
-                                        ),
-                                      )
-                              ],
+                                  type1 != "F" && type2 != "T"
+                                      ? CustomDatePicker(dateType: "To Date")
+                                      : CustomDatePicker(
+                                          dateType: "From Date "),
+                                  CustomDatePicker(dateType: "To Date"),
+                                  qtyvisible
+                                      ? SizedBox(
+                                          width: size.width * 0.2,
+                                          child: IconButton(
+                                            icon: const Icon(
+                                                Icons.arrow_downward,
+                                                color: Colors.deepPurple),
+                                            onPressed: () {
+                                              setState(() {
+                                                qtyvisible = false;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          width: size.width * 0.2,
+                                          child: IconButton(
+                                            icon: const Icon(Icons.arrow_upward,
+                                                color: Colors.deepPurple),
+                                            onPressed: () {
+                                              setState(() {
+                                                qtyvisible = true;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                ],
+                              ),
                             ),
                             Visibility(
                               visible: qtyvisible,
@@ -250,8 +286,12 @@ class _HomePage1State extends State<HomePage1> {
                                                       child: ElevatedButton(
                                                         style: ElevatedButton
                                                             .styleFrom(
-                                                          shadowColor: P_Settings
-                                                              .datatableColor,
+                                                          shadowColor:
+                                                              P_Settings.color3,
+                                                          minimumSize:
+                                                              Size(150, 50),
+                                                          maximumSize:
+                                                              Size(150, 50),
                                                         ),
                                                         onPressed: () {},
                                                         child: Text(
@@ -295,14 +335,6 @@ class _HomePage1State extends State<HomePage1> {
                                                   },
                                                 ),
                                               ),
-                                              // IconButton(
-                                              //   icon: const Icon(
-                                              //       Icons.arrow_downward,
-                                              //       color: Colors.deepPurple),
-                                              //   onPressed: () {
-                                              //     setState(() {});
-                                              //   },
-                                              // ),
                                             ],
                                           ),
                                         ),
@@ -318,7 +350,9 @@ class _HomePage1State extends State<HomePage1> {
                     );
                   }
                 }),
-
+          SizedBox(
+            height: size.height * 0.03,
+          ),
           Consumer<Controller>(builder: (context, value, child) {
             {
               return Container(
@@ -335,17 +369,11 @@ class _HomePage1State extends State<HomePage1> {
                               padding: const EdgeInsets.only(left: 4, right: 4),
                               child: Ink(
                                 decoration: BoxDecoration(
-                                  color: P_Settings.color4,
+                                  color: P_Settings.color5,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: ListTile(
-                                  onTap: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => HomePage()),
-                                    // );
-                                  },
+                                  onTap: () {},
                                   title: Column(
                                     children: [
                                       Text(listString[index]),
@@ -353,7 +381,7 @@ class _HomePage1State extends State<HomePage1> {
                                     ],
                                   ),
                                   trailing: IconButton(
-                                      icon: isExpanded
+                                      icon: isExpanded[index]
                                           ? Icon(
                                               Icons.arrow_upward,
                                               // actionIcon.icon,
@@ -372,11 +400,11 @@ class _HomePage1State extends State<HomePage1> {
                             ),
                             SizedBox(height: size.height * 0.004),
                             Visibility(
-                              visible: visible,
+                              visible: visible[index],
                               child: shrinkedDataTable(context),
                             ),
                             Visibility(
-                                visible: isExpanded,
+                                visible: isExpanded[index],
                                 child: datatable(context)),
                           ],
                         ),
@@ -531,7 +559,7 @@ class _HomePage1State extends State<HomePage1> {
   }
 }
 
-/////////////////////////////////////////////////////////////
+///////////////////////alert box for button click //////////////////////////////////////
 showAlertDialog(BuildContext context, String value) {
   print("values...........${value}");
   // set up the buttons

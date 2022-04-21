@@ -9,13 +9,6 @@ class Controller extends ChangeNotifier {
   String urlgolabl = Globaldata.apiglobal;
   List<Map<String, dynamic>>? reportList = [];
   List<Map<String, dynamic>> specialelements = [];
-  // List<String> reportItems = ["level 1", "level 2", "level3"];
-
-  // List<String> drawerItems = [
-  //   "Sales Report",
-  //   "Purchase Report",
-  //   "Sales Report"
-  // ];
 
   // getreportResults(String type) {
   //   if (type == "Sales Report") {
@@ -35,28 +28,25 @@ class Controller extends ChangeNotifier {
   Future getReportApi() async {
     try {
       Uri url = Uri.parse("$urlgolabl/reports_list.php");
-      // Uri url = Uri.parse("http://aiwasilks.in/reports/API/reports_list.php");
-
       http.Response response = await http.post(
         url,
         // body: body,
       );
 
       var map = jsonDecode(response.body);
-
       //print(map);
       for (var item in map) {
         reportList!.add(item);
       }
-      final jsonData = '[{"label":"QTY","value":"1"},{"label":"BATCH COST","value":"B.batch_cost"}]';
+      final jsonData = reportList![0]['special_element2'];                                  
       final parsedJson = jsonDecode(jsonData);
+      //print("parsed json--$parsedJson");
+      specialelements.clear();
       for (var i in parsedJson) {
-        specialelements.add(i);
-      }
-      // print("parsedJson.............${parsedJson.length}");
-
-      // print("specialelements.............${specialelements.length}");
-     // print(reportList);
+        specialelements.add(i);  
+      } 
+     // print("specialelements.............${specialelements}");
+    //  print("special_element2.........................${reportList![0]['special_element2']}");
       notifyListeners();
     } catch (e) {
       print(e);

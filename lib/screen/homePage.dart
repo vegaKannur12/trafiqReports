@@ -3,22 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import 'package:reports/components/customColor.dart';
 import 'package:reports/components/customDatePicker.dart';
-import 'package:reports/components/customappbar.dart';
 import 'package:reports/controller/controller.dart';
-import 'package:reports/screen/level1Sample.dart';
 import 'package:reports/screen/level2.dart';
 
 class HomePage extends StatefulWidget {
-  // final _draweItems = [
-  //   new DrawerItem("sales report ", Icons.report),
-  //   new DrawerItem("purchase report", Icons.report),
-  //   new DrawerItem("sales report", Icons.report)
-  // ];
   // HomePage({Key? key}) : super(key: key);
-
   @override
   State<HomePage> createState() {
     return new _HomePageState();
@@ -26,20 +17,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController _controller = TextEditingController();
+  Widget? appBarTitle;
+  Icon actionIcon = Icon(Icons.search);
   late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   DateTime currentDate = DateTime.now();
+  bool qtyvisible = false;
   String? formattedDate;
   String? crntDateFormat;
   String searchkey = "";
   bool isSearch = false;
   bool visible = true;
-  // int _selectedIndex = 0;
+  String searchKey = "";
   bool isSelected = true;
   bool buttonClicked = false;
+   List newList = [];
   _onSelectItem(int index, String reportType) {
-    // print("report  ---${reportType}");
     _selectedIndex.value = index;
-    //  print(_selectedIndex.value);
     Navigator.of(context).pop(); // close the drawer
   }
 
@@ -49,9 +43,35 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void togle() {
+    setState(() {
+      visible = !visible;
+    });
+  }
+   onChangedValue(String value) {
+    setState(() {
+      searchKey = value;
+      if (searchKey!=null) {
+        print("not empty");
+      //   Provider.of<Controller>(context, listen: false).setIssearch(false);
+      //   _controller.clear();
+      // } else {
+      //   Provider.of<Controller>(context, listen: false).setIssearch(true);
+
+        // _controller.clear();
+
+        newList = Provider.of<Controller>(context, listen: false)
+            .reportList!
+            .where((report) =>
+                report["report_name"].toUpperCase().startsWith(value.toUpperCase()))
+            .toList();
+            print("list $newList");
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    //////////////////////////////////////////
+    TextEditingController _controller = TextEditingController();
     List<Widget> drawerOpts = [];
     String? type;
     String? type1;
@@ -99,9 +119,49 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // title: Text(widget._draweItems[_selectedIndex].title),
-        title: Text("Reports"),
+        title: appBarTitle,
+        actions: [
+          IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              togle();
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  print("hai");
+                  _controller.clear();
+                  this.actionIcon = Icon(Icons.close);
+                  this.appBarTitle = TextField(
+                      controller: _controller,
+                      style: new TextStyle(
+                        color: Colors.white,
+                      ),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search, color: Colors.white),
+                        hintText: "Search...",
+                        hintStyle: TextStyle(color: Colors.white),
+                      ),
+                      onChanged: ((value) {
+                        print(value);
+                        onChangedValue(value);
+                      }),
+                      cursorColor: Colors.black);
+                } else {
+                  if (this.actionIcon.icon == Icons.close) {
+                    this.actionIcon = Icon(Icons.search);
+                    this.appBarTitle = Text("Report");
+                    // Provider.of<Controller>(context, listen: false)
+                    //     .setIssearch(false);
+                  }
+                }
+              });
+            },
+          ),
+        ],
       ),
+      // appBar: AppBar(
+      //   // title: Text(widget._draweItems[_selectedIndex].title),
+      //   title: Text("Reports"),
+      // ),
       // appBar: PreferredSize(
       //   preferredSize: const Size.fromHeight(60),
       //   child: ValueListenableBuilder(
@@ -135,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ConstrainedBox(
-                        constraints: new BoxConstraints(
+                        constraints: BoxConstraints(
                           minHeight: 20.0,
                           minWidth: 80.0,
                         ),
@@ -159,68 +219,119 @@ class _HomePageState extends State<HomePage> {
                   if (value.reportList != null &&
                       value.reportList!.isNotEmpty) {
                     type = value.reportList![4]["report_elements"].toString();
-                    // print("type....${type}");
                     List<String> parts = type!.split(',');
                     type1 = parts[0].trim(); // prefix: "date"
                     type2 = parts[1].trim(); // prefix: "date"
-                    //  print("type1....${type1}");
-                    //  print("type2....${type2}");
                   }
                   {
                     return Container(
-                      color: Colors.yellow,
-                      // height: size.height * 0.27,
                       child: Container(
-                        height: size.height * 0.1,
+                        height: size.height * 0.15,
                         color: P_Settings.dateviewColor,
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  child: Container(
-                                    width: size.width * 0.2,
-                                    height: size.height * 0.09,
-                                    child: Center(
-                                      child: Row(
-                                        // crossAxisAlignment: CrossAxisAlignment.center,
-                                        // mainAxisAlignment:MainAxisAlignment.center ,
-                                        children: [
-                                          // IconButton(
-                                          //   onPressed: () {
-                                          //     _selectDate(context);
-                                          //   },
-                                          //   icon: Icon(Icons.calendar_month),
-                                          // ),
+                            Flexible(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                      width: size.width * 0.2,
+                                      height: size.height * 0.1,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              // IconButton(
+                                              //   onPressed: () {
+                                              //     _selectDate(context);
+                                              //   },
+                                              //   icon: Icon(Icons.calendar_month),
+                                              // ),
 
-                                          // visible == true
-                                          //     ? Container(
-                                          //         child: formattedDate == null
-                                          //             ? Text(crntDateFormat
-                                          //                 .toString())
-                                          //             : Text(formattedDate
-                                          //                 .toString()))
-                                          //     : Container(
-                                          //         child: formattedDate == null
-                                          //             ? Text(crntDateFormat
-                                          //                 .toString())
-                                          //             : Text(formattedDate
-                                          //                 .toString())),
-                                        ],
+                                              // visible == true
+                                              //     ? Container(
+                                              //         child: formattedDate == null
+                                              //             ? Text(crntDateFormat
+                                              //                 .toString())
+                                              //             : Text(formattedDate
+                                              //                 .toString()))
+                                              //     : Container(
+                                              //         child: formattedDate == null
+                                              //             ? Text(crntDateFormat
+                                              //                 .toString())
+                                              //             : Text(formattedDate
+                                              //                 .toString())),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                type1 != "F" && type2 != "T"
-                                    ? CustomDatePicker(dateType: "To Date")
-                                    : CustomDatePicker(dateType: "From Date "),
-                                CustomDatePicker(dateType: "To Date"),
-                                // ElevatedButton(
-                                //   onPressed: () {},
-                                //   child: Icon(Icons.arrow_downward),
-                                // ),
-                              ],
+                                  type1 != "F" && type2 != "T"
+                                      ? CustomDatePicker(dateType: "To Date")
+                                      : CustomDatePicker(
+                                          dateType: "From Date "),
+                                  CustomDatePicker(dateType: "To Date"),
+                                  qtyvisible
+                                      ? SizedBox(
+                                          width: size.width * 0.2,
+                                          child: IconButton(
+                                            icon: const Icon(
+                                                Icons.arrow_downward,
+                                                color: Colors.deepPurple),
+                                            onPressed: () {
+                                              setState(() {
+                                                qtyvisible = false;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          width: size.width * 0.2,
+                                          child: IconButton(
+                                            icon: const Icon(Icons.arrow_upward,
+                                                color: Colors.deepPurple),
+                                            onPressed: () {
+                                              setState(() {
+                                                qtyvisible = true;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: qtyvisible,
+                              child: Row(
+                                children: [
+                                  Consumer<Controller>(
+                                      builder: (context, value, child) {
+                                    {
+                                      return Flexible(
+                                        child: Container(
+                                          alignment: Alignment.topRight,
+                                          height: size.height * 0.08,
+                                          width: size.width * 1,
+                                          child: Row(
+                                            children: [
+                                              Flexible(
+                                                child: ElevatedButton(
+                                                    onPressed: () {},
+                                                    child: Text(
+                                                        value.specialelements[0]
+                                                            ["label"])),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  })
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -232,8 +343,7 @@ class _HomePageState extends State<HomePage> {
           Consumer<Controller>(builder: (context, value, child) {
             {
               return Container(
-                // color: P_Settings.datatableColor,
-                height: size.height * 0.6,
+                height: size.height * 0.73,
                 child: ListView.builder(
                   itemCount: value.reportList!.length,
                   itemBuilder: ((context, index) {
@@ -256,14 +366,15 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               setState(() {
                                 buttonClicked = true;
-
+                              });
+                              Future.delayed(Duration(milliseconds: 100), () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage1()),
+                                    builder: (context) => HomePage1(),
+                                  ),
                                 );
                               });
-                              // print(buttonClicked);
                             },
                             title: Column(
                               children: [
@@ -293,5 +404,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-/////////////////////////////////////////////////////////////
