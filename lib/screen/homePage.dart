@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   String? formattedDate;
   String? crntDateFormat;
   String searchkey = "";
-  bool isSearch = true;
+  bool isSearch = false;
   bool visible = true;
   String searchKey = "";
   bool isSelected = true;
@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     Provider.of<Controller>(context, listen: false).getReportApi();
+    _controller.clear();
     super.initState();
   }
 
@@ -52,14 +53,14 @@ class _HomePageState extends State<HomePage> {
   onChangedValue(String value) {
     setState(() {
       searchKey = value;
-      if (searchKey.isNotEmpty && isSearch) {
+      if (searchKey.isNotEmpty || isSearch) {
         newList = Provider.of<Controller>(context, listen: false)
             .reportList!
             .where((user) =>
                 user["report_name"].toLowerCase().contains(value.toLowerCase()))
             .toList();
         print("list...... $newList");
-      } else {
+      } else if (isSearch = false) {
         print("No data found");
       }
     });
@@ -126,6 +127,7 @@ class _HomePageState extends State<HomePage> {
                   print("hai");
                   _controller.clear();
                   this.actionIcon = Icon(Icons.close);
+                  newList.clear();
                   this.appBarTitle = TextField(
                       controller: _controller,
                       style: new TextStyle(
@@ -137,12 +139,13 @@ class _HomePageState extends State<HomePage> {
                         hintStyle: TextStyle(color: Colors.white),
                       ),
                       onChanged: ((value) {
-                        print(value);
                         onChangedValue(value);
+                        // _controller.clear();
                       }),
                       cursorColor: Colors.black);
                 } else {
                   if (this.actionIcon.icon == Icons.close) {
+                    _controller.clear();
                     this.actionIcon = Icon(Icons.search);
                     this.appBarTitle = Text("Report");
                     // Provider.of<Controller>(context, listen: false)
@@ -236,9 +239,7 @@ class _HomePageState extends State<HomePage> {
                                       padding: const EdgeInsets.all(16.0),
                                       child: Center(
                                         child: Row(
-                                          children: [
-                                           
-                                          ],
+                                          children: [],
                                         ),
                                       ),
                                     ),
@@ -312,131 +313,134 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               }),
-        isSearch  || newList.isNotEmpty ?
-        newList.isEmpty 
-            ? Consumer<Controller>(builder: (context, value, child) {
-                {
-                  return Container(
-                    height: size.height * 0.73,
-                    child: ListView.builder(
-                      itemCount: value.reportList!.length,
-                      itemBuilder: ((context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Ink(
-                            height: size.height * 0.09,
-                            decoration: BoxDecoration(
-                              color: (index % 2 == 0)
-                                  ? P_Settings.datatableColor
-                                  : P_Settings.color4,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
+        isSearch == false || newList.isNotEmpty 
+            ? newList.isEmpty 
+                ? Consumer<Controller>(builder: (context, value, child) {
+                    {
+                      return Container(
+                        height: size.height * 0.73,
+                        child: ListView.builder(
+                          itemCount: value.reportList!.length,
+                          itemBuilder: ((context, index) {
+                            return Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                // contentPadding: EdgeInsets.zero,
-                                // dense: true,
-                                minLeadingWidth: 10,
-                                onTap: () {
-                                  setState(() {
-                                    buttonClicked = true;
-                                  });
-                                  Future.delayed(Duration(milliseconds: 100),
-                                      () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomePage1(),
-                                      ),
-                                    );
-                                  });
-                                },
-                                title: Column(
-                                  children: [
-                                    Text(
-                                      value.reportList![index]['report_name'],
+                              child: Ink(
+                                height: size.height * 0.09,
+                                decoration: BoxDecoration(
+                                  color: (index % 2 == 0)
+                                      ? P_Settings.datatableColor
+                                      : P_Settings.color4,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    // contentPadding: EdgeInsets.zero,
+                                    // dense: true,
+                                    minLeadingWidth: 10,
+                                    onTap: () {
+                                      setState(() {
+                                        buttonClicked = true;
+                                      });
+                                      Future.delayed(
+                                          Duration(milliseconds: 100), () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomePage1(),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                    title: Column(
+                                      children: [
+                                        Text(
+                                          value.reportList![index]
+                                              ['report_name'],
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        Text(
+                                          value.reportList![index]
+                                              ['filter_names'],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: size.height * 0.01,
-                                    ),
-                                    Text(
-                                      value.reportList![index]['filter_names'],
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  );
-                }
-              })
-            : Consumer<Controller>(builder: (context, value, child) {
-                {
-                  return Container(
-                    height: size.height * 0.73,
-                    child: ListView.builder(
-                      itemCount: newList.length,
-                      itemBuilder: ((context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Ink(
-                            height: size.height * 0.09,
-                            decoration: BoxDecoration(
-                              color: (index % 2 == 0)
-                                  ? P_Settings.datatableColor
-                                  : P_Settings.color4,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
+                            );
+                          }),
+                        ),
+                      );
+                    }
+                  })
+                : Consumer<Controller>(builder: (context, value, child) {
+                    {
+                      return Container(
+                        height: size.height * 0.73,
+                        child: ListView.builder(
+                          itemCount: newList.length,
+                          itemBuilder: ((context, index) {
+                            return Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                // contentPadding: EdgeInsets.zero,
-                                // dense: true,
-                                minLeadingWidth: 10,
-                                onTap: () {
-                                  setState(() {
-                                    buttonClicked = true;
-                                  });
-                                  Future.delayed(Duration(milliseconds: 100),
-                                      () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomePage1(),
-                                      ),
-                                    );
-                                  });
-                                },
-                                title: Column(
-                                  children: [
-                                    Text(
-                                      newList[index]["report_name"],
-                                      // value.reportList![index]['report_name'],
+                              child: Ink(
+                                height: size.height * 0.09,
+                                decoration: BoxDecoration(
+                                  color: (index % 2 == 0)
+                                      ? P_Settings.datatableColor
+                                      : P_Settings.color4,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    // contentPadding: EdgeInsets.zero,
+                                    // dense: true,
+                                    minLeadingWidth: 10,
+                                    onTap: () {
+                                      setState(() {
+                                        buttonClicked = true;
+                                      });
+                                      Future.delayed(
+                                          Duration(milliseconds: 100), () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomePage1(),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                    title: Column(
+                                      children: [
+                                        Text(
+                                          newList[index]["report_name"],
+                                          // value.reportList![index]['report_name'],
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        Text(
+                                          newList[index]["filter_names"],
+                                          // value.reportList![index]['filter_names'],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: size.height * 0.01,
-                                    ),
-                                    Text(
-                                      newList[index]["filter_names"],
-                                      // value.reportList![index]['filter_names'],
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  );
-                }
-              }):Container(
-                child: Text("No Data"),
+                            );
+                          }),
+                        ),
+                      );
+                    }
+                  })
+            : Container(
+                child: Center(child: Text("No Data")),
               )
       ]),
     );
