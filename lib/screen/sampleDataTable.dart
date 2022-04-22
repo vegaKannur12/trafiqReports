@@ -85,17 +85,11 @@ class _SampleDataTableState extends State<SampleDataTable> {
       appBar: AppBar(title: Text("Dynamic datatable")),
       body: InteractiveViewer(
         boundaryMargin: EdgeInsets.all(8),
-        minScale: .025,
+        minScale: .25,
         maxScale: 4,
-        child: Flexible(
-          child: 
-          // HorizontalDataTable(
-          //   leftHandSideColumnWidth: 100,
-          //   rightHandSideColumnWidth: 600,
-          //   isFixedHeader: true,
-          //   // headerWidgets: _getTitleWidget(),
-          // ),
-           DataTable(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
             horizontalMargin: 0,
             headingRowHeight: 35,
             dataRowHeight: 35,
@@ -128,8 +122,8 @@ class _SampleDataTableState extends State<SampleDataTable> {
       print("column---${column}");
       return DataColumn(
         label: Container(
-          width: 100,
-          // width: behv[3]==1?100:200,
+          // width:0,
+          width: behv[3]=="1"?100:20,
           child: Text(
             colsName,
             // textAlign: TextAlign.center,
@@ -189,5 +183,73 @@ class _SampleDataTableState extends State<SampleDataTable> {
     );
     print(datacell.length);
     return datacell;
+  }
+}
+
+////////////////////////////////////
+class Example extends StatefulWidget {
+  @override
+  _ExampleState createState() => _ExampleState();
+}
+
+class _ExampleState extends State<Example> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text('Flutter Tutorial - TutorialKart'),
+          ),
+          body: ListView(children: <Widget>[
+            Center(
+                child: Text(
+              'Students',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            )),
+            DataTable(
+              columnSpacing: 0,
+              columns: [
+                DataColumn(
+                  label: Container(width: 40, child: Text('RollNo')),
+                ),
+                DataColumn(label: Container(width: 40, child: Text('Name'))),
+                DataColumn(label: Container(width: 30, child: Text('Class'))),
+                DataColumn(label: Container(width: 50, child: Text('Name'))),
+                DataColumn(label: Container(width: 30, child: Text('Class'))),
+                DataColumn(label: Container(width: 30, child: Text('Class'))),
+
+              ],
+              rows: [
+                DataRow(cells: [
+                  DataCell(Text('1')),
+                  DataCell(Text('Arya')),
+                  DataCell(Text('6')),
+                  DataCell(Text('Arya')),
+                  DataCell(Text('6')),
+                  DataCell(Text('6')),
+
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('12')),
+                  DataCell(Text('Joccgfhn')),
+                  DataCell(Text('9')),
+                  DataCell(Text('Arya')),
+                  DataCell(Text('6')),
+                  DataCell(Text('6')),
+
+                ]),
+                DataRow(cells: [
+                  DataCell(Text('42')),
+                  DataCell(Text('Tony')),
+                  DataCell(Text('8')),
+                  DataCell(Text('Arya')),
+                  DataCell(Text('6')),
+                  DataCell(Text('6')),
+
+                ]),
+              ],
+            ),
+          ])),
+    );
   }
 }
