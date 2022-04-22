@@ -4,6 +4,8 @@ import 'package:reports/components/customColor.dart';
 import 'package:reports/controller/controller.dart';
 import 'package:reports/drawersample.dart';
 import 'package:reports/screen/call.dart';
+import 'package:reports/screen/datatable.dart';
+import 'package:reports/screen/datatable1.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
 import 'package:reports/screen/level1Sample.dart';
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomePage1(),
+      home: MyApp1(),
     );
   }
 }

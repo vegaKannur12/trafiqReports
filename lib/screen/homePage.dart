@@ -26,12 +26,12 @@ class _HomePageState extends State<HomePage> {
   String? formattedDate;
   String? crntDateFormat;
   String searchkey = "";
-  bool isSearch = false;
+  bool isSearch = true;
   bool visible = true;
   String searchKey = "";
   bool isSelected = true;
   bool buttonClicked = false;
-   List newList = [];
+  List newList = [];
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
@@ -48,27 +48,23 @@ class _HomePageState extends State<HomePage> {
       visible = !visible;
     });
   }
-   onChangedValue(String value) {
+
+  onChangedValue(String value) {
     setState(() {
       searchKey = value;
-      if (searchKey!=null) {
-        print("not empty");
-      //   Provider.of<Controller>(context, listen: false).setIssearch(false);
-      //   _controller.clear();
-      // } else {
-      //   Provider.of<Controller>(context, listen: false).setIssearch(true);
-
-        // _controller.clear();
-
+      if (searchKey.isNotEmpty && isSearch) {
         newList = Provider.of<Controller>(context, listen: false)
             .reportList!
-            .where((report) =>
-                report["report_name"].toUpperCase().startsWith(value.toUpperCase()))
+            .where((user) =>
+                user["report_name"].toLowerCase().contains(value.toLowerCase()))
             .toList();
-            print("list $newList");
+        print("list...... $newList");
+      } else {
+        print("No data found");
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _controller = TextEditingController();
@@ -150,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                     this.actionIcon = Icon(Icons.search);
                     this.appBarTitle = Text("Report");
                     // Provider.of<Controller>(context, listen: false)
-                    //     .setIssearch(false);
+                    //     .isSearch(false);
                   }
                 }
               });
@@ -185,222 +181,264 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          // Text(widget._draweItems[_selectedIndex].title),
-          buttonClicked
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: 20.0,
-                          minWidth: 80.0,
-                        ),
-                        child: SizedBox.shrink(
-                          child: InkWell(
-                            onTap: (() {
-                              // print("Icon button --${buttonClicked}");
-                              setState(() {
-                                buttonClicked = false;
-                              });
-                            }),
-                            child: Icon(Icons.calendar_month),
-                          ),
+      body: Column(children: [
+        // Text(widget._draweItems[_selectedIndex].title),
+        buttonClicked
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: 20.0,
+                        minWidth: 80.0,
+                      ),
+                      child: SizedBox.shrink(
+                        child: InkWell(
+                          onTap: (() {
+                            // print("Icon button --${buttonClicked}");
+                            setState(() {
+                              buttonClicked = false;
+                            });
+                          }),
+                          child: Icon(Icons.calendar_month),
                         ),
                       ),
-                    ],
-                  ),
-                )
-              : Consumer<Controller>(builder: (context, value, child) {
-                  // type = value.reportList![4]["report_elements"].toString();
-                  if (value.reportList != null &&
-                      value.reportList!.isNotEmpty) {
-                    type = value.reportList![4]["report_elements"].toString();
-                    List<String> parts = type!.split(',');
-                    type1 = parts[0].trim(); // prefix: "date"
-                    type2 = parts[1].trim(); // prefix: "date"
-                  }
-                  {
-                    return Container(
-                      child: Container(
-                        height: size.height * 0.15,
-                        color: P_Settings.dateviewColor,
-                        child: Column(
-                          children: [
-                            Flexible(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    child: Container(
-                                      width: size.width * 0.2,
-                                      height: size.height * 0.1,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Center(
-                                          child: Row(
-                                            children: [
-                                              // IconButton(
-                                              //   onPressed: () {
-                                              //     _selectDate(context);
-                                              //   },
-                                              //   icon: Icon(Icons.calendar_month),
-                                              // ),
-
-                                              // visible == true
-                                              //     ? Container(
-                                              //         child: formattedDate == null
-                                              //             ? Text(crntDateFormat
-                                              //                 .toString())
-                                              //             : Text(formattedDate
-                                              //                 .toString()))
-                                              //     : Container(
-                                              //         child: formattedDate == null
-                                              //             ? Text(crntDateFormat
-                                              //                 .toString())
-                                              //             : Text(formattedDate
-                                              //                 .toString())),
-                                            ],
-                                          ),
+                    ),
+                  ],
+                ),
+              )
+            : Consumer<Controller>(builder: (context, value, child) {
+                // type = value.reportList![4]["report_elements"].toString();
+                if (value.reportList != null && value.reportList!.isNotEmpty) {
+                  type = value.reportList![4]["report_elements"].toString();
+                  List<String> parts = type!.split(',');
+                  type1 = parts[0].trim(); // prefix: "date"
+                  type2 = parts[1].trim(); // prefix: "date"
+                }
+                {
+                  return Container(
+                    child: Container(
+                      height: size.height * 0.15,
+                      color: P_Settings.dateviewColor,
+                      child: Column(
+                        children: [
+                          Flexible(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Center(
+                                        child: Row(
+                                          children: [
+                                           
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                  type1 != "F" && type2 != "T"
-                                      ? CustomDatePicker(dateType: "To Date")
-                                      : CustomDatePicker(
-                                          dateType: "From Date "),
-                                  CustomDatePicker(dateType: "To Date"),
-                                  qtyvisible
-                                      ? SizedBox(
-                                          width: size.width * 0.2,
-                                          child: IconButton(
-                                            icon: const Icon(
-                                                Icons.arrow_downward,
-                                                color: Colors.deepPurple),
-                                            onPressed: () {
-                                              setState(() {
-                                                qtyvisible = false;
-                                              });
-                                            },
-                                          ),
-                                        )
-                                      : SizedBox(
-                                          width: size.width * 0.2,
-                                          child: IconButton(
-                                            icon: const Icon(Icons.arrow_upward,
-                                                color: Colors.deepPurple),
-                                            onPressed: () {
-                                              setState(() {
-                                                qtyvisible = true;
-                                              });
-                                            },
-                                          ),
-                                        )
-                                ],
-                              ),
-                            ),
-                            Visibility(
-                              visible: qtyvisible,
-                              child: Row(
-                                children: [
-                                  Consumer<Controller>(
-                                      builder: (context, value, child) {
-                                    {
-                                      return Flexible(
-                                        child: Container(
-                                          alignment: Alignment.topRight,
-                                          height: size.height * 0.08,
-                                          width: size.width * 1,
-                                          child: Row(
-                                            children: [
-                                              Flexible(
-                                                child: ElevatedButton(
-                                                    onPressed: () {},
-                                                    child: Text(
-                                                        value.specialelements[0]
-                                                            ["label"])),
-                                              ),
-                                            ],
-                                          ),
+                                ),
+                                type1 != "F" && type2 != "T"
+                                    ? CustomDatePicker(dateType: "To Date")
+                                    : CustomDatePicker(dateType: "From Date "),
+                                CustomDatePicker(dateType: "To Date"),
+                                qtyvisible
+                                    ? SizedBox(
+                                        width: size.width * 0.2,
+                                        child: IconButton(
+                                          icon: const Icon(Icons.arrow_downward,
+                                              color: Colors.deepPurple),
+                                          onPressed: () {
+                                            setState(() {
+                                              qtyvisible = false;
+                                            });
+                                          },
                                         ),
-                                      );
-                                    }
-                                  })
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-                }),
-
-          Consumer<Controller>(builder: (context, value, child) {
-            {
-              return Container(
-                height: size.height * 0.73,
-                child: ListView.builder(
-                  itemCount: value.reportList!.length,
-                  itemBuilder: ((context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Ink(
-                        height: size.height * 0.09,
-                        decoration: BoxDecoration(
-                          color: (index % 2 == 0)
-                              ? P_Settings.datatableColor
-                              : P_Settings.color4,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            // contentPadding: EdgeInsets.zero,
-                            // dense: true,
-                            minLeadingWidth: 10,
-                            onTap: () {
-                              setState(() {
-                                buttonClicked = true;
-                              });
-                              Future.delayed(Duration(milliseconds: 100), () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomePage1(),
-                                  ),
-                                );
-                              });
-                            },
-                            title: Column(
-                              children: [
-                                Text(
-                                  value.reportList![index]['report_name'],
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Text(
-                                  value.reportList![index]['filter_names'],
-                                  style: TextStyle(fontSize: 12),
-                                ),
+                                      )
+                                    : SizedBox(
+                                        width: size.width * 0.2,
+                                        child: IconButton(
+                                          icon: const Icon(Icons.arrow_upward,
+                                              color: Colors.deepPurple),
+                                          onPressed: () {
+                                            setState(() {
+                                              qtyvisible = true;
+                                            });
+                                          },
+                                        ),
+                                      )
                               ],
                             ),
                           ),
-                        ),
+                          Visibility(
+                            visible: qtyvisible,
+                            child: Row(
+                              children: [
+                                Consumer<Controller>(
+                                    builder: (context, value, child) {
+                                  {
+                                    return Flexible(
+                                      child: Container(
+                                        alignment: Alignment.topRight,
+                                        height: size.height * 0.08,
+                                        width: size.width * 1,
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              child: ElevatedButton(
+                                                  onPressed: () {},
+                                                  child: Text(
+                                                      value.specialelements[0]
+                                                          ["label"])),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                })
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    );
-                  }),
-                ),
-              );
-            }
-          })
-        ],
-      ),
+                    ),
+                  );
+                }
+              }),
+        isSearch  || newList.isNotEmpty ?
+        newList.isEmpty 
+            ? Consumer<Controller>(builder: (context, value, child) {
+                {
+                  return Container(
+                    height: size.height * 0.73,
+                    child: ListView.builder(
+                      itemCount: value.reportList!.length,
+                      itemBuilder: ((context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Ink(
+                            height: size.height * 0.09,
+                            decoration: BoxDecoration(
+                              color: (index % 2 == 0)
+                                  ? P_Settings.datatableColor
+                                  : P_Settings.color4,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                // contentPadding: EdgeInsets.zero,
+                                // dense: true,
+                                minLeadingWidth: 10,
+                                onTap: () {
+                                  setState(() {
+                                    buttonClicked = true;
+                                  });
+                                  Future.delayed(Duration(milliseconds: 100),
+                                      () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HomePage1(),
+                                      ),
+                                    );
+                                  });
+                                },
+                                title: Column(
+                                  children: [
+                                    Text(
+                                      value.reportList![index]['report_name'],
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.01,
+                                    ),
+                                    Text(
+                                      value.reportList![index]['filter_names'],
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  );
+                }
+              })
+            : Consumer<Controller>(builder: (context, value, child) {
+                {
+                  return Container(
+                    height: size.height * 0.73,
+                    child: ListView.builder(
+                      itemCount: newList.length,
+                      itemBuilder: ((context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Ink(
+                            height: size.height * 0.09,
+                            decoration: BoxDecoration(
+                              color: (index % 2 == 0)
+                                  ? P_Settings.datatableColor
+                                  : P_Settings.color4,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                // contentPadding: EdgeInsets.zero,
+                                // dense: true,
+                                minLeadingWidth: 10,
+                                onTap: () {
+                                  setState(() {
+                                    buttonClicked = true;
+                                  });
+                                  Future.delayed(Duration(milliseconds: 100),
+                                      () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HomePage1(),
+                                      ),
+                                    );
+                                  });
+                                },
+                                title: Column(
+                                  children: [
+                                    Text(
+                                      newList[index]["report_name"],
+                                      // value.reportList![index]['report_name'],
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.01,
+                                    ),
+                                    Text(
+                                      newList[index]["filter_names"],
+                                      // value.reportList![index]['filter_names'],
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  );
+                }
+              }):Container(
+                child: Text("No Data"),
+              )
+      ]),
     );
   }
 }
