@@ -1,99 +1,63 @@
 // import 'package:flutter/material.dart';
+// import 'package:reports/components/datatableCompo.dart';
 
-// class ExpansionPanelDemo extends StatefulWidget {
+// class Test extends StatefulWidget {
+//   const Test({Key? key}) : super(key: key);
+
 //   @override
-//   _ExpansionPanelDemoState createState() => _ExpansionPanelDemoState();
+//   State<Test> createState() => _TestState();
 // }
 
-// class _ExpansionPanelDemoState extends State<ExpansionPanelDemo> {
+// class _TestState extends State<Test> {
+//   final jsondata = [
+//     {
+//       "rank": "0",
+//       "a": "TLN10_BillNo",
+//       "b": "TLN10_MRNo",
+//       "c": "TLN50_PatientName",
+//       "d": "CRY10_Amt",
+//       "e": "CRY10_Paid",
+//       "f": "CRY10_Bal",
+//       "g": "TLN10_Name",
+//     },
+//     {
+//       "rank": "1",
+//       "a": "G202204027",
+//       "b": "TJAA2",
+//       "c": "PRATHYEESH MAKRERI KANNUR",
+//       "d": "472.5",
+//       "e": "372.5",
+//       "f": "100",
+//       "g": "Anu",
+//     },
+//     {
+//       "rank": "1",
+//       "a": "G202204026",
+//       "b": "TJAA2",
+//       "c": "PRATHYEESH MAKRERI KANNUR",
+//       "d": "1697.5",
+//       "e": "1397.5",
+//       "f": "300",
+//       "g": "Graha",
+//     }
+//   ];
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Expansion Panel (CodeWithFlutter)'),
-//       ),
-//       body: Container(
-//         padding: EdgeInsets.all(10),
-//         child: ListView.builder(
-//           itemCount: itemData.length,
-//           itemBuilder: (context, index) {
-//             return Container(
-//               margin: EdgeInsets.only(bottom: 10.0),
-//               child: ExpansionPanelList(
-//                 animationDuration: Duration(milliseconds: 500),
-//                 dividerColor: Colors.red,
-//                 expandedHeaderPadding: EdgeInsets.only(bottom: 0.0),
-//                 elevation: 1,
-//                 children: [
-//                   ExpansionPanel(
-//                     headerBuilder: (BuildContext context, bool isExpanded) {
-//                       return Container(
-//                         padding: EdgeInsets.all(10),
-//                         child: Text(
-//                           itemData[index].headerItem,
-//                           style: TextStyle(
-//                             color: itemData[index].colorsItem,
-//                             fontSize: 18,
-//                           ),
-//                         ),
-//                       );
-//                     },
-//                     body: Container(
-//                       padding: EdgeInsets.only(left: 10, right: 10, bottom: 20),
-//                       child: Column(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         children: [
-//                           Text(
-//                             itemData[index].discription,
-//                             style: TextStyle(
-//                               color: Colors.grey[700],
-//                               fontSize: 15,
-//                               height: 1.3,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                     isExpanded: itemData[index].expanded,
-//                   )
-//                 ],
-//                 expansionCallback: (int item, bool status) {
-//                   setState(() {
-//                     itemData[index].expanded = !itemData[index].expanded;
-//                   });
-//                 },
-//               ),
-//             );
-//           },
-//         ),
-//       ),
+//       body: SafeArea(
+//           child: Center(
+//         child: ElevatedButton(
+//             child: Text("click"),
+//             onPressed: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                     builder: (context) => DataTableCompo(
+//                           jsondata: jsondata,
+//                         )),
+//               );
+//             }),
+//       )),
 //     );
 //   }
-
-//   // List<ItemModel> itemData = <ItemModel>[
-//   //   ItemModel(
-//   //     headerItem: 'Android',
-//   //     discription:
-//   //         "Android is a mobile operating system based on a modified version of the Linux kernel and other open source software, designed primarily for touchscreen mobile devices such as smartphones and tablets.",
-//   //     colorsItem: Colors.green,
-//   //   ),
-//   //   ItemModel(
-//   //     headerItem: 'iOS',
-//   //     discription:
-//   //         "iOS is a mobile operating system created and developed by Apple Inc. exclusively for its hardware.",
-//   //     colorsItem: Colors.grey,
-//   //   ),
-//   //   ItemModel(
-//   //     headerItem: 'Windows',
-//   //     discription:
-//   //         "Microsoft Windows, commonly referred to as Windows, is a group of several proprietary graphical operating system families, all of which are developed and marketed by Microsoft. ",
-//   //     colorsItem: Colors.blue,
-//   //   ),
-//   //   ItemModel(
-//   //     headerItem: 'Linux',
-//   //     discription:
-//   //         "Linux is a family of open-source Unix-like operating systems based on the Linux kernel, an operating system.",
-//   //     colorsItem: Colors.orange,
-//   //   ),
-//   // ];
 // }

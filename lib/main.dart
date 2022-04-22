@@ -7,8 +7,10 @@ import 'package:reports/screen/call.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
 import 'package:reports/screen/level1Sample.dart';
+import 'package:reports/screen/refer.dart';
 import 'package:reports/screen/sampleDataTable.dart';
 import 'package:reports/screen/splashscreen.dart';
+import 'package:reports/screen/table.dart';
 import 'package:reports/screen/zoomtest.dart';
 
 import 'screen/dataTabletest.dart';
@@ -28,8 +30,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+       visualDensity: VisualDensity.adaptivePlatformDensity,
+
         fontFamily: 'Raleway',
         primaryColor: P_Settings.color1,
         colorScheme: ColorScheme.fromSwatch(
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: LevelOne(),
+      home: SampleDataTable(),
     );
   }
 }
