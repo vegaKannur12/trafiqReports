@@ -19,6 +19,7 @@ class LevelOne extends StatefulWidget {
 }
 
 class _LevelOneState extends State<LevelOne> {
+
   final jsondata = [
     {
       "rank": "0",
@@ -143,7 +144,6 @@ class _LevelOneState extends State<LevelOne> {
   
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
