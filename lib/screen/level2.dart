@@ -237,17 +237,17 @@ class _HomePage1State extends State<HomePage1> {
       // ),
 
       ///////////////////////////////////////////////////////////////////
-      drawer: Drawer(
-        child: new Column(
-          children: <Widget>[
-            Container(
-              height: size.height * 0.2,
-              color: P_Settings.color3,
-            ),
-            Column(children: drawerOpts)
-          ],
-        ),
-      ),
+      // drawer: Drawer(
+      //   child: new Column(
+      //     children: <Widget>[
+      //       Container(
+      //         height: size.height * 0.2,
+      //         color: P_Settings.color3,
+      //       ),
+      //       Column(children: drawerOpts)
+      //     ],
+      //   ),
+      // ),
       body: Column(
         children: [
           // Text(widget._draweItems[_selectedIndex].title),
