@@ -9,6 +9,8 @@ class Controller extends ChangeNotifier {
   String urlgolabl = Globaldata.apiglobal;
   List<Map<String, dynamic>>? reportList = [];
   List<Map<String, dynamic>> specialelements = [];
+  List<Map<String,dynamic>> reportCategoryList=[];
+
 
   // getreportResults(String type) {
   //   if (type == "Sales Report") {
@@ -51,6 +53,26 @@ class Controller extends ChangeNotifier {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+  /////////////////////////////////////////////////////
+  Future getCategoryReport() async {
+    try {
+      Uri url = Uri.parse("$urlgolabl/report_group_list.php");
+      http.Response response = await http.post(
+        url,
+        // body: body,
+      );
+      var map = jsonDecode(response.body);
+      //print(map);
+      for (var item in map) {
+        reportCategoryList.add(item);
+      }
+
+      print("report Category ${reportCategoryList}");
+      notifyListeners();
+    } catch (e) {
+      print("e");
     }
   }
 }
