@@ -13,7 +13,7 @@ class ReportCategory {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['rg_id'] = this.rgId;
-    data['rg_name'] = this.rgName;
+    data['rg_name'] = this.rgName; 
     return data;
   }
 }

@@ -115,18 +115,8 @@ class _HomePageState extends State<HomePage> {
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // automaticallyImplyLeading: false,
-        // leading: IconButton(
-        //     onPressed: () {
-        //       // Scaffold.of(context).openDrawer();
-        //       _scaffoldKey.currentState!.openDrawer();
-        //       // Provider.of<Controller>(context, listen: false).getCategoryReport();
-        //       print("clicked");
-        //     },
-        //     icon: Icon(Icons.menu)),
         title: appBarTitle,
         actions: [
           IconButton(
