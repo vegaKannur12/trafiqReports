@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:horizontal_data_table/horizontal_data_table.dart';
 
 class SampleDataTable extends StatefulWidget {
   const SampleDataTable({Key? key}) : super(key: key);
@@ -113,7 +114,7 @@ class _SampleDataTableState extends State<SampleDataTable> {
                 MaterialStateColor.resolveWith((states) => Colors.yellow),
             columnSpacing: 0,
             border: TableBorder.all(width: 1, color: Colors.black),
-            columns: getColumns(tableColumn, width),
+            columns: getColumns(tableColumn,width),
             rows: getRowss(newJson),
           ),
         ),

@@ -28,7 +28,7 @@ class _TableExample extends State {
         body: Center(
           child: InteractiveViewer(
             boundaryMargin: EdgeInsets.all(80),
-            minScale: 0.5,
+            minScale: 0.1,
             maxScale: 4,
             child: Column(children: [
               Flexible(
@@ -44,7 +44,7 @@ class _TableExample extends State {
                         defaultVerticalAlignment: TableCellVerticalAlignment.top,
                         columnWidths: const {
                           // 0:FixedColumnWidth(100),
-                          // 0: FlexColumnWidth(size.width * 0.0025),
+                          // 0: FlexColumnWidth(size.width * 0.0025), 
                           // 1: FlexColumnWidth(size.width * 0.002),
                           // 2: FlexColumnWidth(size.width * 0.004),
                           // 3: FlexColumnWidth(size.width * 0.0015),
