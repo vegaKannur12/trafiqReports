@@ -174,13 +174,18 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: Column(
           children: [
-           SizedBox(height: size.height*0.048,),
+            SizedBox(
+              height: size.height * 0.045,
+            ),
             Container(
               height: size.height * 0.2,
               width: size.width * 1,
               color: P_Settings.color3,
-              child: Column(
+              child: Row(
                 children: [
+                  SizedBox(height: size.height * 0.07, width: size.width*0.03,),
+                  Icon(Icons.list_outlined,color: Colors.white,),
+                  SizedBox(width: size.width*0.04),
                   Text(
                     "Categories",
                     style: TextStyle(fontSize: 20, color: Colors.white),
