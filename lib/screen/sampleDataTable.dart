@@ -15,36 +15,45 @@ class _SampleDataTableState extends State<SampleDataTable> {
   final jsondata = [
     {
       "rank": "0",
-      // "a": "TLN1_BillNo",
+      "a": "TLN1_BillNo",
       "b": "TLN1_MRNo",
-      "c": "TLN1_PatientName",
+      "c": "TLN5_PatientName",
       "d": "CRY1_Amt",
-      "e": "CRY2_Paid",
-      "f": "CRY2_Bal",
+      "e": "CRY1_Paid",
+      "f": "CRY1_Bal",
       "g": "TLN1_Name",
       "h": "CRY1_Bal",
+      "i": "TLN1_cgh",
+      "j": "TLN1_kjdsj"
     },
     {
       "rank": "1",
-      // "a": "G202204027",
+      "a": "G202204027",
       "b": "TJAA2",
-      "c": "PRATHYEESH MAKRERI KANNUR",
+      "c":
+          "PRATHYEESH MAKRERI KANNUR",
       "d": "472.5",
       "e": "372.5",
       "f": "100",
       "g": "Anu",
-      "h": "6859"
+      "h": "6859",
+      "i": "CRcgh",
+      "j": "jkkjsdsa"
+
+      // "h": "6859"
     },
     {
       "rank": "1",
-      // "a": "G202204026",
+      "a": "G202204026",
       "b": "TJAA2",
-      "c": "PRATHYEESH MAKRERI KANNUR",
+      "c": "PRATHYEESH ",
       "d": "1697.5",
       "e": "1397.5",
       "f": "300",
       "g": "Graha",
-      "h": "900"
+      "h": "900",
+      "i": "cgh",
+      "j": "bsdjhdd"
     }
   ];
   List val = [100, 50, 20, 70, 150];
@@ -74,6 +83,14 @@ class _SampleDataTableState extends State<SampleDataTable> {
       newJson.add(item);
     }
     newJson.forEach((item) => item..remove("rank"));
+    print("new json----${newJson}");
+    calculateSum();
+  }
+
+  calculateSum() {
+    newJson.map((itemMap) {
+      print("itemMap--${itemMap}");
+    }).toList();
   }
 
   @override
@@ -84,14 +101,14 @@ class _SampleDataTableState extends State<SampleDataTable> {
     return Scaffold(
       appBar: AppBar(title: Text("Dynamic datatable")),
       body: InteractiveViewer(
-        boundaryMargin: EdgeInsets.all(8),
-        minScale: .25,
-        maxScale: 4,
+        minScale: .4,
+        maxScale: 5,
         child: SingleChildScrollView(
+          // width: double.infinity,
           scrollDirection: Axis.horizontal,
           child: DataTable(
             horizontalMargin: 0,
-            headingRowHeight: 35,
+            headingRowHeight: 30,
             dataRowHeight: 35,
             dataRowColor:
                 MaterialStateColor.resolveWith((states) => Colors.yellow),
@@ -118,17 +135,32 @@ class _SampleDataTableState extends State<SampleDataTable> {
       print('Behave --- $behvr');
       // print(behvr);
 
-      // print(behv[1]);
+      print(behv[3]);
+      double strwidth = double.parse(behv[3]);
+      strwidth = strwidth * 10; //
+      print("strwidth---${strwidth}");
       print("column---${column}");
       return DataColumn(
-        label: Container(
-          // width:0,
-          width: behv[3]=="1"?100:20,
+        label: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxWidth:
+                  tableColumn.length < 5 && tableColumn.length > 1 ? 200 : 100,
+              minWidth:
+                  tableColumn.length < 5 && tableColumn.length > 1 ? 70 : 40
+              // strwidth,
+
+              // minWidth: behv[3] == "1" ?40:30,
+              // widthCalc(behv[3]),
+              ),
+
+          // width: behv[3] == "1" ? 70 : 30,
+
           child: Text(
             colsName,
-            // textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12),
             textAlign: behv[1] == "L" ? TextAlign.left : TextAlign.right,
           ),
+          // ),
         ),
       );
     }).toList();
@@ -146,6 +178,8 @@ class _SampleDataTableState extends State<SampleDataTable> {
   }
 /////////////////////////////////////////////
 
+///////////////////////////////////////////
+
   List<DataCell> getCelle(Map<String, dynamic> data) {
     print("data--$data");
     List<DataCell> datacell = [];
@@ -157,21 +191,40 @@ class _SampleDataTableState extends State<SampleDataTable> {
         mainHeader.forEach(
           (k, val) {
             if (key == k) {
-              print("mainHeader[k][3] --${mainHeader[k][3]}");
+              print("mainHeader[k][2] --${mainHeader[k][2]}");
+              // if(mainHeader[k][2]=="Y"){
+              //  double  sum=0;
+              //  double dvalue=double.parse(value);
+              //  print("dvaluee==${dvalue}");
+
+              //  sum=sum+dvalue;
+              //  print("sum==${sum}");
+              // }
+              // print("mainHeader[k][3] --${mainHeader[k][3]}");
               datacell.add(
                 DataCell(
-                  Container(
-                    // constraints: BoxConstraints(
-                    //   minWidth:
-                    //   mainHeader[k][3]==1?50:200
-                    // ),
-                    // width:100,
-                    // width: mainHeader[k][3]==1? mainHeader[k][3]*100 : 200,
-                    alignment: mainHeader[k][1] == "L"
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth:
+                            tableColumn.length < 5 && tableColumn.length > 1
+                                ? 200
+                                : 100,
+                        minWidth:
+                            tableColumn.length < 5 && tableColumn.length > 1
+                                ? 70
+                                : 40),
+                    // width: mainHeader[k][3] == "1" ? 70 : 30,
+                    // alignment: mainHeader[k][1] == "L"
+                    //     ? Alignment.centerLeft
+                    //     : Alignment.centerRight,
                     child: Text(
                       value,
+                      textAlign: mainHeader[k][1] == "L"
+                          ? TextAlign.left
+                          : TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
                     ),
                   ),
                 ),
@@ -183,73 +236,5 @@ class _SampleDataTableState extends State<SampleDataTable> {
     );
     print(datacell.length);
     return datacell;
-  }
-}
-
-////////////////////////////////////
-class Example extends StatefulWidget {
-  @override
-  _ExampleState createState() => _ExampleState();
-}
-
-class _ExampleState extends State<Example> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('Flutter Tutorial - TutorialKart'),
-          ),
-          body: ListView(children: <Widget>[
-            Center(
-                child: Text(
-              'Students',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )),
-            DataTable(
-              columnSpacing: 0,
-              columns: [
-                DataColumn(
-                  label: Container(width: 40, child: Text('RollNo')),
-                ),
-                DataColumn(label: Container(width: 40, child: Text('Name'))),
-                DataColumn(label: Container(width: 30, child: Text('Class'))),
-                DataColumn(label: Container(width: 50, child: Text('Name'))),
-                DataColumn(label: Container(width: 30, child: Text('Class'))),
-                DataColumn(label: Container(width: 30, child: Text('Class'))),
-
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text('1')),
-                  DataCell(Text('Arya')),
-                  DataCell(Text('6')),
-                  DataCell(Text('Arya')),
-                  DataCell(Text('6')),
-                  DataCell(Text('6')),
-
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('12')),
-                  DataCell(Text('Joccgfhn')),
-                  DataCell(Text('9')),
-                  DataCell(Text('Arya')),
-                  DataCell(Text('6')),
-                  DataCell(Text('6')),
-
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('42')),
-                  DataCell(Text('Tony')),
-                  DataCell(Text('8')),
-                  DataCell(Text('Arya')),
-                  DataCell(Text('6')),
-                  DataCell(Text('6')),
-
-                ]),
-              ],
-            ),
-          ])),
-    );
   }
 }

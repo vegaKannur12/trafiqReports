@@ -312,7 +312,7 @@ class _HomePage1State extends State<HomePage1> {
                                           width: size.width * 0.2,
                                           child: IconButton(
                                             icon: const Icon(
-                                                Icons.arrow_downward,
+                                                Icons.arrow_upward,
                                                 color: Colors.deepPurple),
                                             onPressed: () {
                                               setState(() {
@@ -324,7 +324,7 @@ class _HomePage1State extends State<HomePage1> {
                                       : SizedBox(
                                           width: size.width * 0.2,
                                           child: IconButton(
-                                            icon: const Icon(Icons.arrow_upward,
+                                            icon: const Icon(Icons.arrow_downward,
                                                 color: Colors.deepPurple),
                                             onPressed: () {
                                               setState(() {

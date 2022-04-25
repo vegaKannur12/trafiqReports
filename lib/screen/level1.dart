@@ -66,8 +66,10 @@ class _LevelOneState extends State<LevelOne> {
     // TODO: implement initState
     super.initState();
     print("initstate");
-    setSharedPreftojsondata();
-    getShared();
+    // setSharedPreftojsondata();
+    // getShared();
+    encoded = json.encode(jsondata);
+
     createShrinkedData();
     // setSharedPreftoShrinkeddata();
     print("jsondata----$jsondata");
@@ -198,7 +200,7 @@ class _LevelOneState extends State<LevelOne> {
                   ),
                   Visibility(
                     visible: isExpanded[index],
-                    child: DataTableCompo(decodd: decodd),
+                    child: DataTableCompo(decodd: encoded),
                   ),
                 ],
               ),
