@@ -241,12 +241,12 @@ class _HomePageState extends State<HomePage> {
             : Consumer<Controller>(builder: (context, value, child) {
                 // type = value.reportList![4]["report_elements"].toString();
                 if (value.reportList != null && value.reportList!.isNotEmpty) {
-                 
-                    type = value.reportList![4]["report_elements"].toString();
-                    List<String> parts = type!.split(',');
-                    type1 = parts[0].trim(); // prefix: "date"
-                    type2 = parts[1].trim(); // prefix: "date"
-                  
+                  type = value.reportList![4]["report_elements"].toString();
+                  print("type ..............$type");
+                  List<String> parts = type!.split(',');
+                  type1 = parts[0].trim(); // prefix: "date"
+                  type2 = parts[1].trim(); // prefix: "date"
+
                 }
                 {
                   return Container(
