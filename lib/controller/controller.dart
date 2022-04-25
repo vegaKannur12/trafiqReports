@@ -9,8 +9,7 @@ class Controller extends ChangeNotifier {
   String urlgolabl = Globaldata.apiglobal;
   List<Map<String, dynamic>>? reportList = [];
   List<Map<String, dynamic>> specialelements = [];
-  List<Map<String,dynamic>> reportCategoryList=[];
-
+  List<Map<String, dynamic>> reportCategoryList = [];
 
   // getreportResults(String type) {
   //   if (type == "Sales Report") {
@@ -40,21 +39,22 @@ class Controller extends ChangeNotifier {
       for (var item in map) {
         reportList!.add(item);
       }
-      final jsonData = reportList![0]['special_element2'];                                  
+      final jsonData = reportList![0]['special_element2'];
       final parsedJson = jsonDecode(jsonData);
       //print("parsed json--$parsedJson");
       specialelements.clear();
       for (var i in parsedJson) {
-        specialelements.add(i);  
-      } 
-     // print("specialelements.............${specialelements}");
-    //  print("special_element2.........................${reportList![0]['special_element2']}");
+        specialelements.add(i);
+      }
+      // print("specialelements.............${specialelements}");
+      //  print("special_element2.........................${reportList![0]['special_element2']}");
       notifyListeners();
     } catch (e) {
       print(e);
       return null;
     }
   }
+
   /////////////////////////////////////////////////////
   Future getCategoryReport() async {
     try {
@@ -73,7 +73,43 @@ class Controller extends ChangeNotifier {
       print("report Category ${reportCategoryList}");
       notifyListeners();
     } catch (e) {
-      print("e");
+     print(e);
+      return null;
+    }
+  }
+
+  ////////////////////////////////////////////////////
+  Future getCategoryReportList(String rg_id) async {
+    print("rg id---${rg_id}");
+    try {
+      Uri url = Uri.parse("$urlgolabl/reports_list.php");
+      var body = {"rg_id": rg_id};
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      var map = jsonDecode(response.body);
+
+      reportList!.clear();
+      // print(map);
+      for (var item in map) {
+        reportList!.add(item);
+      }
+      print("report list${reportList}");
+      // final jsonData = reportList![0]['special_element2'];
+      // final parsedJson = jsonDecode(jsonData);
+      // //print("parsed json--$parsedJson");
+      // specialelements.clear();
+      // for (var i in parsedJson) {
+      //   specialelements.add(i);
+      // }
+      // print("specialelements.............${specialelements}");
+      //  print("special_element2.........................${reportList![0]['special_element2']}");
+
+      notifyListeners();
+    } catch (e) {
+      // print(e);
+      return null;
     }
   }
 }

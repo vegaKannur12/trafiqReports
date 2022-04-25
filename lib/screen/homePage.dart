@@ -65,8 +65,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     TextEditingController _controller = TextEditingController();
@@ -92,7 +90,10 @@ class _HomePageState extends State<HomePage> {
     }
 
     for (var i = 0;
-         i < Provider.of<Controller>(context, listen: false).reportCategoryList.length;
+        i <
+            Provider.of<Controller>(context, listen: false)
+                .reportCategoryList
+                .length;
         i++) {
       // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
       drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
@@ -104,7 +105,9 @@ class _HomePageState extends State<HomePage> {
             ),
             selected: i == _selectedIndex.value,
             onTap: () {
-              // _onSelectItem(i, value.reportCategoryList[i]["rg_name"]);
+              _onSelectItem(i, value.reportCategoryList[i]["rg_name"]);
+              Provider.of<Controller>(context, listen: false)
+                  .getCategoryReportList(value.reportCategoryList[i]["rg_id"]);
               // Navigator.push(
               //                 context,
               //                 MaterialPageRoute(builder: (context) => Level1Sample()),
@@ -115,18 +118,8 @@ class _HomePageState extends State<HomePage> {
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // automaticallyImplyLeading: false,
-        // leading: IconButton(
-        //     onPressed: () {
-        //       // Scaffold.of(context).openDrawer();
-        //       _scaffoldKey.currentState!.openDrawer();
-        //       // Provider.of<Controller>(context, listen: false).getCategoryReport();
-        //       print("clicked");
-        //     },
-        //     icon: Icon(Icons.menu)),
         title: appBarTitle,
         actions: [
           IconButton(
@@ -197,9 +190,15 @@ class _HomePageState extends State<HomePage> {
               color: P_Settings.color3,
               child: Row(
                 children: [
-                  SizedBox(height: size.height * 0.07, width: size.width*0.03,),
-                  Icon(Icons.list_outlined,color: Colors.white,),
-                  SizedBox(width: size.width*0.04),
+                  SizedBox(
+                    height: size.height * 0.07,
+                    width: size.width * 0.03,
+                  ),
+                  Icon(
+                    Icons.list_outlined,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: size.width * 0.04),
                   Text(
                     "Categories",
                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -242,10 +241,12 @@ class _HomePageState extends State<HomePage> {
             : Consumer<Controller>(builder: (context, value, child) {
                 // type = value.reportList![4]["report_elements"].toString();
                 if (value.reportList != null && value.reportList!.isNotEmpty) {
-                  type = value.reportList![4]["report_elements"].toString();
-                  List<String> parts = type!.split(',');
-                  type1 = parts[0].trim(); // prefix: "date"
-                  type2 = parts[1].trim(); // prefix: "date"
+                 
+                    type = value.reportList![4]["report_elements"].toString();
+                    List<String> parts = type!.split(',');
+                    type1 = parts[0].trim(); // prefix: "date"
+                    type2 = parts[1].trim(); // prefix: "date"
+                  
                 }
                 {
                   return Container(
@@ -345,7 +346,7 @@ class _HomePageState extends State<HomePage> {
                 ? Consumer<Controller>(builder: (context, value, child) {
                     {
                       return Container(
-                        height: size.height * 0.73,
+                        height: size.height * 0.6,
                         child: ListView.builder(
                           itemCount: value.reportList!.length,
                           itemBuilder: ((context, index) {
