@@ -32,6 +32,7 @@
 //     formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
 //   }
 
+<<<<<<< HEAD
 //   @override
 //   void initState() {
 //     // TODO: implement initState
@@ -40,6 +41,16 @@
 //     print(crntDateFormat);
 //     Provider.of<Controller>(context, listen: false).getReportApi();
 //   }
+=======
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
+    print(crntDateFormat);
+    // Provider.of<Controller>(context, listen: false).getCategoryReportList(rg_id);
+  }
+>>>>>>> 4124e06b2904f1010c6e0fde9f7fdfd6a4cdf631
 
 //   @override
 //   Widget build(BuildContext context) {

@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 4),
     vsync: this,
   )..repeat();
   late final Animation<double> _animation = CurvedAnimation(
