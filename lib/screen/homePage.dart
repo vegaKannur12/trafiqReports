@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
     Provider.of<Controller>(context, listen: false).getReportApi();
     _controller.clear();
     super.initState();
+    Provider.of<Controller>(context, listen: false).getCategoryReport();
   }
 
   void togle() {
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -114,18 +115,18 @@ class _HomePageState extends State<HomePage> {
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () {
-              // Scaffold.of(context).openDrawer();
-              _scaffoldKey.currentState!.openDrawer();
-              Provider.of<Controller>(context, listen: false).getCategoryReport();
-              print("clicked");
-            },
-            icon: Icon(Icons.menu)),
+        // automaticallyImplyLeading: false,
+        // leading: IconButton(
+        //     onPressed: () {
+        //       // Scaffold.of(context).openDrawer();
+        //       _scaffoldKey.currentState!.openDrawer();
+        //       // Provider.of<Controller>(context, listen: false).getCategoryReport();
+        //       print("clicked");
+        //     },
+        //     icon: Icon(Icons.menu)),
         title: appBarTitle,
         actions: [
           IconButton(

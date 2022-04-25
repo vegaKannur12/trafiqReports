@@ -63,6 +63,7 @@ class Controller extends ChangeNotifier {
         url,
         // body: body,
       );
+      reportCategoryList.clear();
       var map = jsonDecode(response.body);
       //print(map);
       for (var item in map) {
