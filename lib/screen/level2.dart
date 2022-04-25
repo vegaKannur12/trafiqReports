@@ -414,8 +414,9 @@ class _HomePage1State extends State<HomePage1> {
             {
               return Container(
                 // color: P_Settings.datatableColor,
-                height: size.height * 0.71,
+                // height: size.height * 0.71,
                 child: ListView.builder(
+                  shrinkWrap: true,
                     itemCount: listString.length,
                     itemBuilder: (context, index) {
                       return Padding(

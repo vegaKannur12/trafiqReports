@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     TextEditingController _controller = TextEditingController();
@@ -91,7 +91,8 @@ class _HomePageState extends State<HomePage> {
     }
 
     // for (var i = 0;
-    //      i < Provider.of<Controller>(context, listen: false).getReportApi().length;
+    //     i < 3;
+    //     //  i < Provider.of<Controller>(context, listen: false).getReportApi().length;
     //     i++) {
     //   // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
     //   drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
@@ -114,8 +115,18 @@ class _HomePageState extends State<HomePage> {
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              // Scaffold.of(context).openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
+              
+              print("clicked");
+            },
+        icon: Icon(Icons.menu)),
         title: appBarTitle,
         actions: [
           IconButton(
@@ -249,31 +260,31 @@ class _HomePageState extends State<HomePage> {
                                     ? CustomDatePicker(dateType: "To Date")
                                     : CustomDatePicker(dateType: "From Date "),
                                 CustomDatePicker(dateType: "To Date"),
-                                qtyvisible
-                                    ? SizedBox(
-                                        width: size.width * 0.2,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.arrow_downward,
-                                              color: Colors.deepPurple),
-                                          onPressed: () {
-                                            setState(() {
-                                              qtyvisible = false;
-                                            });
-                                          },
-                                        ),
-                                      )
-                                    : SizedBox(
-                                        width: size.width * 0.2,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.arrow_upward,
-                                              color: Colors.deepPurple),
-                                          onPressed: () {
-                                            setState(() {
-                                              qtyvisible = true;
-                                            });
-                                          },
-                                        ),
-                                      )
+                                // qtyvisible
+                                //     ? SizedBox(
+                                //         width: size.width * 0.2,
+                                //         child: IconButton(
+                                //           icon: const Icon(Icons.arrow_downward,
+                                //               color: Colors.deepPurple),
+                                //           onPressed: () {
+                                //             setState(() {
+                                //               qtyvisible = false;
+                                //             });
+                                //           },
+                                //         ),
+                                //       )
+                                //     : SizedBox(
+                                //         width: size.width * 0.2,
+                                //         child: IconButton(
+                                //           icon: const Icon(Icons.arrow_upward,
+                                //               color: Colors.deepPurple),
+                                //           onPressed: () {
+                                //             setState(() {
+                                //               qtyvisible = true;
+                                //             });
+                                //           },
+                                //         ),
+                                //       )
                               ],
                             ),
                           ),
@@ -313,8 +324,8 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               }),
-        isSearch == false || newList.isNotEmpty 
-            ? newList.isEmpty 
+        isSearch == false || newList.isEmpty
+            ? newList.isEmpty
                 ? Consumer<Controller>(builder: (context, value, child) {
                     {
                       return Container(

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:reports/components/customColor.dart';
+// import 'package:auto_size_text/auto_size_text.dart';
 
 class DataTableCompo extends StatefulWidget {
   var decodd;
@@ -131,6 +132,12 @@ class _DataTableCompoState extends State<DataTableCompo> {
               datacell.add(
                 DataCell(
                   Container(
+                    // constraints: BoxConstraints(
+                    //   // minWidth: 50,
+                    //   maxWidth: 300,
+                    //   // minHeight: 20,
+                    //   maxHeight: 50
+                    // ),
                     // width:100,
                     // width: mainHeader[k][3]==1?50:200,
                     alignment: mainHeader[k][1] == "L"
