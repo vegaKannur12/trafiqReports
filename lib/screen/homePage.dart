@@ -297,31 +297,31 @@ class _HomePageState extends State<HomePage> {
                                     ? CustomDatePicker(dateType: "To Date")
                                     : CustomDatePicker(dateType: "From Date "),
                                 CustomDatePicker(dateType: "To Date"),
-                                qtyvisible
-                                    ? SizedBox(
-                                        width: size.width * 0.2,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.arrow_downward,
-                                              color: Colors.deepPurple),
-                                          onPressed: () {
-                                            setState(() {
-                                              qtyvisible = false;
-                                            });
-                                          },
-                                        ),
-                                      )
-                                    : SizedBox(
-                                        width: size.width * 0.2,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.arrow_upward,
-                                              color: Colors.deepPurple),
-                                          onPressed: () {
-                                            setState(() {
-                                              qtyvisible = true;
-                                            });
-                                          },
-                                        ),
-                                      )
+                                // qtyvisible
+                                //     ? SizedBox(
+                                //         width: size.width * 0.2,
+                                //         child: IconButton(
+                                //           icon: const Icon(Icons.arrow_downward,
+                                //               color: Colors.deepPurple),
+                                //           onPressed: () {
+                                //             setState(() {
+                                //               qtyvisible = false;
+                                //             });
+                                //           },
+                                //         ),
+                                //       )
+                                //     : SizedBox(
+                                //         width: size.width * 0.2,
+                                //         child: IconButton(
+                                //           icon: const Icon(Icons.arrow_upward,
+                                //               color: Colors.deepPurple),
+                                //           onPressed: () {
+                                //             setState(() {
+                                //               qtyvisible = true;
+                                //             });
+                                //           },
+                                //         ),
+                                //       )
                               ],
                             ),
                           ),
