@@ -10,6 +10,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>>? reportList = [];
   List<Map<String, dynamic>> specialelements = [];
   List<Map<String, dynamic>> reportCategoryList = [];
+  List<Map<String, dynamic>> reportSubCategoryList = [];
 
   // getreportResults(String type) {
   //   if (type == "Sales Report") {
@@ -70,10 +71,10 @@ class Controller extends ChangeNotifier {
         reportCategoryList.add(item);
       }
 
-      print("report Category ${reportCategoryList}");
+      // print("report Category ${reportCategoryList}");
       notifyListeners();
     } catch (e) {
-     print(e);
+      print(e);
       return null;
     }
   }
@@ -91,11 +92,53 @@ class Controller extends ChangeNotifier {
       var map = jsonDecode(response.body);
 
       reportList!.clear();
-      // print(map);
+      print(map);
       for (var item in map) {
         reportList!.add(item);
       }
-      print("report list${reportList}");
+      // print("report list${reportList}");
+      // final jsonData = reportList![0]['special_element2'];
+      // final parsedJson = jsonDecode(jsonData);
+      // //print("parsed json--$parsedJson");
+      // specialelements.clear();
+      // for (var i in parsedJson) {
+      //   specialelements.add(i);
+      // }
+      // print("specialelements.............${specialelements}");
+      //  print("special_element2.........................${reportList![0]['special_element2']}");
+
+      notifyListeners();
+    } catch (e) {
+      // print(e);
+      return null;
+    }
+  }
+
+  Future getSubCategoryReportList(String special_field2, String filter_id,
+      String fromdate, String tilldate, String old_filter_where_ids) async {
+    print(
+        "special_field2---${special_field2}  filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} ");
+    try {
+      Uri url = Uri.parse("$urlgolabl/filters_list.php");
+      var body = {
+        "special_field2": special_field2,
+        "filter_id": filter_id,
+        "fromdate": fromdate,
+        "tilldate": tilldate,
+        "old_filter_where_ids": old_filter_where_ids,
+      };
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      var map = jsonDecode(response.body);
+      reportSubCategoryList.clear();
+      // reportList!.clear();
+      // print(map);
+      for (var item in map) {
+        reportSubCategoryList.add(item);
+      }
+      print("report list${reportSubCategoryList}");
       // final jsonData = reportList![0]['special_element2'];
       // final parsedJson = jsonDecode(jsonData);
       // //print("parsed json--$parsedJson");
