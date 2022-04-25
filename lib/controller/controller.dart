@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class Controller extends ChangeNotifier {
   String urlgolabl = Globaldata.apiglobal;
-  List<Map<String, dynamic>>? reportList = [];
+  List<Map<String, dynamic>> reportList = [];
   List<Map<String, dynamic>> specialelements = [];
   List<Map<String, dynamic>> reportCategoryList = [];
 
@@ -26,34 +26,34 @@ class Controller extends ChangeNotifier {
   // }
 
 //////////////////////////////////////////////////
-  Future getReportApi() async {
-    try {
-      Uri url = Uri.parse("$urlgolabl/reports_list.php");
-      http.Response response = await http.post(
-        url,
-        // body: body,
-      );
+  // Future getReportApi() async {
+  //   try {
+  //     Uri url = Uri.parse("$urlgolabl/reports_list.php");
+  //     http.Response response = await http.post(
+  //       url,
+  //       // body: body,
+  //     );
 
-      var map = jsonDecode(response.body);
-      //print(map);
-      for (var item in map) {
-        reportList!.add(item);
-      }
-      final jsonData = reportList![0]['special_element2'];
-      final parsedJson = jsonDecode(jsonData);
-      //print("parsed json--$parsedJson");
-      specialelements.clear();
-      for (var i in parsedJson) {
-        specialelements.add(i);
-      }
-      // print("specialelements.............${specialelements}");
-      //  print("special_element2.........................${reportList![0]['special_element2']}");
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
+  //     var map = jsonDecode(response.body);
+  //     //print(map);
+  //     for (var item in map) {
+  //       reportList.add(item);
+  //     }
+  //     final jsonData = reportList[0]['special_element2'];
+  //     final parsedJson = jsonDecode(jsonData);
+  //     //print("parsed json--$parsedJson");
+  //     specialelements.clear();
+  //     for (var i in parsedJson) {
+  //       specialelements.add(i);
+  //     }
+  //     // print("specialelements.............${specialelements}");
+  //     //  print("special_element2.........................${reportList![0]['special_element2']}");
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print(e);
+  //     return null;
+  //   }
+  // }
 
   /////////////////////////////////////////////////////
   Future getCategoryReport() async {
@@ -73,7 +73,7 @@ class Controller extends ChangeNotifier {
       print("report Category ${reportCategoryList}");
       notifyListeners();
     } catch (e) {
-     print(e);
+      print(e);
       return null;
     }
   }
@@ -90,19 +90,20 @@ class Controller extends ChangeNotifier {
       );
       var map = jsonDecode(response.body);
 
-      reportList!.clear();
+      reportList.clear();
       // print(map);
       for (var item in map) {
-        reportList!.add(item);
+        reportList.add(item);
+        notifyListeners();
       }
       print("report list${reportList}");
-      // final jsonData = reportList![0]['special_element2'];
-      // final parsedJson = jsonDecode(jsonData);
-      // //print("parsed json--$parsedJson");
-      // specialelements.clear();
-      // for (var i in parsedJson) {
-      //   specialelements.add(i);
-      // }
+      final jsonData = reportList[0]['special_element2'];
+      final parsedJson = jsonDecode(jsonData);
+      //print("parsed json--$parsedJson");
+      specialelements.clear();
+      for (var i in parsedJson) {
+        specialelements.add(i);
+      }
       // print("specialelements.............${specialelements}");
       //  print("special_element2.........................${reportList![0]['special_element2']}");
 

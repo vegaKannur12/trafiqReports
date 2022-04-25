@@ -38,7 +38,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     super.initState();
     crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     print(crntDateFormat);
-    Provider.of<Controller>(context, listen: false).getReportApi();
+    // Provider.of<Controller>(context, listen: false).getCategoryReportList(rg_id);
   }
 
   @override

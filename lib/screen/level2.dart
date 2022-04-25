@@ -122,7 +122,7 @@ class _HomePage1State extends State<HomePage1> {
 
   @override
   void initState() {
-    Provider.of<Controller>(context, listen: false).getReportApi();
+    // Provider.of<Controller>(context, listen: false).getCategoryReportList(rg_id);
     isExpanded = List.generate(listString.length, (index) => false);
     visible = List.generate(listString.length, (index) => true);
    // print("initstate");
@@ -279,8 +279,8 @@ class _HomePage1State extends State<HomePage1> {
                 )
               : Consumer<Controller>(builder: (context, value, child) {
                   if (value.reportList != null &&
-                      value.reportList!.isNotEmpty) {
-                    type = value.reportList![4]["report_elements"].toString();
+                      value.reportList.isNotEmpty) {
+                    type = value.reportList[4]["report_elements"].toString();
                     List<String> parts = type!.split(',');
                     type1 = parts[0].trim(); // prefix: "date"
                     type2 = parts[1].trim(); // prefix: "date"

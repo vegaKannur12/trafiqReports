@@ -37,9 +37,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Provider.of<Controller>(context, listen: false).getReportApi();
+    // Provider.of<Controller>(context, listen: false).getCategoryReportList(rg_id)
     _controller.clear();
     super.initState();
+    Provider.of<Controller>(context, listen: false).getCategoryReport();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     Provider.of<Controller>(context, listen: false).getCategoryReport();
   }
 
@@ -54,7 +61,7 @@ class _HomePageState extends State<HomePage> {
       searchKey = value;
       if (searchKey.isNotEmpty || isSearch) {
         newList = Provider.of<Controller>(context, listen: false)
-            .reportList!
+            .reportList
             .where((user) =>
                 user["report_name"].toLowerCase().contains(value.toLowerCase()))
             .toList();
@@ -65,6 +72,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     TextEditingController _controller = TextEditingController();
@@ -88,7 +96,7 @@ class _HomePageState extends State<HomePage> {
       }
       formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
     }
-
+/////////////////////////////////////////////////////////////////
     for (var i = 0;
         i <
             Provider.of<Controller>(context, listen: false)
@@ -118,8 +126,21 @@ class _HomePageState extends State<HomePage> {
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: ()async {
+              // Scaffold.of(context).openDrawer();
+              await Provider.of<Controller>(context, listen: false)
+                  .getCategoryReport();
+
+              _scaffoldKey.currentState!.openDrawer();
+
+              print("clicked");
+            },
+            icon: Icon(Icons.menu)),
         title: appBarTitle,
         actions: [
           IconButton(
@@ -240,13 +261,12 @@ class _HomePageState extends State<HomePage> {
               )
             : Consumer<Controller>(builder: (context, value, child) {
                 // type = value.reportList![4]["report_elements"].toString();
-                if (value.reportList != null && value.reportList!.isNotEmpty) {
-                 
-                    type = value.reportList![4]["report_elements"].toString();
-                    List<String> parts = type!.split(',');
-                    type1 = parts[0].trim(); // prefix: "date"
-                    type2 = parts[1].trim(); // prefix: "date"
-                  
+                if (value.reportList != null && value.reportList.isNotEmpty) {
+                  type = value.reportList[4]["report_elements"].toString();
+                  List<String> parts = type!.split(',');
+                  type1 = parts[0].trim(); // prefix: "date"
+                  type2 = parts[1].trim(); // prefix: "date"
+
                 }
                 {
                   return Container(
@@ -348,7 +368,7 @@ class _HomePageState extends State<HomePage> {
                       return Container(
                         height: size.height * 0.6,
                         child: ListView.builder(
-                          itemCount: value.reportList!.length,
+                          itemCount: value.reportList.length,
                           itemBuilder: ((context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -383,14 +403,14 @@ class _HomePageState extends State<HomePage> {
                                     title: Column(
                                       children: [
                                         Text(
-                                          value.reportList![index]
+                                          value.reportList[index]
                                               ['report_name'],
                                         ),
                                         SizedBox(
                                           height: size.height * 0.01,
                                         ),
                                         Text(
-                                          value.reportList![index]
+                                          value.reportList[index]
                                               ['filter_names'],
                                           style: TextStyle(fontSize: 12),
                                         ),

@@ -4,6 +4,7 @@ import 'package:reports/components/customColor.dart';
 import 'package:reports/controller/controller.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level2.dart';
+import 'package:reports/screen/splashscreen.dart';
 void main() {
   runApp(
     MultiProvider(
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomePage(),
+      home: SplashScreen(),
     );
   }
 }

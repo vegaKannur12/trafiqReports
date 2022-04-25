@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reports/controller/controller.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level1.dart';
 import 'package:reports/screen/level2.dart';
@@ -25,11 +27,13 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
+    Provider.of<Controller>(context, listen: false).getCategoryReport();
+
     navigate();
   }
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 4),
     vsync: this,
   )..repeat();
   late final Animation<double> _animation = CurvedAnimation(
