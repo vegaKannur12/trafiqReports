@@ -91,18 +91,12 @@ class Controller extends ChangeNotifier {
       );
       var map = jsonDecode(response.body);
 
-<<<<<<< HEAD
-      reportList!.clear();
-      print(map);
-=======
       reportList.clear();
-      // print(map);
->>>>>>> 4124e06b2904f1010c6e0fde9f7fdfd6a4cdf631
+      print(map);
       for (var item in map) {
         reportList.add(item);
         notifyListeners();
       }
-<<<<<<< HEAD
       // print("report list${reportList}");
       // final jsonData = reportList![0]['special_element2'];
       // final parsedJson = jsonDecode(jsonData);
@@ -153,16 +147,6 @@ class Controller extends ChangeNotifier {
       // for (var i in parsedJson) {
       //   specialelements.add(i);
       // }
-=======
-      print("report list${reportList}");
-      final jsonData = reportList[0]['special_element2'];
-      final parsedJson = jsonDecode(jsonData);
-      //print("parsed json--$parsedJson");
-      specialelements.clear();
-      for (var i in parsedJson) {
-        specialelements.add(i);
-      }
->>>>>>> 4124e06b2904f1010c6e0fde9f7fdfd6a4cdf631
       // print("specialelements.............${specialelements}");
       //  print("special_element2.........................${reportList![0]['special_element2']}");
 
