@@ -37,11 +37,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Provider.of<Controller>(context, listen: false).getReportApi();
-    
     _controller.clear();
     super.initState();
-    Provider.of<Controller>(context, listen: false).getCategoryReport();
   }
 
   void togle() {
@@ -153,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                     _controller.clear();
                     newList.clear();
                     this.actionIcon = Icon(Icons.search);
-                    this.appBarTitle = Text("Report");
+                    this.appBarTitle = Text("");
                     // Provider.of<Controller>(context, listen: false)
                     //     .isSearch(false);
                   }
@@ -262,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Flexible(
                                   child: Container(
-                                    width: size.width * 0.2,
+                                    width: size.width * 0.01,
                                     height: size.height * 0.1,
                                     child: Padding(
                                       padding: const EdgeInsets.all(16.0),
@@ -306,36 +303,36 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                          Visibility(
-                            visible: qtyvisible,
-                            child: Row(
-                              children: [
-                                Consumer<Controller>(
-                                    builder: (context, value, child) {
-                                  {
-                                    return Flexible(
-                                      child: Container(
-                                        alignment: Alignment.topRight,
-                                        height: size.height * 0.08,
-                                        width: size.width * 1,
-                                        child: Row(
-                                          children: [
-                                            // Flexible(
-                                            //   child: ElevatedButton(
-                                            //       onPressed: () {},
-                                            //       child: Text(
-                                            //           value.specialelements[0]
-                                            //               ["label"])),
-                                            // ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                })
-                              ],
-                            ),
-                          ),
+                          // Visibility(
+                          //   visible: qtyvisible,
+                          //   child: Row(
+                          //     children: [
+                          //       Consumer<Controller>(
+                          //           builder: (context, value, child) {
+                          //         {
+                          //           return Flexible(
+                          //             child: Container(
+                          //               alignment: Alignment.topRight,
+                          //               height: size.height * 0.08,
+                          //               width: size.width * 1,
+                          //               child: Row(
+                          //                 children: [
+                          //                   // Flexible(
+                          //                   //   child: ElevatedButton(
+                          //                   //       onPressed: () {},
+                          //                   //       child: Text(
+                          //                   //           value.specialelements[0]
+                          //                   //               ["label"])),
+                          //                   // ),
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           );
+                          //         }
+                          //       })
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
