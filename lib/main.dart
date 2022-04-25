@@ -10,6 +10,7 @@ import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/horizontalDataTable.dart';
 import 'package:reports/screen/level1.dart';
 import 'package:reports/screen/level1Sample.dart';
+import 'package:reports/screen/level2.dart';
 import 'package:reports/screen/refer.dart';
 import 'package:reports/screen/sampleDataTable.dart';
 import 'package:reports/screen/splashscreen.dart';
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MyHomePage(title: 'Report',),
+      home: HomePage(),
     );
   }
 }

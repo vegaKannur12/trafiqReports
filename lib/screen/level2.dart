@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:reports/components/customColor.dart';
 import 'package:reports/components/customDatePicker.dart';
+import 'package:reports/components/datatableCompo.dart';
 import 'package:reports/controller/controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage1 extends StatefulWidget {
   @override
@@ -30,10 +34,75 @@ class _HomePage1State extends State<HomePage1> {
   bool qtyvisible = false;
   bool isSelected = true;
   bool buttonClicked = false;
+  List<Map<String, dynamic>> shrinkedData = [];
+  List<Map<String, dynamic>> jsonList = [];
+  var encoded;
+  var decodd;
+  var encodedShrinkdata;
+  var decoddShrinked;
+  final jsondata = [
+    {
+      "rank": "0",
+      "a": "TLN10_BillNo",
+      "b": "TLN10_MRNo",
+      "c": "TLN50_PatientName",
+      "d": "CRY10_Amt",
+      "e": "CRY10_Paid",
+      "f": "CRY10_Bal",
+      "g": "TLN10_Name",
+    },
+    {
+      "rank": "1",
+      "a": "G202204027",
+      "b": "TJAA2",
+      "c": "PRATHYEESH MAKRERI KANNUR",
+      "d": "472.5",
+      "e": "372.5",
+      "f": "100",
+      "g": "Anu",
+    },
+    {
+      "rank": "1",
+      "a": "G202204026",
+      "b": "TJAA2",
+      "c": "PRATHYEESH MAKRERI KANNUR",
+      "d": "1697.5",
+      "e": "1397.5",
+      "f": "300",
+      "g": "Graha",
+    }
+  ];
+
+  getShared() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    decodd = prefs.getString("json");
+    // decoddShrinked = prefs.getString("shrinked json");
+    print("decoded---${decodd}");
+    // print("decoddShrinked---${decoddShrinked}");
+  }
+
+  setSharedPreftojsondata() async {
+    print("enterd into shared");
+    encoded = json.encode(jsondata);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("encoded---$encoded");
+    prefs.setString("json", encoded);
+    print("added to shred prefs");
+  }
 
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
+  }
+
+  createShrinkedData() {
+    shrinkedData.clear();
+    print("cleared---$shrinkedData");
+    shrinkedData.add(jsondata[0]);
+    shrinkedData.add(jsondata[jsondata.length - 1]);
+    print("shrinked data --${shrinkedData}");
+    encodedShrinkdata = json.encode(shrinkedData);
   }
 
   toggle(int i) {
@@ -43,11 +112,24 @@ class _HomePage1State extends State<HomePage1> {
     });
   }
 
+  setList() {
+    jsonList.clear();
+    jsondata.map((jsonField) {
+      jsonList.add(jsonField);
+    }).toList();
+    print("json list--${jsonList}");
+  }
+
   @override
   void initState() {
     Provider.of<Controller>(context, listen: false).getReportApi();
     isExpanded = List.generate(listString.length, (index) => false);
     visible = List.generate(listString.length, (index) => true);
+    print("initstate");
+    setSharedPreftojsondata();
+    getShared();
+    createShrinkedData();
+    print("jsondata----$jsondata");
     super.initState();
   }
 
@@ -115,7 +197,7 @@ class _HomePage1State extends State<HomePage1> {
                   this.actionIcon = Icon(Icons.close);
                   this.appBarTitle = TextField(
                       controller: _controller,
-                      style:  const TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                       decoration: const InputDecoration(
@@ -303,35 +385,6 @@ class _HomePage1State extends State<HomePage1> {
                                                         ),
                                                       ),
                                                     );
-
-                                                    // return Padding(
-                                                    //   padding:
-                                                    //       EdgeInsets.all(5.0),
-                                                    //   child: Ink(
-                                                    //     decoration:
-                                                    //         BoxDecoration(
-                                                    //       borderRadius:
-                                                    //           BorderRadius
-                                                    //               .circular(10),
-                                                    //     ),
-                                                    //     child: ListTile(
-                                                    // title: Text(
-                                                    //   value.specialelements[
-                                                    //       index]["label"],
-                                                    //   style: TextStyle(
-                                                    //       color: P_Settings
-                                                    //           .color3),
-                                                    // ),
-                                                    //       onTap: () {
-                                                    //         showAlertDialog(
-                                                    //             context,
-                                                    //             value.specialelements[
-                                                    //                     index]
-                                                    //                 ["value"]);
-                                                    //       },
-                                                    //     ),
-                                                    //   ),
-                                                    // );
                                                   },
                                                 ),
                                               ),
@@ -364,48 +417,53 @@ class _HomePage1State extends State<HomePage1> {
                       return Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4, right: 4),
-                              child: Ink(
-                                decoration: BoxDecoration(
-                                  color: P_Settings.color5,
-                                  borderRadius: BorderRadius.circular(10),
+                            Ink(
+                              decoration: BoxDecoration(
+                                color: P_Settings.color4,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ListTile(
+                                onTap: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(builder: (context) => HomePage()),
+                                  // );
+                                },
+                                title: Column(
+                                  children: [
+                                    Text(listString[index]),
+                                    Text('/report page flow'),
+                                  ],
                                 ),
-                                child: ListTile(
-                                  onTap: () {},
-                                  title: Column(
-                                    children: [
-                                      Text(listString[index]),
-                                      Text('/report page flow'),
-                                    ],
-                                  ),
-                                  trailing: IconButton(
-                                      icon: isExpanded[index]
-                                          ? Icon(
-                                              Icons.arrow_upward,
-                                              // actionIcon.icon,
-                                              size: 18,
-                                            )
-                                          : Icon(
-                                              Icons.arrow_downward,
-                                              // actionIcon.icon,
-                                              size: 18,
-                                            ),
-                                      onPressed: () {
-                                        toggle(index);
-                                      }),
-                                ),
+                                trailing: IconButton(
+                                    icon: isExpanded[index]
+                                        ? Icon(
+                                            Icons.arrow_upward,
+                                            size: 18,
+                                          )
+                                        : Icon(
+                                            Icons.arrow_downward,
+                                            // actionIcon.icon,
+                                            size: 18,
+                                          ),
+                                    onPressed: () {
+                                      toggle(index);
+                                      print("json-----${json}");
+                                    }),
                               ),
                             ),
                             SizedBox(height: size.height * 0.004),
                             Visibility(
                               visible: visible[index],
-                              child: shrinkedDataTable(context),
+                              child: DataTableCompo(decodd: encodedShrinkdata),
                             ),
                             Visibility(
-                                visible: isExpanded[index],
-                                child: datatable(context)),
+                              visible: isExpanded[index],
+                              child: DataTableCompo(decodd: decodd),
+                            ),
                           ],
                         ),
                       );
@@ -417,175 +475,176 @@ class _HomePage1State extends State<HomePage1> {
       ),
     );
   }
+}
 
   ///////////////////////////////////////////////////////////
-  Widget shrinkedDataTable(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.only(left: 6, right: 6),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Container(
-          width: size.width * 1.8,
-          // height: 90,
-          decoration: BoxDecoration(color: P_Settings.datatableColor),
-          child: DataTable(
-            headingRowHeight: 25,
-            dataRowHeight: 25,
-            dataRowColor:
-                MaterialStateColor.resolveWith((states) => P_Settings.color4),
-            columnSpacing: 2,
-            border: TableBorder.all(
-              color: P_Settings.datatableColor,
-            ),
-            columns: [
-              DataColumn(
-                label: Text('ID'),
-              ),
-              DataColumn(
-                label: Text('Name'),
-              ),
-              DataColumn(
-                label: Text('Code'),
-              ),
-              DataColumn(
-                label: Text('Quantity'),
-              ),
-              DataColumn(
-                label: Text('Amount'),
-              ),
-              DataColumn(
-                label: Text('Quantity'),
-              ),
-              DataColumn(
-                label: Text('Amount'),
-              ),
-            ],
-            rows: [
-              DataRow(cells: [
-                DataCell(Text('f1')),
-                DataCell(Text('f2')),
-                DataCell(Text('f3')),
-                DataCell(Text('f4')),
-                DataCell(Text('f5')),
-                DataCell(Text('f6')),
-                DataCell(Text('f7')),
-              ])
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget shrinkedDataTable(BuildContext context) {
+  //   Size size = MediaQuery.of(context).size;
+  //   return Padding(
+  //     padding: const EdgeInsets.only(left: 6, right: 6),
+  //     child: SingleChildScrollView(
+  //       scrollDirection: Axis.horizontal,
+  //       child: Container(
+  //         width: size.width * 1.8,
+  //         // height: 90,
+  //         decoration: BoxDecoration(color: P_Settings.datatableColor),
+  //         child: DataTable(
+  //           headingRowHeight: 25,
+  //           dataRowHeight: 25,
+  //           dataRowColor:
+  //               MaterialStateColor.resolveWith((states) => P_Settings.color4),
+  //           columnSpacing: 2,
+  //           border: TableBorder.all(
+  //             color: P_Settings.datatableColor,
+  //           ),
+  //           columns: [
+  //             DataColumn(
+  //               label: Text('ID'),
+  //             ),
+  //             DataColumn(
+  //               label: Text('Name'),
+  //             ),
+  //             DataColumn(
+  //               label: Text('Code'),
+  //             ),
+  //             DataColumn(
+  //               label: Text('Quantity'),
+  //             ),
+  //             DataColumn(
+  //               label: Text('Amount'),
+  //             ),
+  //             DataColumn(
+  //               label: Text('Quantity'),
+  //             ),
+  //             DataColumn(
+  //               label: Text('Amount'),
+  //             ),
+  //           ],
+  //           rows: [
+  //             DataRow(cells: [
+  //               DataCell(Text('f1')),
+  //               DataCell(Text('f2')),
+  //               DataCell(Text('f3')),
+  //               DataCell(Text('f4')),
+  //               DataCell(Text('f5')),
+  //               DataCell(Text('f6')),
+  //               DataCell(Text('f7')),
+  //             ])
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   ///////////////////////////////////////////////
-  Widget datatable(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    bool _isAscending = true;
-    return Padding(
-      padding: const EdgeInsets.only(left: 6, right: 6),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Container(
-          width: size.width * 1.8,
-          decoration: BoxDecoration(color: P_Settings.datatableColor),
-          child: DataTable(
-              sortAscending: _isAscending,
-              headingRowHeight: 30,
-              dataRowHeight: 30,
-              dataRowColor:
-                  MaterialStateColor.resolveWith((states) => P_Settings.color4),
-              border: TableBorder.all(
-                color: P_Settings.datatableColor,
-              ),
-              // headingRowColor: MaterialStateColor.resolveWith(
-              //     (states) => P_Settings.datatableColor),
-              columns: [
-                DataColumn(
-                  // onSort: (columnIndex, ascending) {},
-                  label: Text('ID'),
-                ),
-                DataColumn(
-                  label: Text('Name'),
-                ),
-                DataColumn(
-                  label: Text('Code'),
-                ),
-                DataColumn(
-                  label: Text('Quantity'),
-                ),
-                DataColumn(
-                  label: Text('Amount'),
-                ),
-                DataColumn(
-                  label: Text('Quantity'),
-                ),
-                DataColumn(
-                  label: Text('Amount'),
-                ),
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text('1')),
-                  DataCell(Text('knusha')),
-                  DataCell(Text('5644645')),
-                  DataCell(Text('3')),
-                  DataCell(Text('10')),
-                  DataCell(Text('3')),
-                  DataCell(Text('10')),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('1')),
-                  DataCell(Text('Anu')),
-                  DataCell(Text('5644645')),
-                  DataCell(Text('3')),
-                  DataCell(Text('19')),
-                  DataCell(Text('3')),
-                  DataCell(Text('10')),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('')),
-                  DataCell(Text('')),
-                  DataCell(Text('')),
-                  DataCell(Text('')),
-                  DataCell(Text('')),
-                  DataCell(Text('')),
-                  DataCell(Text('')),
-                ]),
-              ]),
-        ),
-      ),
-    );
-  }
-}
+//   Widget datatable(BuildContext context) {
+//     Size size = MediaQuery.of(context).size;
+//     bool _isAscending = true;
+//     return Padding(
+//       padding: const EdgeInsets.only(left: 6, right: 6),
+//       child: SingleChildScrollView(
+//         scrollDirection: Axis.horizontal,
+//         child: Container(
+//           width: size.width * 1.8,
+//           decoration: BoxDecoration(color: P_Settings.datatableColor),
+//           child: DataTable(
+//               sortAscending: _isAscending,
+//               headingRowHeight: 30,
+//               dataRowHeight: 30,
+//               dataRowColor:
+//                   MaterialStateColor.resolveWith((states) => P_Settings.color4),
+//               border: TableBorder.all(
+//                 color: P_Settings.datatableColor,
+//               ),
+//               // headingRowColor: MaterialStateColor.resolveWith(
+//               //     (states) => P_Settings.datatableColor),
+//               columns: [
+//                 DataColumn(
+//                   // onSort: (columnIndex, ascending) {},
+//                   label: Text('ID'),
+//                 ),
+//                 DataColumn(
+//                   label: Text('Name'),
+//                 ),
+//                 DataColumn(
+//                   label: Text('Code'),
+//                 ),
+//                 DataColumn(
+//                   label: Text('Quantity'),
+//                 ),
+//                 DataColumn(
+//                   label: Text('Amount'),
+//                 ),
+//                 DataColumn(
+//                   label: Text('Quantity'),
+//                 ),
+//                 DataColumn(
+//                   label: Text('Amount'),
+//                 ),
+//               ],
+//               rows: [
+//                 DataRow(cells: [
+//                   DataCell(Text('1')),
+//                   DataCell(Text('knusha')),
+//                   DataCell(Text('5644645')),
+//                   DataCell(Text('3')),
+//                   DataCell(Text('10')),
+//                   DataCell(Text('3')),
+//                   DataCell(Text('10')),
+//                 ]),
+//                 DataRow(cells: [
+//                   DataCell(Text('1')),
+//                   DataCell(Text('Anu')),
+//                   DataCell(Text('5644645')),
+//                   DataCell(Text('3')),
+//                   DataCell(Text('19')),
+//                   DataCell(Text('3')),
+//                   DataCell(Text('10')),
+//                 ]),
+//                 DataRow(cells: [
+//                   DataCell(Text('')),
+//                   DataCell(Text('')),
+//                   DataCell(Text('')),
+//                   DataCell(Text('')),
+//                   DataCell(Text('')),
+//                   DataCell(Text('')),
+//                   DataCell(Text('')),
+//                 ]),
+//               ]),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 ///////////////////////alert box for button click //////////////////////////////////////
-showAlertDialog(BuildContext context, String value) {
-  print("values...........${value}");
-  // set up the buttons
-  // Widget cancelButton = TextButton(
-  //   child: Text("Cancel"),
-  //   onPressed: () {},
-  // );
-  Widget continueButton = TextButton(
-    child: Text("Ok"),
-    onPressed: () {},
-  );
+// showAlertDialog(BuildContext context, String value) {
+//   print("values...........${value}");
+//   // set up the buttons
+//   // Widget cancelButton = TextButton(
+//   //   child: Text("Cancel"),
+//   //   onPressed: () {},
+//   // );
+//   Widget continueButton = TextButton(
+//     child: Text("Ok"),
+//     onPressed: () {},
+//   );
 
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text(value),
-    actions: [
-      // cancelButton,
-      continueButton,
-    ],
-  );
+//   // set up the AlertDialog
+//   AlertDialog alert = AlertDialog(
+//     title: Text(value),
+//     actions: [
+//       // cancelButton,
+//       continueButton,
+//     ],
+//   );
 
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
+//   // show the dialog
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return alert;
+//     },
+//   );
+// }

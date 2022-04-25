@@ -75,7 +75,6 @@ class _DataTableCompoState extends State<DataTableCompo> {
 
   /////////////////////////////////////////////
   List<DataColumn> getColumns(List<String> columns) {
-    // print("columns---${columns}");
     String behv;
     String colsName;
     return columns.map((String column) {
