@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   bool isSelected = true;
   bool buttonClicked = false;
   List newList = [];
+
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
             ),
             selected: i == _selectedIndex.value,
             onTap: () {
-              // _onSelectItem(i, value.drawerItems[i]);
+              // _onSelectItem(i, value.reportCategoryList[i]["rg_name"]);
               // Navigator.push(
               //                 context,
               //                 MaterialPageRoute(builder: (context) => Level1Sample()),
