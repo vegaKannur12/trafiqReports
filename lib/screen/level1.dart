@@ -7,9 +7,7 @@ import 'package:reports/components/customColor.dart';
 import 'package:reports/components/shrinkedDatatable.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../components/datatableCompo.dart';
-import 'sampleDataTable.dart';
 
 class LevelOne extends StatefulWidget {
   const LevelOne({Key? key}) : super(key: key);
