@@ -283,23 +283,27 @@ class _HomePage1State extends State<HomePage1> {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               5.0),
-                                                      child: ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          shadowColor:
-                                                              P_Settings.color3,
-                                                          minimumSize:
-                                                              Size(150, 50),
-                                                          maximumSize:
-                                                              Size(150, 50),
-                                                        ),
-                                                        onPressed: () {},
-                                                        child: Text(
-                                                          value.specialelements[
-                                                              index]["label"],
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                                      child: Container(
+                                                        width: size.width*0.3,
+                                                        // height:20,
+                                                        child: ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            shadowColor:
+                                                                P_Settings.color3,
+                                                            // minimumSize:
+                                                            //     Size(100, 50),
+                                                            // maximumSize:
+                                                            //     Size(150, 50),
+                                                          ),
+                                                          onPressed: () {},
+                                                          child: Text(
+                                                            value.specialelements[
+                                                                index]["label"],
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.white),
+                                                          ),
                                                         ),
                                                       ),
                                                     );
