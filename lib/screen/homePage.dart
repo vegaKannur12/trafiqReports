@@ -63,6 +63,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _controller = TextEditingController();
@@ -87,32 +89,42 @@ class _HomePageState extends State<HomePage> {
       formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
     }
 
-    // for (var i = 0;
-    //      i < Provider.of<Controller>(context, listen: false).getReportApi().length;
-    //     i++) {
-    //   // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
-    //   drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
-    //     return ListTile(
-    //         // leading: new Icon(d.icon),
-    //         // title: new Text(
-    //         //   value.ge[i],
-    //         //   style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
-    //         // ),
-    //         selected: i == _selectedIndex.value,
-    //         onTap: () {
-    //           // _onSelectItem(i, value.drawerItems[i]);
-    //           // Navigator.push(
-    //           //                 context,
-    //           //                 MaterialPageRoute(builder: (context) => Level1Sample()),
-    //           //               );
-    //         });
-    //   }));
-    // }
+    for (var i = 0;
+         i < Provider.of<Controller>(context, listen: false).reportCategoryList.length;
+        i++) {
+      // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
+      drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
+        return ListTile(
+            // leading: new Icon(d.icon),
+            title: new Text(
+              value.reportCategoryList[i]["rg_name"],
+              style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
+            ),
+            selected: i == _selectedIndex.value,
+            onTap: () {
+              // _onSelectItem(i, value.drawerItems[i]);
+              // Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(builder: (context) => Level1Sample()),
+              //               );
+            });
+      }));
+    }
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              // Scaffold.of(context).openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
+              Provider.of<Controller>(context, listen: false).getCategoryReport();
+              print("clicked");
+            },
+            icon: Icon(Icons.menu)),
         title: appBarTitle,
         actions: [
           IconButton(
@@ -174,7 +186,9 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: Column(
           children: [
-           SizedBox(height: size.height*0.048,),
+            SizedBox(
+              height: size.height * 0.048,
+            ),
             Container(
               height: size.height * 0.2,
               width: size.width * 1,
