@@ -34,9 +34,6 @@ class _ShrinkedDatatableState extends State<ShrinkedDatatable> {
     } else {
       print("null");
     }
-    // print("widget.jsondata---${widget.jsondata}");
-
-    // print("jsondata[0]---${widget.jsondata[0]}");
     if (jsondata[0] != null) {
       mainHeader = jsondata[0];
     }
