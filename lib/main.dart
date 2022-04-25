@@ -31,14 +31,12 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
        visualDensity: VisualDensity.adaptivePlatformDensity,
-
         fontFamily: 'Raleway',
         primaryColor: P_Settings.color1,
         colorScheme: ColorScheme.fromSwatch(
@@ -47,7 +45,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: P_Settings.color2,
         //  brightness: Brightness.dark,
         //  fontFamily: 'Georgia',
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           headline6: TextStyle(
             fontSize: 25.0,

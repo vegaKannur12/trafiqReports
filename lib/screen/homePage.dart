@@ -291,13 +291,13 @@ class _HomePageState extends State<HomePage> {
                                         width: size.width * 1,
                                         child: Row(
                                           children: [
-                                            Flexible(
-                                              child: ElevatedButton(
-                                                  onPressed: () {},
-                                                  child: Text(
-                                                      value.specialelements[0]
-                                                          ["label"])),
-                                            ),
+                                            // Flexible(
+                                            //   child: ElevatedButton(
+                                            //       onPressed: () {},
+                                            //       child: Text(
+                                            //           value.specialelements[0]
+                                            //               ["label"])),
+                                            // ),
                                           ],
                                         ),
                                       ),

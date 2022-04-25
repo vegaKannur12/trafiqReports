@@ -17,7 +17,6 @@ class LevelOne extends StatefulWidget {
 }
 
 class _LevelOneState extends State<LevelOne> {
-
   final jsondata = [
     {
       "rank": "0",
@@ -60,7 +59,7 @@ class _LevelOneState extends State<LevelOne> {
   var decodd;
   var decoddShrinked;
   List<String> listString = ["Main Heading", "level1", "level2"];
- 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -134,6 +133,7 @@ class _LevelOneState extends State<LevelOne> {
       visible[i] = !visible[i];
     });
   }
+
   setList() {
     jsonList.clear();
     jsondata.map((jsonField) {
@@ -141,7 +141,7 @@ class _LevelOneState extends State<LevelOne> {
     }).toList();
     print("json list--${jsonList}");
   }
-  
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -155,8 +155,6 @@ class _LevelOneState extends State<LevelOne> {
             return Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Ink(
                     decoration: BoxDecoration(
@@ -206,7 +204,6 @@ class _LevelOneState extends State<LevelOne> {
               ),
             );
           }),
-      // ),
     );
   }
 }
