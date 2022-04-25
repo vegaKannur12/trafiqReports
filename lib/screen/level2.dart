@@ -77,18 +77,18 @@ class _HomePage1State extends State<HomePage1> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     decodd = prefs.getString("json");
     // decoddShrinked = prefs.getString("shrinked json");
-    print("decoded---${decodd}");
+    //print("decoded---${decodd}");
     // print("decoddShrinked---${decoddShrinked}");
   }
 
   setSharedPreftojsondata() async {
-    print("enterd into shared");
+    //print("enterd into shared");
     encoded = json.encode(jsondata);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("encoded---$encoded");
+   // print("encoded---$encoded");
     prefs.setString("json", encoded);
-    print("added to shred prefs");
+   // print("added to shred prefs");
   }
 
   _onSelectItem(int index, String reportType) {
@@ -98,10 +98,10 @@ class _HomePage1State extends State<HomePage1> {
 
   createShrinkedData() {
     shrinkedData.clear();
-    print("cleared---$shrinkedData");
+   // print("cleared---$shrinkedData");
     shrinkedData.add(jsondata[0]);
     shrinkedData.add(jsondata[jsondata.length - 1]);
-    print("shrinked data --${shrinkedData}");
+   // print("shrinked data --${shrinkedData}");
     encodedShrinkdata = json.encode(shrinkedData);
   }
 
@@ -117,7 +117,7 @@ class _HomePage1State extends State<HomePage1> {
     jsondata.map((jsonField) {
       jsonList.add(jsonField);
     }).toList();
-    print("json list--${jsonList}");
+    //print("json list--${jsonList}");
   }
 
   @override
@@ -125,11 +125,11 @@ class _HomePage1State extends State<HomePage1> {
     Provider.of<Controller>(context, listen: false).getReportApi();
     isExpanded = List.generate(listString.length, (index) => false);
     visible = List.generate(listString.length, (index) => true);
-    print("initstate");
+   // print("initstate");
     setSharedPreftojsondata();
     getShared();
     createShrinkedData();
-    print("jsondata----$jsondata");
+    //print("jsondata----$jsondata");
     super.initState();
   }
 
@@ -182,6 +182,7 @@ class _HomePage1State extends State<HomePage1> {
     // }
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
+   // print("height : ${size.height} && width : ${size.width} ");
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -212,7 +213,7 @@ class _HomePage1State extends State<HomePage1> {
                       cursorColor: Colors.black);
                 } else {
                   if (this.actionIcon.icon == Icons.close) {
-                    print("hellooo");
+                   // print("hellooo");
                     this.actionIcon = Icon(Icons.search);
                     this.appBarTitle = Text("Report");
                     // Provider.of<Controller>(context, listen: false)
@@ -264,7 +265,7 @@ class _HomePage1State extends State<HomePage1> {
                         child: SizedBox.shrink(
                           child: InkWell(
                             onTap: (() {
-                              print("Icon button --${buttonClicked}");
+                             // print("Icon button --${buttonClicked}");
                               setState(() {
                                 buttonClicked = false;
                               });
@@ -311,8 +312,7 @@ class _HomePage1State extends State<HomePage1> {
                                       ? SizedBox(
                                           width: size.width * 0.2,
                                           child: IconButton(
-                                            icon: const Icon(
-                                                Icons.arrow_upward,
+                                            icon: const Icon(Icons.arrow_upward,
                                                 color: Colors.deepPurple),
                                             onPressed: () {
                                               setState(() {
@@ -324,7 +324,8 @@ class _HomePage1State extends State<HomePage1> {
                                       : SizedBox(
                                           width: size.width * 0.2,
                                           child: IconButton(
-                                            icon: const Icon(Icons.arrow_downward,
+                                            icon: const Icon(
+                                                Icons.arrow_downward,
                                                 color: Colors.deepPurple),
                                             onPressed: () {
                                               setState(() {
@@ -365,26 +366,35 @@ class _HomePage1State extends State<HomePage1> {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               5.0),
-                                                      child: Container(
-                                                        width: size.width*0.3,
-                                                        // height:20,
+                                                      child: SizedBox(
+                                                        width: size.width * 0.2,
+                                                        // height: size.height*0.001,
                                                         child: ElevatedButton(
                                                           style: ElevatedButton
                                                               .styleFrom(
+                                                            // shape: StadiumBorder(),
+                                                            shape: BeveledRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            12)),
+                                                            primary: P_Settings
+                                                                .color4,
                                                             shadowColor:
-                                                                P_Settings.color3,
-                                                            // minimumSize:
-                                                            //     Size(100, 50),
-                                                            // maximumSize:
-                                                            //     Size(150, 50),
+                                                                P_Settings
+                                                                    .color4,
+                                                            minimumSize:
+                                                                Size(10, 20),
+                                                            maximumSize:
+                                                                Size(10, 20),
                                                           ),
                                                           onPressed: () {},
                                                           child: Text(
                                                             value.specialelements[
                                                                 index]["label"],
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.white),
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white),
                                                           ),
                                                         ),
                                                       ),
@@ -414,8 +424,9 @@ class _HomePage1State extends State<HomePage1> {
             {
               return Container(
                 // color: P_Settings.datatableColor,
-                height: size.height * 0.71,
+                // height: size.height * 0.65,
                 child: ListView.builder(
+                    shrinkWrap: true,
                     itemCount: listString.length,
                     itemBuilder: (context, index) {
                       return Padding(
@@ -455,7 +466,7 @@ class _HomePage1State extends State<HomePage1> {
                                           ),
                                     onPressed: () {
                                       toggle(index);
-                                      print("json-----${json}");
+                                     // print("json-----${json}");
                                     }),
                               ),
                             ),
@@ -481,67 +492,67 @@ class _HomePage1State extends State<HomePage1> {
   }
 }
 
-  ///////////////////////////////////////////////////////////
-  // Widget shrinkedDataTable(BuildContext context) {
-  //   Size size = MediaQuery.of(context).size;
-  //   return Padding(
-  //     padding: const EdgeInsets.only(left: 6, right: 6),
-  //     child: SingleChildScrollView(
-  //       scrollDirection: Axis.horizontal,
-  //       child: Container(
-  //         width: size.width * 1.8,
-  //         // height: 90,
-  //         decoration: BoxDecoration(color: P_Settings.datatableColor),
-  //         child: DataTable(
-  //           headingRowHeight: 25,
-  //           dataRowHeight: 25,
-  //           dataRowColor:
-  //               MaterialStateColor.resolveWith((states) => P_Settings.color4),
-  //           columnSpacing: 2,
-  //           border: TableBorder.all(
-  //             color: P_Settings.datatableColor,
-  //           ),
-  //           columns: [
-  //             DataColumn(
-  //               label: Text('ID'),
-  //             ),
-  //             DataColumn(
-  //               label: Text('Name'),
-  //             ),
-  //             DataColumn(
-  //               label: Text('Code'),
-  //             ),
-  //             DataColumn(
-  //               label: Text('Quantity'),
-  //             ),
-  //             DataColumn(
-  //               label: Text('Amount'),
-  //             ),
-  //             DataColumn(
-  //               label: Text('Quantity'),
-  //             ),
-  //             DataColumn(
-  //               label: Text('Amount'),
-  //             ),
-  //           ],
-  //           rows: [
-  //             DataRow(cells: [
-  //               DataCell(Text('f1')),
-  //               DataCell(Text('f2')),
-  //               DataCell(Text('f3')),
-  //               DataCell(Text('f4')),
-  //               DataCell(Text('f5')),
-  //               DataCell(Text('f6')),
-  //               DataCell(Text('f7')),
-  //             ])
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+///////////////////////////////////////////////////////////
+// Widget shrinkedDataTable(BuildContext context) {
+//   Size size = MediaQuery.of(context).size;
+//   return Padding(
+//     padding: const EdgeInsets.only(left: 6, right: 6),
+//     child: SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       child: Container(
+//         width: size.width * 1.8,
+//         // height: 90,
+//         decoration: BoxDecoration(color: P_Settings.datatableColor),
+//         child: DataTable(
+//           headingRowHeight: 25,
+//           dataRowHeight: 25,
+//           dataRowColor:
+//               MaterialStateColor.resolveWith((states) => P_Settings.color4),
+//           columnSpacing: 2,
+//           border: TableBorder.all(
+//             color: P_Settings.datatableColor,
+//           ),
+//           columns: [
+//             DataColumn(
+//               label: Text('ID'),
+//             ),
+//             DataColumn(
+//               label: Text('Name'),
+//             ),
+//             DataColumn(
+//               label: Text('Code'),
+//             ),
+//             DataColumn(
+//               label: Text('Quantity'),
+//             ),
+//             DataColumn(
+//               label: Text('Amount'),
+//             ),
+//             DataColumn(
+//               label: Text('Quantity'),
+//             ),
+//             DataColumn(
+//               label: Text('Amount'),
+//             ),
+//           ],
+//           rows: [
+//             DataRow(cells: [
+//               DataCell(Text('f1')),
+//               DataCell(Text('f2')),
+//               DataCell(Text('f3')),
+//               DataCell(Text('f4')),
+//               DataCell(Text('f5')),
+//               DataCell(Text('f6')),
+//               DataCell(Text('f7')),
+//             ])
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
-  ///////////////////////////////////////////////
+///////////////////////////////////////////////
 //   Widget datatable(BuildContext context) {
 //     Size size = MediaQuery.of(context).size;
 //     bool _isAscending = true;
@@ -623,32 +634,3 @@ class _HomePage1State extends State<HomePage1> {
 // }
 
 ///////////////////////alert box for button click //////////////////////////////////////
-// showAlertDialog(BuildContext context, String value) {
-//   print("values...........${value}");
-//   // set up the buttons
-//   // Widget cancelButton = TextButton(
-//   //   child: Text("Cancel"),
-//   //   onPressed: () {},
-//   // );
-//   Widget continueButton = TextButton(
-//     child: Text("Ok"),
-//     onPressed: () {},
-//   );
-
-//   // set up the AlertDialog
-//   AlertDialog alert = AlertDialog(
-//     title: Text(value),
-//     actions: [
-//       // cancelButton,
-//       continueButton,
-//     ],
-//   );
-
-//   // show the dialog
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return alert;
-//     },
-//   );
-// }

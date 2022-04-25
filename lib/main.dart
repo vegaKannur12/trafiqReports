@@ -2,23 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reports/components/customColor.dart';
 import 'package:reports/controller/controller.dart';
-import 'package:reports/drawersample.dart';
-import 'package:reports/screen/call.dart';
-import 'package:reports/screen/datatable.dart';
-import 'package:reports/screen/datatable1.dart';
 import 'package:reports/screen/homePage.dart';
-import 'package:reports/screen/horizontal_datatablr.dart';
-import 'package:reports/screen/level1.dart';
-import 'package:reports/screen/level1Sample.dart';
 import 'package:reports/screen/level2.dart';
-import 'package:reports/screen/refer.dart';
-import 'package:reports/screen/sampleDataTable.dart';
-import 'package:reports/screen/splashscreen.dart';
-import 'package:reports/screen/table.dart';
-import 'package:reports/screen/zoomtest.dart';
-
-import 'screen/dataTabletest.dart';
-
 void main() {
   runApp(
     MultiProvider(

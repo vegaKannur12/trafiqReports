@@ -1,5 +1,3 @@
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +7,6 @@ import 'package:reports/controller/controller.dart';
 import 'package:reports/screen/level2.dart';
 
 class HomePage extends StatefulWidget {
-  // HomePage({Key? key}) : super(key: key);
   @override
   State<HomePage> createState() {
     return new _HomePageState();
@@ -146,6 +143,7 @@ class _HomePageState extends State<HomePage> {
                 } else {
                   if (this.actionIcon.icon == Icons.close) {
                     _controller.clear();
+                    newList.clear();
                     this.actionIcon = Icon(Icons.search);
                     this.appBarTitle = Text("Report");
                     // Provider.of<Controller>(context, listen: false)
@@ -174,11 +172,21 @@ class _HomePageState extends State<HomePage> {
 
       ///////////////////////////////////////////////////////////////////
       drawer: Drawer(
-        child: new Column(
-          children: <Widget>[
+        child: Column(
+          children: [
+           SizedBox(height: size.height*0.044,),
             Container(
               height: size.height * 0.2,
+              width: size.width * 1,
               color: P_Settings.color3,
+              child: Column(
+                children: [
+                  Text(
+                    "Categories",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ],
+              ),
             ),
             Column(children: drawerOpts)
           ],
@@ -313,8 +321,8 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               }),
-        isSearch == false || newList.isNotEmpty 
-            ? newList.isEmpty 
+        isSearch == false || newList.isEmpty
+            ? newList.isEmpty
                 ? Consumer<Controller>(builder: (context, value, child) {
                     {
                       return Container(
@@ -405,7 +413,8 @@ class _HomePageState extends State<HomePage> {
                                         buttonClicked = true;
                                       });
                                       Future.delayed(
-                                          Duration(milliseconds: 100), () {
+                                          const Duration(milliseconds: 100),
+                                          () {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -426,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                                         Text(
                                           newList[index]["filter_names"],
                                           // value.reportList![index]['filter_names'],
-                                          style: TextStyle(fontSize: 12),
+                                          style: const TextStyle(fontSize: 12),
                                         ),
                                       ],
                                     ),
@@ -440,7 +449,16 @@ class _HomePageState extends State<HomePage> {
                     }
                   })
             : Container(
-                child: Center(child: Text("No Data")),
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text("No Data Found..."),
+                      ),
+                    ],
+                  ),
+                ),
               )
       ]),
     );
