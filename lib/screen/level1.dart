@@ -68,8 +68,10 @@ class _LevelOneState extends State<LevelOne> {
     // TODO: implement initState
     super.initState();
     print("initstate");
-    setSharedPreftojsondata();
-    getShared();
+    // setSharedPreftojsondata();
+    // getShared();
+    encoded = json.encode(jsondata);
+
     createShrinkedData();
     // setSharedPreftoShrinkeddata();
     print("jsondata----$jsondata");
@@ -88,12 +90,12 @@ class _LevelOneState extends State<LevelOne> {
     // print("decoddShrinked---${decoddShrinked}");
   }
 
-  getSharedShrinked()async{
-    SharedPreferences prefs1 = await SharedPreferences.getInstance();
-    decoddShrinked = prefs1.getString("shrinked json");
-    print("decoded- shrinkd--${decoddShrinked}");
+  // getSharedShrinked()async{
+  //   SharedPreferences prefs1 = await SharedPreferences.getInstance();
+  //   decoddShrinked = prefs1.getString("shrinked json");
+  //   print("decoded- shrinkd--${decoddShrinked}");
 
-  }
+  // }
 
   // setSharedPreftoShrinkeddata() async {
   //   print("enterd into shared shrinked");
@@ -200,7 +202,7 @@ class _LevelOneState extends State<LevelOne> {
                   ),
                   Visibility(
                     visible: isExpanded[index],
-                    child: DataTableCompo(decodd: decodd),
+                    child: DataTableCompo(decodd: encoded),
                   ),
                 ],
               ),

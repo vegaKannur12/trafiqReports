@@ -41,6 +41,7 @@ dependencies:
   http: ^0.13.4
   zoom_widget: ^0.2.1
   shared_preferences: ^2.0.13
+  horizontal_data_table: ^3.6.1+1
 
 dev_dependencies:
   flutter_test:
