@@ -169,10 +169,11 @@ class _HorizontalDatatableState extends State<HorizontalDatatable> {
       row.forEach((key, value) {
         if (key != "a") {
           names.add(value);
-          childerns.add(Container(
-              width: 60,
+          childerns.add(
+            Container(
+               width: 60,
               height: 52,
-              padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+              // padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
               alignment: Alignment.centerLeft,
               child: Text(value)));
         }

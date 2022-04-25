@@ -142,6 +142,7 @@ class _SampleDataTableState extends State<SampleDataTable> {
       print("column---${column}");
       return DataColumn(
         label: ConstrainedBox(
+          
           constraints: BoxConstraints(
               maxWidth:
                   tableColumn.length < 5 && tableColumn.length > 1 ? 200 : 100,
@@ -212,7 +213,8 @@ class _SampleDataTableState extends State<SampleDataTable> {
                         minWidth:
                             tableColumn.length < 5 && tableColumn.length > 1
                                 ? 70
-                                : 40),
+                                : 40
+                      ),
                     // width: mainHeader[k][3] == "1" ? 70 : 30,
                     // alignment: mainHeader[k][1] == "L"
                     //     ? Alignment.centerLeft

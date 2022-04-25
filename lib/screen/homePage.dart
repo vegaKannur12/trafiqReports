@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: Column(
           children: [
-           SizedBox(height: size.height*0.044,),
+           SizedBox(height: size.height*0.048,),
             Container(
               height: size.height * 0.2,
               width: size.width * 1,
