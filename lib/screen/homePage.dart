@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
       drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
         return ListTile(
             // leading: new Icon(d.icon),
-            title: new Text(
+            title: Text(
               value.reportCategoryList[i]["rg_name"],
               style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
             ),
