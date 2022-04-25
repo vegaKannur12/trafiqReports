@@ -4,6 +4,7 @@ import 'package:reports/components/customColor.dart';
 import 'package:reports/controller/controller.dart';
 import 'package:reports/screen/homePage.dart';
 import 'package:reports/screen/level2.dart';
+import 'package:reports/screen/sampleDataTable.dart';
 import 'package:reports/screen/splashscreen.dart';
 void main() {
   runApp(
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SplashScreen(),
+      home: SampleDataTable(),
     );
   }
 }

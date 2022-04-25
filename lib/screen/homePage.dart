@@ -79,22 +79,8 @@ class _HomePageState extends State<HomePage> {
     String? type;
     String? type1;
     String? type2;
-    //// date picker ////////////////
-    Future<void> _selectDate(BuildContext context) async {
-      final DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: currentDate,
-          firstDate: currentDate.subtract(Duration(days: 0)),
-          lastDate: DateTime(2023));
-      if (pickedDate != null) {
-        setState(() {
-          currentDate = pickedDate;
-        });
-      } else {
-        print("please select date");
-      }
-      formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
-    }
+    
+    
 /////////////////////////////////////////////////////////////////
     for (var i = 0;
         i <
@@ -231,7 +217,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Column(children: [
-        // Text(widget._draweItems[_selectedIndex].title),
+       
         buttonClicked
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -296,64 +282,11 @@ class _HomePageState extends State<HomePage> {
                                     ? CustomDatePicker(dateType: "To Date")
                                     : CustomDatePicker(dateType: "From Date "),
                                 CustomDatePicker(dateType: "To Date"),
-                                // qtyvisible
-                                //     ? SizedBox(
-                                //         width: size.width * 0.2,
-                                //         child: IconButton(
-                                //           icon: const Icon(Icons.arrow_downward,
-                                //               color: Colors.deepPurple),
-                                //           onPressed: () {
-                                //             setState(() {
-                                //               qtyvisible = false;
-                                //             });
-                                //           },
-                                //         ),
-                                //       )
-                                //     : SizedBox(
-                                //         width: size.width * 0.2,
-                                //         child: IconButton(
-                                //           icon: const Icon(Icons.arrow_upward,
-                                //               color: Colors.deepPurple),
-                                //           onPressed: () {
-                                //             setState(() {
-                                //               qtyvisible = true;
-                                //             });
-                                //           },
-                                //         ),
-                                //       )
+                             
                               ],
                             ),
                           ),
-                          // Visibility(
-                          //   visible: qtyvisible,
-                          //   child: Row(
-                          //     children: [
-                          //       Consumer<Controller>(
-                          //           builder: (context, value, child) {
-                          //         {
-                          //           return Flexible(
-                          //             child: Container(
-                          //               alignment: Alignment.topRight,
-                          //               height: size.height * 0.08,
-                          //               width: size.width * 1,
-                          //               child: Row(
-                          //                 children: [
-                          //                   // Flexible(
-                          //                   //   child: ElevatedButton(
-                          //                   //       onPressed: () {},
-                          //                   //       child: Text(
-                          //                   //           value.specialelements[0]
-                          //                   //               ["label"])),
-                          //                   // ),
-                          //                 ],
-                          //               ),
-                          //             ),
-                          //           );
-                          //         }
-                          //       })
-                          //     ],
-                          //   ),
-                          // ),
+                     
                         ],
                       ),
                     ),
@@ -365,8 +298,9 @@ class _HomePageState extends State<HomePage> {
                 ? Consumer<Controller>(builder: (context, value, child) {
                     {
                       return Container(
-                        height: size.height * 0.6,
+                        height: size.height * 0.71,
                         child: ListView.builder(
+                          shrinkWrap: true,
                           itemCount: value.reportList.length,
                           itemBuilder: ((context, index) {
                             return Padding(
@@ -386,6 +320,7 @@ class _HomePageState extends State<HomePage> {
                                     // dense: true,
                                     minLeadingWidth: 10,
                                     onTap: () {
+                                      String fromDate;
                                       setState(() {
                                         buttonClicked = true;
                                       });

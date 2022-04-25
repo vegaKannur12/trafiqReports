@@ -30,8 +30,7 @@ class _SampleDataTableState extends State<SampleDataTable> {
       "rank": "1",
       "a": "G202204027",
       "b": "TJAA2",
-      "c":
-          "PRATHYEESH MAKRERI KANNUR",
+      "c":"PRATHYEESH MAKRERI KANNUR",
       "d": "472.5",
       "e": "372.5",
       "f": "100",
@@ -132,10 +131,10 @@ class _SampleDataTableState extends State<SampleDataTable> {
       colsName = colName![1];
       behv = colName![0];
       behvr.add(behv);
-      print('Behave --- $behvr');
+      // print('Behave --- $behvr'); 
       // print(behvr);
 
-      print(behv[3]);
+      // print(behv[3]);
       double strwidth = double.parse(behv[3]);
       strwidth = strwidth * 10; //
       print("strwidth---${strwidth}");
@@ -179,10 +178,10 @@ class _SampleDataTableState extends State<SampleDataTable> {
   }
 /////////////////////////////////////////////
 
-///////////////////////////////////////////
 
   List<DataCell> getCelle(Map<String, dynamic> data) {
-    print("data--$data");
+    // print("data--$data");
+    //  double  sum=0;
     List<DataCell> datacell = [];
     mainHeader.remove('rank');
     print("main header---$mainHeader");
@@ -192,15 +191,8 @@ class _SampleDataTableState extends State<SampleDataTable> {
         mainHeader.forEach(
           (k, val) {
             if (key == k) {
-              print("mainHeader[k][2] --${mainHeader[k][2]}");
-              // if(mainHeader[k][2]=="Y"){
-              //  double  sum=0;
-              //  double dvalue=double.parse(value);
-              //  print("dvaluee==${dvalue}");
-
-              //  sum=sum+dvalue;
-              //  print("sum==${sum}");
-              // }
+              // print("mainHeader[k][2] --${mainHeader[k][2]}");
+             
               // print("mainHeader[k][3] --${mainHeader[k][3]}");
               datacell.add(
                 DataCell(
@@ -232,8 +224,10 @@ class _SampleDataTableState extends State<SampleDataTable> {
                 ),
               );
             }
+            // print("val${val}");
           },
         );
+        // print("value---$value");
       },
     );
     print(datacell.length);

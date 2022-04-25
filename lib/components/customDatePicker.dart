@@ -6,7 +6,6 @@ import 'package:reports/controller/controller.dart';
 
 class CustomDatePicker extends StatefulWidget {
   String dateType;
-  // const CustomDatePicker({Key? key}) : super(key: key);
   CustomDatePicker({required this.dateType});
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -44,7 +43,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Container(
       // width: double.infinity,
       // color: Colors.grey[200],
