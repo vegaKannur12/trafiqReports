@@ -12,50 +12,6 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportCategoryList = [];
   List<Map<String, dynamic>> reportSubCategoryList = [];
 
-  // getreportResults(String type) {
-  //   if (type == "Sales Report") {
-  //     reportItems = ["sales1 report", "Sales2 Report"];
-  //   }
-  //   if (type == "Purchase Report") {
-  //     reportItems = [
-  //       "Purchase1 report",
-  //       "Purchase2 Report",
-  //       "Purchase3 Report"
-  //     ];
-  //   }
-  //   notifyListeners();
-  // }
-
-//////////////////////////////////////////////////
-  // Future getReportApi() async {
-  //   try {
-  //     Uri url = Uri.parse("$urlgolabl/reports_list.php");
-  //     http.Response response = await http.post(
-  //       url,
-  //       // body: body,
-  //     );
-
-  //     var map = jsonDecode(response.body);
-  //     //print(map);
-  //     for (var item in map) {
-  //       reportList.add(item);
-  //     }
-  //     final jsonData = reportList[0]['special_element2'];
-  //     final parsedJson = jsonDecode(jsonData);
-  //     //print("parsed json--$parsedJson");
-  //     specialelements.clear();
-  //     for (var i in parsedJson) {
-  //       specialelements.add(i);
-  //     }
-  //     // print("specialelements.............${specialelements}");
-  //     //  print("special_element2.........................${reportList![0]['special_element2']}");
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  // }
-
   /////////////////////////////////////////////////////
   Future getCategoryReport() async {
     try {
@@ -92,7 +48,7 @@ class Controller extends ChangeNotifier {
       var map = jsonDecode(response.body);
 
       reportList.clear();
-      print(map);
+      // print(map);
       for (var item in map) {
         reportList.add(item);
         notifyListeners();
@@ -105,8 +61,9 @@ class Controller extends ChangeNotifier {
       for (var i in parsedJson) {
         specialelements.add(i);
       }
-      print("specialelements.............${specialelements}");
-       print("special_element2.........................${reportList[0]['special_element2']}");
+      print("report list---${reportList}");
+      // print("specialelements.............${specialelements}");
+      //  print("special_element2.........................${reportList[0]['special_element2']}");
 
       notifyListeners();
     } catch (e) {

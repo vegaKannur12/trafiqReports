@@ -31,11 +31,12 @@ class _HomePageState extends State<HomePage> {
   String? fromDate;
   String? toDate;
   DateTime dateTime = DateTime.now(); //
+  ////////////////////////////////////////////
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
   }
-
+///////////////////////////////////////////////
   Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
-
+/////////////////////////////////////////////////
   Future _selectToDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -67,7 +68,7 @@ class _HomePageState extends State<HomePage> {
     }
     toDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
-
+////////////////////////////////////////////////////////
   @override
   void initState() {
     // Provider.of<Controller>(context, listen: false).getCategoryReportList(rg_id)
@@ -75,20 +76,20 @@ class _HomePageState extends State<HomePage> {
     crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     super.initState();
   }
-
+/////////////////////////////////////////////////////
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     Provider.of<Controller>(context, listen: false).getCategoryReport();
   }
-
+////////////////////////////////////////////////////
   void togle() {
     setState(() {
       visible = !visible;
     });
   }
-
+///////////////////////////////////////////////////
   onChangedValue(String value) {
     setState(() {
       searchKey = value;
@@ -104,7 +105,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
-
+//////////////////////////////////////////////////
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -115,7 +116,7 @@ class _HomePageState extends State<HomePage> {
     String? type2;
     String? filter;
     String? filter1;
-    //// date picker ////////////////
+  
 
 ////////////////////////////////////////////////////////////
     for (var i = 0;
@@ -287,7 +288,6 @@ class _HomePageState extends State<HomePage> {
                   List<String> parts = type!.split(',');
                   type1 = parts[0].trim(); // prefix: "date"
                   type2 = parts[1].trim(); // prefix: "date"
-
                 }
                 {
                   return Container(
@@ -387,11 +387,7 @@ class _HomePageState extends State<HomePage> {
                                     // dense: true,
                                     minLeadingWidth: 10,
                                     onTap: () {
-<<<<<<< HEAD
-                                      filter = value.reportList[2]["filters"]
-=======
                                       filter = value.reportList[index]["filters"]
->>>>>>> bafae3b4d18682912ad74e9a7911b6e1ca7bacf7
                                           .toString();
                                       print("filter ..............$filter");
                                       List<String> parts = filter!.split(',');
