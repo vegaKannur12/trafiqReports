@@ -97,8 +97,6 @@ class Controller extends ChangeNotifier {
         reportSubCategoryList.add(item);
       }
       print("report list${reportSubCategoryList}");
-  
-
       notifyListeners();
     } catch (e) {
       // print(e);

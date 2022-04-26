@@ -121,12 +121,14 @@ class _HomePage1State extends State<HomePage1> {
     }).toList();
     //print("json list--${jsonList}");
   }
+  
+ 
 ///////////////////////////////////////////////////////////
   Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
-        firstDate: currentDate.subtract(Duration(days: 0)),
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(Duration(days: 0)),
         lastDate: DateTime(2023));
     if (pickedDate != null) {
       setState(() {
@@ -137,12 +139,12 @@ class _HomePage1State extends State<HomePage1> {
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
-
+/////////////////////////////////////////////////////////////////
   Future _selectToDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
-        firstDate: currentDate.subtract(Duration(days: 0)),
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(Duration(days: 0)),
         lastDate: DateTime(2023));
     if (pickedDate != null) {
       setState(() {
@@ -156,6 +158,8 @@ class _HomePage1State extends State<HomePage1> {
 /////////////////////////////////////////////////////////////////
   @override
   void initState() {
+    crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
+    print(crntDateFormat);
     // Provider.of<Controller>(context, listen: false).getReportApi();
     isExpanded = List.generate(listString.length, (index) => false);
     visible = List.generate(listString.length, (index) => true);
@@ -176,22 +180,6 @@ class _HomePage1State extends State<HomePage1> {
     String? type;
     String? type1;
     String? type2;
-    //// date picker ////////////////
-    Future<void> _selectDate(BuildContext context) async {
-      final DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: currentDate,
-          firstDate: currentDate.subtract(Duration(days: 0)),
-          lastDate: DateTime(2023));
-      if (pickedDate != null) {
-        setState(() {
-          currentDate = pickedDate;
-        });
-      } else {
-        print("please select date");
-      }
-      formattedDate = DateFormat('dd-MM-yyyy').format(currentDate);
-    }
 
     // for (var i = 0;
     //      i < Provider.of<Controller>(context, listen: false).getReportApi().length;
@@ -216,7 +204,7 @@ class _HomePage1State extends State<HomePage1> {
     // }
     /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
-    // print("height : ${size.height} && width : ${size.width} ");
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -346,11 +334,11 @@ class _HomePage1State extends State<HomePage1> {
                                                     _selectFromDate(context);
                                                   },
                                                   icon: Icon(
-                                                      Icons.calendar_today)),
+                                                      Icons.calendar_month)),
                                               fromDate == null
                                                   ? Text(
                                                       crntDateFormat.toString())
-                                                  : Text(toDate.toString())
+                                                  : Text(fromDate.toString())
                                             ],
                                           )
                                         : Row(
@@ -360,7 +348,7 @@ class _HomePage1State extends State<HomePage1> {
                                                     _selectFromDate(context);
                                                   },
                                                   icon: Icon(
-                                                      Icons.calendar_today)),
+                                                      Icons.calendar_month)),
                                               fromDate == null
                                                   ? Text(
                                                       crntDateFormat.toString())
@@ -373,8 +361,8 @@ class _HomePage1State extends State<HomePage1> {
                                             onPressed: () {
                                               _selectToDate(context);
                                             },
-                                            icon: Icon(Icons.calendar_today)),
-                                        fromDate == null
+                                            icon: Icon(Icons.calendar_month)),
+                                        toDate == null
                                             ? Text(crntDateFormat.toString())
                                             : Text(toDate.toString())
                                       ],
