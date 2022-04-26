@@ -98,15 +98,15 @@ class Controller extends ChangeNotifier {
         notifyListeners();
       }
       // print("report list${reportList}");
-      // final jsonData = reportList![0]['special_element2'];
-      // final parsedJson = jsonDecode(jsonData);
-      // //print("parsed json--$parsedJson");
-      // specialelements.clear();
-      // for (var i in parsedJson) {
-      //   specialelements.add(i);
-      // }
-      // print("specialelements.............${specialelements}");
-      //  print("special_element2.........................${reportList![0]['special_element2']}");
+      final jsonData = reportList[0]['special_element2'];
+      final parsedJson = jsonDecode(jsonData);
+      //print("parsed json--$parsedJson");
+      specialelements.clear();
+      for (var i in parsedJson) {
+        specialelements.add(i);
+      }
+      print("specialelements.............${specialelements}");
+       print("special_element2.........................${reportList[0]['special_element2']}");
 
       notifyListeners();
     } catch (e) {
@@ -118,7 +118,7 @@ class Controller extends ChangeNotifier {
   Future getSubCategoryReportList(String special_field2, String filter_id,
       String fromdate, String tilldate, String old_filter_where_ids) async {
     print(
-        "special_field2---${special_field2}  filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} ");
+        "special_field2---${special_field2}  filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} old_filter_where_ids----${old_filter_where_ids}");
     try {
       Uri url = Uri.parse("$urlgolabl/filters_list.php");
       var body = {
@@ -140,15 +140,7 @@ class Controller extends ChangeNotifier {
         reportSubCategoryList.add(item);
       }
       print("report list${reportSubCategoryList}");
-      // final jsonData = reportList![0]['special_element2'];
-      // final parsedJson = jsonDecode(jsonData);
-      // //print("parsed json--$parsedJson");
-      // specialelements.clear();
-      // for (var i in parsedJson) {
-      //   specialelements.add(i);
-      // }
-      // print("specialelements.............${specialelements}");
-      //  print("special_element2.........................${reportList![0]['special_element2']}");
+  
 
       notifyListeners();
     } catch (e) {

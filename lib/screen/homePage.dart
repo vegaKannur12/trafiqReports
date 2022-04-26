@@ -30,16 +30,49 @@ class _HomePageState extends State<HomePage> {
   List newList = [];
   String? fromDate;
   String? toDate;
-
+  DateTime dateTime = DateTime.now(); //
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
+  }
+
+  Future _selectFromDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: currentDate.subtract(Duration(days: 0)),
+        lastDate: DateTime(2023));
+    if (pickedDate != null) {
+      setState(() {
+        currentDate = pickedDate;
+      });
+    } else {
+      print("please select date");
+    }
+    fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
+  }
+
+  Future _selectToDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: currentDate.subtract(Duration(days: 0)),
+        lastDate: DateTime(2023));
+    if (pickedDate != null) {
+      setState(() {
+        currentDate = pickedDate;
+      });
+    } else {
+      print("please select date");
+    }
+    toDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
 
   @override
   void initState() {
     // Provider.of<Controller>(context, listen: false).getCategoryReportList(rg_id)
     _controller.clear();
+    crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     super.initState();
   }
 
@@ -83,37 +116,6 @@ class _HomePageState extends State<HomePage> {
     String? filter;
     String? filter1;
     //// date picker ////////////////
-    Future _selectFromDate(BuildContext context) async {
-      final DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: currentDate,
-          firstDate: currentDate.subtract(Duration(days: 0)),
-          lastDate: DateTime(2023));
-      if (pickedDate != null) {
-        setState(() {
-          currentDate = pickedDate;
-        });
-      } else {
-        print("please select date");
-      }
-      fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
-    }
-
-    Future _selectToDate(BuildContext context) async {
-      final DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: currentDate,
-          firstDate: currentDate.subtract(Duration(days: 0)),
-          lastDate: DateTime(2023));
-      if (pickedDate != null) {
-        setState(() {
-          currentDate = pickedDate;
-        });
-      } else {
-        print("please select date");
-      }
-      toDate = DateFormat('dd-MM-yyyy').format(currentDate);
-    }
 
 ////////////////////////////////////////////////////////////
     for (var i = 0;
@@ -150,7 +152,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-            onPressed: ()async {
+            onPressed: () async {
               // Scaffold.of(context).openDrawer();
               await Provider.of<Controller>(context, listen: false)
                   .getCategoryReport();
@@ -320,19 +322,23 @@ class _HomePageState extends State<HomePage> {
                                                 _selectFromDate(context);
                                               },
                                               icon: Icon(Icons.calendar_today)),
-                                          fromDate == null ?Text(currentDate.toString()): Text(toDate.toString())
+                                          fromDate == null
+                                              ? Text(crntDateFormat.toString())
+                                              : Text(toDate.toString())
                                         ],
                                       )
                                     : Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              _selectFromDate(context);
-                                            },
-                                            icon: Icon(Icons.calendar_today)),
-                                            Text(fromDate.toString())
-                                      ],
-                                    ),
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                _selectFromDate(context);
+                                              },
+                                              icon: Icon(Icons.calendar_today)),
+                                          fromDate == null
+                                              ? Text(crntDateFormat.toString())
+                                              : Text(fromDate.toString())
+                                        ],
+                                      ),
                                 Row(
                                   children: [
                                     IconButton(
@@ -340,7 +346,9 @@ class _HomePageState extends State<HomePage> {
                                           _selectToDate(context);
                                         },
                                         icon: Icon(Icons.calendar_today)),
-                                        Text(toDate.toString())
+                                    fromDate == null
+                                        ? Text(crntDateFormat.toString())
+                                        : Text(toDate.toString())
                                   ],
                                 )
                               ],
@@ -378,31 +386,36 @@ class _HomePageState extends State<HomePage> {
                                     // dense: true,
                                     minLeadingWidth: 10,
                                     onTap: () {
-                                      filter = value.reportList![2]["filters"]
+                                      filter = value.reportList[index]["filters"]
                                           .toString();
                                       print("filter ..............$filter");
                                       List<String> parts = filter!.split(',');
                                       filter1 = parts[0].trim();
                                       print("filtersss ..............$filter1");
-                                      // prefix: "date"
+
                                       String special_field2 =
                                           value.specialelements[0]["value"];
-
-                                      // Provider.of<Controller>(context, listen: false).getSubCategoryReportList(
-
-                                      // );
+                                      print(special_field2);
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .getSubCategoryReportList(
+                                              special_field2,
+                                              filter1!,
+                                              fromDate!,
+                                              toDate!,
+                                              "");
 
                                       setState(() {
                                         buttonClicked = true;
                                       });
                                       Future.delayed(
                                           Duration(milliseconds: 100), () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => HomePage1(),
-                                        //   ),
-                                        // );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomePage1(),
+                                          ),
+                                        );
                                       });
                                     },
                                     title: Column(
