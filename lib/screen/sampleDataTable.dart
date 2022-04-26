@@ -30,7 +30,7 @@ class _SampleDataTableState extends State<SampleDataTable> {
       "rank": "1",
       "a": "G202204027",
       "b": "TJAA2",
-      "c":"PRATHYEESH MAKRERI KANNUR",
+      "c": "PRATHYEESH MAKRERI KANNUR",
       "d": "472.5",
       "e": "372.5",
       "f": "100",
@@ -56,6 +56,7 @@ class _SampleDataTableState extends State<SampleDataTable> {
     }
   ];
   List val = [100, 50, 20, 70, 150];
+  Map<String, dynamic> total = {};
   List<Map<String, dynamic>> newJson = [];
   final rows = <DataRow>[];
   String? behv;
@@ -63,15 +64,15 @@ class _SampleDataTableState extends State<SampleDataTable> {
   List<String>? colName;
   List<String> tableColumn = [];
   List<String> behvr = [];
-
   Map<String, dynamic> mainHeader = {};
+
   @override
   void initState() {
     String colsName;
     super.initState();
-    print("jsondata[0]---$jsondata[0]");
+    // print("jsondata[0]---$jsondata[0]");
     mainHeader = jsondata[0];
-    print("main header from init state---$mainHeader");
+    // print("main header from init state---$mainHeader");
     var list = jsondata[0].values.toList();
     list.removeAt(0);
     for (var item in list) {
@@ -84,12 +85,38 @@ class _SampleDataTableState extends State<SampleDataTable> {
     newJson.forEach((item) => item..remove("rank"));
     print("new json----${newJson}");
     calculateSum();
+    newJson.add(total);
+    print("new json after total calculation ${newJson}");
   }
 
+//////////////////////////////////////////////////////////////////////////////
   calculateSum() {
-    newJson.map((itemMap) {
-      print("itemMap--${itemMap}");
-    }).toList();
+    Map map = {};
+    double valueStored;
+    // print("main header---${mainHeader}");
+    mainHeader.forEach((key, value) {
+      double sum = 0;
+      // print("key---${key}");
+      for (var i = 0; i < newJson.length; i++) {
+        map = newJson[i];
+        print("map----${map}");
+        map.forEach((k, val) {
+          if (k == key) {
+            // print("mainheader[k][3]----${mainHeader[key][2]}");
+            if (mainHeader[key][2] == "Y") {
+              valueStored = double.parse(val);
+              // print("valueStored--${valueStored}");
+              sum = sum + valueStored;
+              // print("sum----${sum}");
+              total[k] = sum;
+            } else {
+              total[k] = "";
+            }
+          }
+        });
+      }
+    });
+    print("tootal map----${total}");
   }
 
   @override
@@ -109,11 +136,11 @@ class _SampleDataTableState extends State<SampleDataTable> {
             horizontalMargin: 0,
             headingRowHeight: 30,
             dataRowHeight: 35,
-            dataRowColor:
-                MaterialStateColor.resolveWith((states) => Colors.yellow),
+            // dataRowColor:
+            //     MaterialStateColor.resolveWith((states) => Colors.yellow),
             columnSpacing: 0,
             border: TableBorder.all(width: 1, color: Colors.black),
-            columns: getColumns(tableColumn,width),
+            columns: getColumns(tableColumn, width),
             rows: getRowss(newJson),
           ),
         ),
@@ -123,7 +150,7 @@ class _SampleDataTableState extends State<SampleDataTable> {
 
 ////////////////////////////////////////////////////////////
   List<DataColumn> getColumns(List<String> columns, double width) {
-    print("columns---${columns}");
+    // print("columns---${columns}");
     String behv;
     String colsName;
     return columns.map((String column) {
@@ -131,17 +158,16 @@ class _SampleDataTableState extends State<SampleDataTable> {
       colsName = colName![1];
       behv = colName![0];
       behvr.add(behv);
-      // print('Behave --- $behvr'); 
+      // print('Behave --- $behvr');
       // print(behvr);
 
       // print(behv[3]);
       double strwidth = double.parse(behv[3]);
       strwidth = strwidth * 10; //
-      print("strwidth---${strwidth}");
-      print("column---${column}");
+      // print("strwidth---${strwidth}");
+      // print("column---${column}");
       return DataColumn(
         label: ConstrainedBox(
-          
           constraints: BoxConstraints(
               maxWidth:
                   tableColumn.length < 5 && tableColumn.length > 1 ? 200 : 100,
@@ -169,31 +195,28 @@ class _SampleDataTableState extends State<SampleDataTable> {
   ////////////////////////////////////////////
   List<DataRow> getRowss(List<Map<String, dynamic>> rows) {
     List<String> newBehavr = [];
-    print("rows---$rows");
+    // print("rows---$rows");
     return newJson.map((row) {
       return DataRow(
+        // color: MaterialStateProperty.all(Colors.green),
         cells: getCelle(row),
       );
     }).toList();
   }
 /////////////////////////////////////////////
 
-
   List<DataCell> getCelle(Map<String, dynamic> data) {
-    // print("data--$data");
+    print("data--$data");
     //  double  sum=0;
     List<DataCell> datacell = [];
     mainHeader.remove('rank');
-    print("main header---$mainHeader");
+    // print("main header---$mainHeader");
 
     data.forEach(
       (key, value) {
         mainHeader.forEach(
           (k, val) {
             if (key == k) {
-              // print("mainHeader[k][2] --${mainHeader[k][2]}");
-             
-              // print("mainHeader[k][3] --${mainHeader[k][3]}");
               datacell.add(
                 DataCell(
                   ConstrainedBox(
@@ -205,14 +228,13 @@ class _SampleDataTableState extends State<SampleDataTable> {
                         minWidth:
                             tableColumn.length < 5 && tableColumn.length > 1
                                 ? 70
-                                : 40
-                      ),
+                                : 40),
                     // width: mainHeader[k][3] == "1" ? 70 : 30,
                     // alignment: mainHeader[k][1] == "L"
                     //     ? Alignment.centerLeft
                     //     : Alignment.centerRight,
                     child: Text(
-                      value,
+                      value.toString(),
                       textAlign: mainHeader[k][1] == "L"
                           ? TextAlign.left
                           : TextAlign.right,
@@ -230,7 +252,7 @@ class _SampleDataTableState extends State<SampleDataTable> {
         // print("value---$value");
       },
     );
-    print(datacell.length);
+    // print(datacell.length);
     return datacell;
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reports/components/customColor.dart';
-import 'package:reports/components/customDatePicker.dart';
 import 'package:reports/controller/controller.dart';
 import 'package:reports/screen/level2.dart';
 
@@ -29,6 +28,8 @@ class _HomePageState extends State<HomePage> {
   bool isSelected = true;
   bool buttonClicked = false;
   List newList = [];
+  String? fromDate;
+  String? toDate;
 
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
@@ -79,9 +80,42 @@ class _HomePageState extends State<HomePage> {
     String? type;
     String? type1;
     String? type2;
-    
-    
-/////////////////////////////////////////////////////////////////
+    String? filter;
+    String? filter1;
+    //// date picker ////////////////
+    Future _selectFromDate(BuildContext context) async {
+      final DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: currentDate,
+          firstDate: currentDate.subtract(Duration(days: 0)),
+          lastDate: DateTime(2023));
+      if (pickedDate != null) {
+        setState(() {
+          currentDate = pickedDate;
+        });
+      } else {
+        print("please select date");
+      }
+      fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
+    }
+
+    Future _selectToDate(BuildContext context) async {
+      final DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: currentDate,
+          firstDate: currentDate.subtract(Duration(days: 0)),
+          lastDate: DateTime(2023));
+      if (pickedDate != null) {
+        setState(() {
+          currentDate = pickedDate;
+        });
+      } else {
+        print("please select date");
+      }
+      toDate = DateFormat('dd-MM-yyyy').format(currentDate);
+    }
+
+////////////////////////////////////////////////////////////
     for (var i = 0;
         i <
             Provider.of<Controller>(context, listen: false)
@@ -256,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                 {
                   return Container(
                     child: Container(
-                      height: size.height * 0.15,
+                      height: size.height * 0.14,
                       color: P_Settings.dateviewColor,
                       child: Column(
                         children: [
@@ -279,14 +313,39 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 type1 != "F" && type2 != "T"
-                                    ? CustomDatePicker(dateType: "To Date")
-                                    : CustomDatePicker(dateType: "From Date "),
-                                CustomDatePicker(dateType: "To Date"),
-                             
+                                    ? Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                _selectFromDate(context);
+                                              },
+                                              icon: Icon(Icons.calendar_today)),
+                                          fromDate == null ?Text(currentDate.toString()): Text(toDate.toString())
+                                        ],
+                                      )
+                                    : Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              _selectFromDate(context);
+                                            },
+                                            icon: Icon(Icons.calendar_today)),
+                                            Text(fromDate.toString())
+                                      ],
+                                    ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          _selectToDate(context);
+                                        },
+                                        icon: Icon(Icons.calendar_today)),
+                                        Text(toDate.toString())
+                                  ],
+                                )
                               ],
                             ),
                           ),
-                     
                         ],
                       ),
                     ),
@@ -298,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                 ? Consumer<Controller>(builder: (context, value, child) {
                     {
                       return Container(
-                        height: size.height * 0.71,
+                        height: size.height * 0.7,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: value.reportList.length,
@@ -320,18 +379,31 @@ class _HomePageState extends State<HomePage> {
                                     // dense: true,
                                     minLeadingWidth: 10,
                                     onTap: () {
-                                      String fromDate;
+                                      filter = value.reportList[2]["filters"]
+                                          .toString();
+                                      print("filter ..............$filter");
+                                      List<String> parts = filter!.split(',');
+                                      filter1 = parts[0].trim();
+                                      print("filtersss ..............$filter1");
+                                      // prefix: "date"
+                                      String special_field2 =
+                                          value.specialelements[0]["value"];
+
+                                      // Provider.of<Controller>(context, listen: false).getSubCategoryReportList(
+
+                                      // );
+
                                       setState(() {
                                         buttonClicked = true;
                                       });
                                       Future.delayed(
                                           Duration(milliseconds: 100), () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => HomePage1(),
-                                          ),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => HomePage1(),
+                                        //   ),
+                                        // );
                                       });
                                     },
                                     title: Column(
@@ -389,12 +461,12 @@ class _HomePageState extends State<HomePage> {
                                       Future.delayed(
                                           const Duration(milliseconds: 100),
                                           () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => HomePage1(),
-                                          ),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => HomePage1(),
+                                        //   ),
+                                        // );
                                       });
                                     },
                                     title: Column(
