@@ -38,6 +38,7 @@ class _HomePage1State extends State<HomePage1> {
 
   bool isSelected = true;
   bool buttonClicked = false;
+
   List<Map<String, dynamic>> shrinkedData = [];
   List<Map<String, dynamic>> jsonList = [];
   var encoded;
@@ -80,9 +81,6 @@ class _HomePage1State extends State<HomePage1> {
   getShared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     decodd = prefs.getString("json");
-    // decoddShrinked = prefs.getString("shrinked json");
-    //print("decoded---${decodd}");
-    // print("decoddShrinked---${decoddShrinked}");
   }
 
   setSharedPreftojsondata() async {
@@ -123,7 +121,7 @@ class _HomePage1State extends State<HomePage1> {
     }).toList();
     //print("json list--${jsonList}");
   }
-
+///////////////////////////////////////////////////////////
   Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -155,7 +153,7 @@ class _HomePage1State extends State<HomePage1> {
     }
     toDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
-
+/////////////////////////////////////////////////////////////////
   @override
   void initState() {
     // Provider.of<Controller>(context, listen: false).getReportApi();
@@ -426,59 +424,55 @@ class _HomePage1State extends State<HomePage1> {
                                             width: size.width * 1,
                                             child: Row(
                                               children: [
-                                                Flexible(
-                                                  child: ListView.builder(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    physics:
-                                                        const PageScrollPhysics(),
-                                                    itemCount: value
-                                                        .specialelements.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      return Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5.0),
-                                                        child: SizedBox(
-                                                          width:
-                                                              size.width * 0.2,
-                                                          // height: size.height*0.001,
-                                                          child: ElevatedButton(
+                                                ListView.builder(
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  physics:
+                                                      const PageScrollPhysics(),
+                                                  itemCount: value
+                                                      .specialelements.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      child: SizedBox(
+                                                        width: size.width * 0.2,
+                                                        // height: size.height*0.001,
+                                                        child: ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            // shape: StadiumBorder(),
+                                                            shape: BeveledRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            12)),
+                                                            primary: P_Settings
+                                                                .color4,
+                                                            shadowColor:
+                                                                P_Settings
+                                                                    .color4,
+                                                            minimumSize:
+                                                                Size(10, 20),
+                                                            maximumSize:
+                                                                Size(10, 20),
+                                                          ),
+                                                          onPressed: () {},
+                                                          child: Text(
+                                                            value.specialelements[
+                                                                index]["label"],
                                                             style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              // shape: StadiumBorder(),
-                                                              shape: BeveledRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12)),
-                                                              primary:
-                                                                  P_Settings
-                                                                      .color4,
-                                                              shadowColor:
-                                                                  P_Settings
-                                                                      .color4,
-                                                              minimumSize:
-                                                                  Size(10, 20),
-                                                              maximumSize:
-                                                                  Size(10, 20),
-                                                            ),
-                                                            onPressed: () {},
-                                                            child: Text(
-                                                              value.specialelements[
-                                                                      index]
-                                                                  ["label"],
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white),
-                                                            ),
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
                                                           ),
                                                         ),
-                                                      );
-                                                    },
-                                                  ),
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               ],
                                             ),
@@ -502,7 +496,7 @@ class _HomePage1State extends State<HomePage1> {
               {
                 return Container(
                   // color: P_Settings.datatableColor,
-                  // height: size.height * 0.71,
+                  height: size.height * 0.71,
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: listString.length,
@@ -551,12 +545,14 @@ class _HomePage1State extends State<HomePage1> {
                               SizedBox(height: size.height * 0.004),
                               Visibility(
                                 visible: visible[index],
-                                child:
-                                    DataTableCompo(decodd: encodedShrinkdata),
+                                child: DataTableCompo(
+                                    decodd: encodedShrinkdata,
+                                    type: "shrinked"),
                               ),
                               Visibility(
                                 visible: isExpanded[index],
-                                child: DataTableCompo(decodd: decodd),
+                                child: DataTableCompo(
+                                    decodd: decodd, type: "expaded"),
                               ),
                             ],
                           ),
@@ -571,146 +567,5 @@ class _HomePage1State extends State<HomePage1> {
     );
   }
 }
-
-///////////////////////////////////////////////////////////
-// Widget shrinkedDataTable(BuildContext context) {
-//   Size size = MediaQuery.of(context).size;
-//   return Padding(
-//     padding: const EdgeInsets.only(left: 6, right: 6),
-//     child: SingleChildScrollView(
-//       scrollDirection: Axis.horizontal,
-//       child: Container(
-//         width: size.width * 1.8,
-//         // height: 90,
-//         decoration: BoxDecoration(color: P_Settings.datatableColor),
-//         child: DataTable(
-//           headingRowHeight: 25,
-//           dataRowHeight: 25,
-//           dataRowColor:
-//               MaterialStateColor.resolveWith((states) => P_Settings.color4),
-//           columnSpacing: 2,
-//           border: TableBorder.all(
-//             color: P_Settings.datatableColor,
-//           ),
-//           columns: [
-//             DataColumn(
-//               label: Text('ID'),
-//             ),
-//             DataColumn(
-//               label: Text('Name'),
-//             ),
-//             DataColumn(
-//               label: Text('Code'),
-//             ),
-//             DataColumn(
-//               label: Text('Quantity'),
-//             ),
-//             DataColumn(
-//               label: Text('Amount'),
-//             ),
-//             DataColumn(
-//               label: Text('Quantity'),
-//             ),
-//             DataColumn(
-//               label: Text('Amount'),
-//             ),
-//           ],
-//           rows: [
-//             DataRow(cells: [
-//               DataCell(Text('f1')),
-//               DataCell(Text('f2')),
-//               DataCell(Text('f3')),
-//               DataCell(Text('f4')),
-//               DataCell(Text('f5')),
-//               DataCell(Text('f6')),
-//               DataCell(Text('f7')),
-//             ])
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
-
-///////////////////////////////////////////////
-//   Widget datatable(BuildContext context) {
-//     Size size = MediaQuery.of(context).size;
-//     bool _isAscending = true;
-//     return Padding(
-//       padding: const EdgeInsets.only(left: 6, right: 6),
-//       child: SingleChildScrollView(
-//         scrollDirection: Axis.horizontal,
-//         child: Container(
-//           width: size.width * 1.8,
-//           decoration: BoxDecoration(color: P_Settings.datatableColor),
-//           child: DataTable(
-//               sortAscending: _isAscending,
-//               headingRowHeight: 30,
-//               dataRowHeight: 30,
-//               dataRowColor:
-//                   MaterialStateColor.resolveWith((states) => P_Settings.color4),
-//               border: TableBorder.all(
-//                 color: P_Settings.datatableColor,
-//               ),
-//               // headingRowColor: MaterialStateColor.resolveWith(
-//               //     (states) => P_Settings.datatableColor),
-//               columns: [
-//                 DataColumn(
-//                   // onSort: (columnIndex, ascending) {},
-//                   label: Text('ID'),
-//                 ),
-//                 DataColumn(
-//                   label: Text('Name'),
-//                 ),
-//                 DataColumn(
-//                   label: Text('Code'),
-//                 ),
-//                 DataColumn(
-//                   label: Text('Quantity'),
-//                 ),
-//                 DataColumn(
-//                   label: Text('Amount'),
-//                 ),
-//                 DataColumn(
-//                   label: Text('Quantity'),
-//                 ),
-//                 DataColumn(
-//                   label: Text('Amount'),
-//                 ),
-//               ],
-//               rows: [
-//                 DataRow(cells: [
-//                   DataCell(Text('1')),
-//                   DataCell(Text('knusha')),
-//                   DataCell(Text('5644645')),
-//                   DataCell(Text('3')),
-//                   DataCell(Text('10')),
-//                   DataCell(Text('3')),
-//                   DataCell(Text('10')),
-//                 ]),
-//                 DataRow(cells: [
-//                   DataCell(Text('1')),
-//                   DataCell(Text('Anu')),
-//                   DataCell(Text('5644645')),
-//                   DataCell(Text('3')),
-//                   DataCell(Text('19')),
-//                   DataCell(Text('3')),
-//                   DataCell(Text('10')),
-//                 ]),
-//                 DataRow(cells: [
-//                   DataCell(Text('')),
-//                   DataCell(Text('')),
-//                   DataCell(Text('')),
-//                   DataCell(Text('')),
-//                   DataCell(Text('')),
-//                   DataCell(Text('')),
-//                   DataCell(Text('')),
-//                 ]),
-//               ]),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 ///////////////////////alert box for button click //////////////////////////////////////

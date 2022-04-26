@@ -7,8 +7,8 @@ import 'package:reports/components/customColor.dart';
 
 class DataTableCompo extends StatefulWidget {
   var decodd;
-  
-  DataTableCompo({this.decodd});
+  String? type;
+  DataTableCompo({this.decodd, this.type});
 
   @override
   State<DataTableCompo> createState() => _DataTableCompoState();
@@ -18,18 +18,21 @@ class _DataTableCompoState extends State<DataTableCompo> {
   List<Map<String, dynamic>> newJson = [];
   final rows = <DataRow>[];
   String? behv;
+  Map<String, dynamic> total = {};
 
   List<String>? colName;
   List<String> tableColumn = [];
   List<String> behvr = [];
   var jsondata;
   Map<String, dynamic> mainHeader = {};
+
   @override
   void initState() {
     String colsName;
     super.initState();
     if (widget.decodd != null) {
       jsondata = json.decode(widget.decodd);
+      print("json data----${jsondata}");
     } else {
       print("null");
     }
@@ -50,9 +53,48 @@ class _DataTableCompoState extends State<DataTableCompo> {
     for (var item in jsondata) {
       newJson.add(item);
     }
+
     newJson.forEach((item) => item..remove("rank"));
     print("new json---$newJson");
+    if (widget.type == "expaded") {
+      calculateSum();
+
+      newJson.add(total);
+      print("new json after total calculation ${newJson}");
+    }
   }
+
+  /////////////////////////////////////////////
+  calculateSum() {
+    Map map = {};
+    double valueStored;
+    // print("main header---${mainHeader}");
+    mainHeader.forEach((key, value) {
+      double sum = 0;
+      // print("key---${key}");
+      for (var i = 0; i < newJson.length; i++) {
+        map = newJson[i];
+        print("map----${map}");
+        map.forEach((k, val) {
+          if (k == key) {
+            // print("mainheader[k][3]----${mainHeader[key][2]}");
+            if (mainHeader[key][2] == "Y") {
+              valueStored = double.parse(val);
+              // print("valueStored--${valueStored}");
+              sum = sum + valueStored;
+              // print("sum----${sum}");
+              total[k] = sum;
+            } else {
+              total[k] = "";
+            }
+          }
+        });
+      }
+    });
+    print("tootal map----${total}");
+  }
+
+  ////////////////////////////////////////////
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +134,11 @@ class _DataTableCompoState extends State<DataTableCompo> {
       return DataColumn(
         tooltip: colsName,
         label: Container(
-          width: 100,
+          width: 80,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              colsName,
+              colsName,style: TextStyle(fontSize: 12),
               textAlign: behv[1] == "L" ? TextAlign.left : TextAlign.right,
             ),
           ),
@@ -145,7 +187,7 @@ class _DataTableCompoState extends State<DataTableCompo> {
                         : Alignment.centerRight,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(value),
+                      child: Text(value.toString(),style: TextStyle(fontSize: 11),),
                     ),
                   ),
                 ),

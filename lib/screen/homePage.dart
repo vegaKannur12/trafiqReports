@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
   }
+
 ///////////////////////////////////////////////
   Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -52,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
+
 /////////////////////////////////////////////////
   Future _selectToDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -68,6 +70,7 @@ class _HomePageState extends State<HomePage> {
     }
     toDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
+
 ////////////////////////////////////////////////////////
   @override
   void initState() {
@@ -76,19 +79,14 @@ class _HomePageState extends State<HomePage> {
     crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     super.initState();
   }
-/////////////////////////////////////////////////////
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    Provider.of<Controller>(context, listen: false).getCategoryReport();
-  }
+
 ////////////////////////////////////////////////////
   void togle() {
     setState(() {
       visible = !visible;
     });
   }
+
 ///////////////////////////////////////////////////
   onChangedValue(String value) {
     setState(() {
@@ -105,6 +103,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
+
 //////////////////////////////////////////////////
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -116,7 +115,6 @@ class _HomePageState extends State<HomePage> {
     String? type2;
     String? filter;
     String? filter1;
-  
 
 ////////////////////////////////////////////////////////////
     for (var i = 0;
@@ -253,8 +251,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Column(children: [
-       
+      body: Column(
+        children: [
         buttonClicked
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
