@@ -387,11 +387,7 @@ class _HomePageState extends State<HomePage> {
                                     // dense: true,
                                     minLeadingWidth: 10,
                                     onTap: () {
-<<<<<<< HEAD
                                       filter = value.reportList[2]["filters"]
-=======
-                                      filter = value.reportList[index]["filters"]
->>>>>>> bafae3b4d18682912ad74e9a7911b6e1ca7bacf7
                                           .toString();
                                       print("filter ..............$filter");
                                       List<String> parts = filter!.split(',');
