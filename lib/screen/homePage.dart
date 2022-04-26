@@ -38,11 +38,11 @@ class _HomePageState extends State<HomePage> {
   }
 
 ///////////////////////////////////////////////
-  Future _selectFromDate(BuildContext context) async {
+   Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
-        firstDate: currentDate.subtract(Duration(days: 0)),
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(Duration(days: 0)),
         lastDate: DateTime(2023));
     if (pickedDate != null) {
       setState(() {
@@ -53,13 +53,12 @@ class _HomePageState extends State<HomePage> {
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
-
-/////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
   Future _selectToDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
-        firstDate: currentDate.subtract(Duration(days: 0)),
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(Duration(days: 0)),
         lastDate: DateTime(2023));
     if (pickedDate != null) {
       setState(() {
@@ -319,10 +318,10 @@ class _HomePageState extends State<HomePage> {
                                               onPressed: () {
                                                 _selectFromDate(context);
                                               },
-                                              icon: Icon(Icons.calendar_today)),
+                                              icon: Icon(Icons.calendar_month)),
                                           fromDate == null
                                               ? Text(crntDateFormat.toString())
-                                              : Text(toDate.toString())
+                                              : Text(fromDate.toString())
                                         ],
                                       )
                                     : Row(
@@ -331,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                               onPressed: () {
                                                 _selectFromDate(context);
                                               },
-                                              icon: Icon(Icons.calendar_today)),
+                                              icon: Icon(Icons.calendar_month)),
                                           fromDate == null
                                               ? Text(crntDateFormat.toString())
                                               : Text(fromDate.toString())
@@ -343,8 +342,8 @@ class _HomePageState extends State<HomePage> {
                                         onPressed: () {
                                           _selectToDate(context);
                                         },
-                                        icon: Icon(Icons.calendar_today)),
-                                    fromDate == null
+                                        icon: Icon(Icons.calendar_month)),
+                                    toDate == null
                                         ? Text(crntDateFormat.toString())
                                         : Text(toDate.toString())
                                   ],
