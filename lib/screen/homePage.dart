@@ -31,16 +31,18 @@ class _HomePageState extends State<HomePage> {
   String? fromDate;
   String? toDate;
   DateTime dateTime = DateTime.now(); //
+  ////////////////////////////////////////////
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
     Navigator.of(context).pop(); // close the drawer
   }
 
+///////////////////////////////////////////////
   Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
-        firstDate: currentDate.subtract(Duration(days: 0)),
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(Duration(days: 0)),
         lastDate: DateTime(2023));
     if (pickedDate != null) {
       setState(() {
@@ -52,11 +54,12 @@ class _HomePageState extends State<HomePage> {
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
 
+/////////////////////////////////////////////////////////////////
   Future _selectToDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
-        firstDate: currentDate.subtract(Duration(days: 0)),
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(Duration(days: 0)),
         lastDate: DateTime(2023));
     if (pickedDate != null) {
       setState(() {
@@ -68,6 +71,7 @@ class _HomePageState extends State<HomePage> {
     toDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
 
+////////////////////////////////////////////////////////
   @override
   void initState() {
     // Provider.of<Controller>(context, listen: false).getCategoryReportList(rg_id)
@@ -76,19 +80,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    Provider.of<Controller>(context, listen: false).getCategoryReport();
-  }
-
+////////////////////////////////////////////////////
   void togle() {
     setState(() {
       visible = !visible;
     });
   }
 
+///////////////////////////////////////////////////
   onChangedValue(String value) {
     setState(() {
       searchKey = value;
@@ -105,6 +104,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+//////////////////////////////////////////////////
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,6 @@ class _HomePageState extends State<HomePage> {
     String? type2;
     String? filter;
     String? filter1;
-    //// date picker ////////////////
 
 ////////////////////////////////////////////////////////////
     for (var i = 0;
@@ -253,7 +252,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Column(children: [
-       
         buttonClicked
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -281,14 +279,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               )
             : Consumer<Controller>(builder: (context, value, child) {
-                // type = value.reportList![4]["report_elements"].toString();
-                if (value.reportList != null && value.reportList.isNotEmpty) {
-                  type = value.reportList[4]["report_elements"].toString();
-                  List<String> parts = type!.split(',');
-                  type1 = parts[0].trim(); // prefix: "date"
-                  type2 = parts[1].trim(); // prefix: "date"
-
-                }
+                // print("  value.reportList[4]['report_elements']---${value.reportList[4]}");
+                // type = value.reportList[4]["report_elements"].toString();
+                // if (value.reportList != null && value.reportList.isNotEmpty) {
+                //   type = value.reportList[4]["report_elements"].toString();
+                //   List<String> parts = type!.split(',');
+                //   type1 = parts[0].trim(); // prefix: "date"
+                //   type2 = parts[1].trim(); // prefix: "date"
+                // }
                 {
                   return Container(
                     child: Container(
@@ -321,10 +319,10 @@ class _HomePageState extends State<HomePage> {
                                               onPressed: () {
                                                 _selectFromDate(context);
                                               },
-                                              icon: Icon(Icons.calendar_today)),
+                                              icon: Icon(Icons.calendar_month)),
                                           fromDate == null
                                               ? Text(crntDateFormat.toString())
-                                              : Text(toDate.toString())
+                                              : Text(fromDate.toString())
                                         ],
                                       )
                                     : Row(
@@ -333,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                                               onPressed: () {
                                                 _selectFromDate(context);
                                               },
-                                              icon: Icon(Icons.calendar_today)),
+                                              icon: Icon(Icons.calendar_month)),
                                           fromDate == null
                                               ? Text(crntDateFormat.toString())
                                               : Text(fromDate.toString())
@@ -345,8 +343,8 @@ class _HomePageState extends State<HomePage> {
                                         onPressed: () {
                                           _selectToDate(context);
                                         },
-                                        icon: Icon(Icons.calendar_today)),
-                                    fromDate == null
+                                        icon: Icon(Icons.calendar_month)),
+                                    toDate == null
                                         ? Text(crntDateFormat.toString())
                                         : Text(toDate.toString())
                                   ],
@@ -364,6 +362,11 @@ class _HomePageState extends State<HomePage> {
             ? newList.isEmpty
                 ? Consumer<Controller>(builder: (context, value, child) {
                     {
+                      // if (value.isLoading == true) {
+                      //   return Center(
+                      //     child: CircularProgressIndicator(),
+                      //   );
+                      // }
                       return Container(
                         height: size.height * 0.7,
                         child: ListView.builder(
@@ -383,11 +386,9 @@ class _HomePageState extends State<HomePage> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
-                                    // contentPadding: EdgeInsets.zero,
-                                    // dense: true,
                                     minLeadingWidth: 10,
                                     onTap: () {
-                                      filter = value.reportList[2]["filters"]
+                                      filter = value.reportList[index]["filters"]
                                           .toString();
                                       print("filter ..............$filter");
                                       List<String> parts = filter!.split(',');
@@ -411,12 +412,12 @@ class _HomePageState extends State<HomePage> {
                                       });
                                       Future.delayed(
                                           Duration(milliseconds: 100), () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => HomePage1(),
-                                          ),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => HomePage1(),
+                                        //   ),
+                                        // );
                                       });
                                     },
                                     title: Column(
@@ -471,16 +472,16 @@ class _HomePageState extends State<HomePage> {
                                       setState(() {
                                         buttonClicked = true;
                                       });
-                                      Future.delayed(
-                                          const Duration(milliseconds: 100),
-                                          () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => HomePage1(),
-                                        //   ),
-                                        // );
-                                      });
+                                      // Future.delayed(
+                                      //     const Duration(milliseconds: 100),
+                                      //     () {
+                                      //   // Navigator.push(
+                                      //   //   context,
+                                      //   //   MaterialPageRoute(
+                                      //   //     builder: (context) => HomePage1(),
+                                      //   //   ),
+                                      //   // );
+                                      // });
                                     },
                                     title: Column(
                                       children: [
