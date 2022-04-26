@@ -121,8 +121,7 @@ class _HomePage1State extends State<HomePage1> {
     }).toList();
     //print("json list--${jsonList}");
   }
-  
- 
+
 ///////////////////////////////////////////////////////////
   Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -139,6 +138,7 @@ class _HomePage1State extends State<HomePage1> {
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
+
 /////////////////////////////////////////////////////////////////
   Future _selectToDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -155,6 +155,7 @@ class _HomePage1State extends State<HomePage1> {
     }
     toDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
+
 /////////////////////////////////////////////////////////////////
   @override
   void initState() {
@@ -482,6 +483,11 @@ class _HomePage1State extends State<HomePage1> {
             ),
             Consumer<Controller>(builder: (context, value, child) {
               {
+                if (value.isLoading == true) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
                 return Container(
                   // color: P_Settings.datatableColor,
                   height: size.height * 0.71,

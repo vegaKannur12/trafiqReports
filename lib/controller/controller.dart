@@ -6,6 +6,7 @@ import 'package:reports/service/myService.dart';
 import 'package:http/http.dart' as http;
 
 class Controller extends ChangeNotifier {
+  bool? isLoading;
   String urlgolabl = Globaldata.apiglobal;
   List<Map<String, dynamic>> reportList = [];
   List<Map<String, dynamic>> specialelements = [];
@@ -51,18 +52,21 @@ class Controller extends ChangeNotifier {
       // print(map);
       for (var item in map) {
         reportList.add(item);
-        notifyListeners();
+        // notifyListeners();
       }
       // print("report list${reportList}");
       final jsonData = reportList[0]['special_element2'];
+      // print("${reportList[3]}");
       final parsedJson = jsonDecode(jsonData);
-      //print("parsed json--$parsedJson");
+      print("parsed json--$parsedJson");
       specialelements.clear();
       for (var i in parsedJson) {
         specialelements.add(i);
       }
       print("report list---${reportList}");
-      // print("specialelements.............${specialelements}");
+      // print("reportList[4]['report_elements']---${reportList[3]}");
+
+      print("specialelements.............${specialelements}");
       //  print("special_element2.........................${reportList[0]['special_element2']}");
 
       notifyListeners();
@@ -71,7 +75,7 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
-
+////////////////////////////////////////////////////////////////////////////////////////
   Future getSubCategoryReportList(String special_field2, String filter_id,
       String fromdate, String tilldate, String old_filter_where_ids) async {
     print(
@@ -79,16 +83,24 @@ class Controller extends ChangeNotifier {
     try {
       Uri url = Uri.parse("$urlgolabl/filters_list.php");
       var body = {
-        "special_field2": special_field2,
-        "filter_id": filter_id,
-        "fromdate": fromdate,
-        "tilldate": tilldate,
-        "old_filter_where_ids": old_filter_where_ids,
+        "special_field2": 1,
+        "filter_id": 1,
+        "fromdate": 24-04-2022,
+        "tilldate": 26-04-2022,
+        "old_filter_where_ids": "",
       };
+      isLoading=true;
+      notifyListeners();
+      print("before post");
+
       http.Response response = await http.post(
         url,
         body: body,
       );
+
+      print("aftr post");
+      // isLoading=false;
+      // notifyListeners();
       var map = jsonDecode(response.body);
       reportSubCategoryList.clear();
       // reportList!.clear();
@@ -96,7 +108,7 @@ class Controller extends ChangeNotifier {
       for (var item in map) {
         reportSubCategoryList.add(item);
       }
-      print("report list${reportSubCategoryList}");
+      print("reportSubCategoryList${reportSubCategoryList}");
       notifyListeners();
     } catch (e) {
       // print(e);

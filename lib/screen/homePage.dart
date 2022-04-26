@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 ///////////////////////////////////////////////
-   Future _selectFromDate(BuildContext context) async {
+  Future _selectFromDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
   }
+
 /////////////////////////////////////////////////////////////////
   Future _selectToDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -250,8 +251,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Column(
-        children: [
+      body: Column(children: [
         buttonClicked
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -279,13 +279,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               )
             : Consumer<Controller>(builder: (context, value, child) {
-                // type = value.reportList![4]["report_elements"].toString();
-                if (value.reportList != null && value.reportList.isNotEmpty) {
-                  type = value.reportList[4]["report_elements"].toString();
-                  List<String> parts = type!.split(',');
-                  type1 = parts[0].trim(); // prefix: "date"
-                  type2 = parts[1].trim(); // prefix: "date"
-                }
+                // print("  value.reportList[4]['report_elements']---${value.reportList[4]}");
+                // type = value.reportList[4]["report_elements"].toString();
+                // if (value.reportList != null && value.reportList.isNotEmpty) {
+                //   type = value.reportList[4]["report_elements"].toString();
+                //   List<String> parts = type!.split(',');
+                //   type1 = parts[0].trim(); // prefix: "date"
+                //   type2 = parts[1].trim(); // prefix: "date"
+                // }
                 {
                   return Container(
                     child: Container(
@@ -361,6 +362,11 @@ class _HomePageState extends State<HomePage> {
             ? newList.isEmpty
                 ? Consumer<Controller>(builder: (context, value, child) {
                     {
+                      // if (value.isLoading == true) {
+                      //   return Center(
+                      //     child: CircularProgressIndicator(),
+                      //   );
+                      // }
                       return Container(
                         height: size.height * 0.7,
                         child: ListView.builder(
@@ -380,11 +386,9 @@ class _HomePageState extends State<HomePage> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
-                                    // contentPadding: EdgeInsets.zero,
-                                    // dense: true,
                                     minLeadingWidth: 10,
                                     onTap: () {
-                                      filter = value.reportList[2]["filters"]
+                                      filter = value.reportList[index]["filters"]
                                           .toString();
                                       print("filter ..............$filter");
                                       List<String> parts = filter!.split(',');
@@ -408,12 +412,12 @@ class _HomePageState extends State<HomePage> {
                                       });
                                       Future.delayed(
                                           Duration(milliseconds: 100), () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => HomePage1(),
-                                          ),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => HomePage1(),
+                                        //   ),
+                                        // );
                                       });
                                     },
                                     title: Column(
@@ -468,16 +472,16 @@ class _HomePageState extends State<HomePage> {
                                       setState(() {
                                         buttonClicked = true;
                                       });
-                                      Future.delayed(
-                                          const Duration(milliseconds: 100),
-                                          () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => HomePage1(),
-                                        //   ),
-                                        // );
-                                      });
+                                      // Future.delayed(
+                                      //     const Duration(milliseconds: 100),
+                                      //     () {
+                                      //   // Navigator.push(
+                                      //   //   context,
+                                      //   //   MaterialPageRoute(
+                                      //   //     builder: (context) => HomePage1(),
+                                      //   //   ),
+                                      //   // );
+                                      // });
                                     },
                                     title: Column(
                                       children: [
