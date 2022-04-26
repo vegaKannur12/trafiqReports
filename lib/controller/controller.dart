@@ -114,7 +114,7 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
-
+///////////////////////////////////////////////////////////////////////////
   Future getSubCategoryReportList(String special_field2, String filter_id,
       String fromdate, String tilldate, String old_filter_where_ids) async {
     print(
@@ -140,8 +140,6 @@ class Controller extends ChangeNotifier {
         reportSubCategoryList.add(item);
       }
       print("report list${reportSubCategoryList}");
-  
-
       notifyListeners();
     } catch (e) {
       // print(e);

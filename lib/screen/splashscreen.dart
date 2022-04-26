@@ -28,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen>
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false).getCategoryReport();
-
     navigate();
   }
 

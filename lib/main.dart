@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SampleDataTable(),
+      home: SplashScreen(),
     );
   }
 }
