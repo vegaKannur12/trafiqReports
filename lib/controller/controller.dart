@@ -85,8 +85,8 @@ class Controller extends ChangeNotifier {
       var body = {
         "special_field2": 1,
         "filter_id": 1,
-        "fromdate": 24-04-2022,
-        "tilldate": 26-04-2022,
+        "fromdate": 27-04-2022 ,
+        "tilldate": 28-04-2022,
         "old_filter_where_ids": "",
       };
       isLoading=true;
