@@ -14,7 +14,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportSubCategoryList = [];
 
   /////////////////////////////////////////////////////
-  Future getCategoryReport() async {
+ getCategoryReport() async {
     try {
       Uri url = Uri.parse("$urlgolabl/report_group_list.php");
       http.Response response = await http.post(
@@ -37,7 +37,7 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////
-  Future getCategoryReportList(String rg_id) async {
+ getCategoryReportList(String rg_id) async {
     print("rg id---${rg_id}");
     try {
       Uri url = Uri.parse("$urlgolabl/reports_list.php");
@@ -83,24 +83,20 @@ class Controller extends ChangeNotifier {
     try {
       Uri url = Uri.parse("$urlgolabl/filters_list.php");
       var body = {
-        "special_field2": 1,
-        "filter_id": 1,
-        "fromdate": 27-04-2022 ,
-        "tilldate": 28-04-2022,
-        "old_filter_where_ids": "",
+        "special_field2": special_field2,
+        "filter_id": filter_id,
+        "fromdate": fromdate,
+        "tilldate": tilldate,
+        "old_filter_where_ids": old_filter_where_ids,
       };
       isLoading=true;
       notifyListeners();
-      print("before post");
-
       http.Response response = await http.post(
         url,
         body: body,
       );
-
-      print("aftr post");
-      // isLoading=false;
-      // notifyListeners();
+      isLoading=false;
+      notifyListeners();
       var map = jsonDecode(response.body);
       reportSubCategoryList.clear();
       // reportList!.clear();
@@ -108,7 +104,8 @@ class Controller extends ChangeNotifier {
       for (var item in map) {
         reportSubCategoryList.add(item);
       }
-      print("reportSubCategoryList${reportSubCategoryList}");
+      print("report list ---- ${reportSubCategoryList}");
+
       notifyListeners();
     } catch (e) {
       // print(e);
