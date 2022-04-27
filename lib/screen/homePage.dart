@@ -412,12 +412,12 @@ class _HomePageState extends State<HomePage> {
                                       });
                                       Future.delayed(
                                           Duration(milliseconds: 100), () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => HomePage1(),
-                                        //   ),
-                                        // );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomePage1(),
+                                          ),
+                                        );
                                       });
                                     },
                                     title: Column(

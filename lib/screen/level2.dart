@@ -18,6 +18,7 @@ class HomePage1 extends StatefulWidget {
 }
 
 class _HomePage1State extends State<HomePage1> {
+  String? specialField;
   Widget? appBarTitle;
   DateTime currentDate = DateTime.now();
   bool qtyvisible = false;
@@ -159,17 +160,18 @@ class _HomePage1State extends State<HomePage1> {
 /////////////////////////////////////////////////////////////////
   @override
   void initState() {
+    //print("jsondata----$jsondata");
+    super.initState();
     crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     print(crntDateFormat);
     // Provider.of<Controller>(context, listen: false).getReportApi();
-    isExpanded = List.generate(listString.length, (index) => false);
-    visible = List.generate(listString.length, (index) => true);
+
     // print("initstate");
     setSharedPreftojsondata();
     getShared();
     createShrinkedData();
-    //print("jsondata----$jsondata");
-    super.initState();
+    isExpanded = List.generate(listString.length, (ind) => false);
+    visible = List.generate(listString.length, (ind) => true);
   }
 
   @override
@@ -210,6 +212,7 @@ class _HomePage1State extends State<HomePage1> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: appBarTitle,
+        // appBarTitle,
         actions: [
           IconButton(
             icon: actionIcon,
@@ -235,12 +238,41 @@ class _HomePage1State extends State<HomePage1> {
                       // }),
                       cursorColor: Colors.black);
                 } else {
-                  if (this.actionIcon.icon == Icons.close) {
-                    // print("hellooo");
+                  if (this.actionIcon.icon == Icons.close &&
+                      _controller.text.isNotEmpty) {
                     this.actionIcon = Icon(Icons.search);
-                    this.appBarTitle = Text("Report");
+                    this.appBarTitle =
+                        Consumer<Controller>(builder: (context, value, child) {
+                      if (value.reportSubCategoryList != null &&
+                          value.reportSubCategoryList.isNotEmpty) {
+                        return Text(
+                          value.reportSubCategoryList[0]["sg"],
+                          style: TextStyle(fontSize: 16),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    });
                     // Provider.of<Controller>(context, listen: false)
                     //     .setIssearch(false);
+                  } else {
+                    if (this.actionIcon.icon == Icons.close) {
+                      print("closed");
+                      _controller.clear();
+                      this.actionIcon = Icon(Icons.search);
+                      this.appBarTitle = Consumer<Controller>(
+                          builder: (context, value, child) {
+                        if (value.reportSubCategoryList != null &&
+                            value.reportSubCategoryList.isNotEmpty) {
+                          return Text(
+                            value.reportSubCategoryList[0]["sg"],
+                            style: TextStyle(fontSize: 16),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      });
+                    }
                   }
                 }
               });
@@ -449,7 +481,10 @@ class _HomePage1State extends State<HomePage1> {
                                                             maximumSize:
                                                                 Size(10, 20),
                                                           ),
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            specialField=value.specialelements[
+                                                                index]["value"];
+                                                          },
                                                           child: Text(
                                                             value.specialelements[
                                                                 index]["label"],
@@ -483,6 +518,10 @@ class _HomePage1State extends State<HomePage1> {
             ),
             Consumer<Controller>(builder: (context, value, child) {
               {
+                isExpanded = List.generate(
+                    value.reportSubCategoryList.length, (index) => false);
+                visible = List.generate(
+                    value.reportSubCategoryList.length, (index) => true);
                 if (value.isLoading == true) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -493,7 +532,7 @@ class _HomePage1State extends State<HomePage1> {
                   height: size.height * 0.71,
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: listString.length,
+                      itemCount: value.reportSubCategoryList.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(5.0),
@@ -508,17 +547,29 @@ class _HomePage1State extends State<HomePage1> {
                                 ),
                                 child: ListTile(
                                   onTap: () {
+                                     String  filter = value.reportList[index]["filters"]
+                                          .toString();
+                                      print("filter ..............$filter");
+                                      List<String> parts = filter.split(',');
+                                    String   filter1 = parts[1].trim();
+                                      print("filtersss ..............$filter1");
+                                   
+                                    String old_filter_where_ids=value.reportSubCategoryList[index]["acc_rowid"];
+
+                                     Provider.of<Controller>(context, listen: false).getSubCategoryReportList(specialField!, filter1, fromDate!, toDate!, old_filter_where_ids);
                                     // Navigator.push(
                                     //   context,
                                     //   MaterialPageRoute(builder: (context) => HomePage()),
                                     // );
                                   },
-                                  title: Column(
-                                    children: [
-                                      Text(listString[index]),
-                                      Text('/report page flow'),
-                                    ],
+                                  title: Center(
+                                    child: Text(
+                                      value.reportSubCategoryList[index]["sg"],
+                                      // style: TextStyle(fontSize: 12),
+                                    ),
                                   ),
+                                  // subtitle:
+                                  //     Center(child: Text('/report page flow')),
                                   trailing: IconButton(
                                       icon: isExpanded[index]
                                           ? Icon(
