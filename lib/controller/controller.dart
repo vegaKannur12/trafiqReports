@@ -12,9 +12,11 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> specialelements = [];
   List<Map<String, dynamic>> reportCategoryList = [];
   List<Map<String, dynamic>> reportSubCategoryList = [];
+  List<bool> visible = [];
+  List<bool> isExpanded = [];
 
   /////////////////////////////////////////////////////
- getCategoryReport() async {
+  getCategoryReport() async {
     try {
       Uri url = Uri.parse("$urlgolabl/report_group_list.php");
       http.Response response = await http.post(
@@ -37,7 +39,7 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////
- getCategoryReportList(String rg_id) async {
+  getCategoryReportList(String rg_id) async {
     print("rg id---${rg_id}");
     try {
       Uri url = Uri.parse("$urlgolabl/reports_list.php");
@@ -75,6 +77,7 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
+
 ////////////////////////////////////////////////////////////////////////////////////////
   Future getSubCategoryReportList(String special_field2, String filter_id,
       String fromdate, String tilldate, String old_filter_where_ids) async {
@@ -89,13 +92,14 @@ class Controller extends ChangeNotifier {
         "tilldate": tilldate,
         "old_filter_where_ids": old_filter_where_ids,
       };
-      isLoading=true;
+      isLoading = true;
       notifyListeners();
       http.Response response = await http.post(
         url,
         body: body,
       );
-      isLoading=false;
+
+      isLoading = false;
       notifyListeners();
       var map = jsonDecode(response.body);
       reportSubCategoryList.clear();
@@ -104,6 +108,11 @@ class Controller extends ChangeNotifier {
       for (var item in map) {
         reportSubCategoryList.add(item);
       }
+      var length = reportSubCategoryList.length;
+      isExpanded = List.generate(length, (index) => false);
+      visible = List.generate(length, (index) => true);
+      print("isExpanded---$isExpanded");
+      print("visible---$visible");
       print("report list ---- ${reportSubCategoryList}");
 
       notifyListeners();
@@ -111,5 +120,12 @@ class Controller extends ChangeNotifier {
       // print(e);
       return null;
     }
+  }
+
+
+  toggleData(int i){
+    isExpanded[i]=!isExpanded[i];
+    visible[i]=!visible[i];
+    notifyListeners();
   }
 }

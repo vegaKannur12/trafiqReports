@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reports/components/customColor.dart';
 import 'package:reports/controller/controller.dart';
-import 'package:reports/screen/level2.dart';
+import 'package:reports/screen/level1.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -394,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                                       List<String> parts = filter!.split(',');
                                       filter1 = parts[0].trim();
                                       print("filtersss ..............$filter1");
-
+                                      String old_filter_where_ids="0,";
                                       String special_field2 =
                                           value.specialelements[0]["value"];
                                       print(special_field2);
@@ -405,17 +405,18 @@ class _HomePageState extends State<HomePage> {
                                               filter1!,
                                               fromDate!,
                                               toDate!,
-                                              "");
+                                              old_filter_where_ids);
 
                                       setState(() {
                                         buttonClicked = true;
                                       });
+                                      
                                       Future.delayed(
                                           Duration(milliseconds: 100), () {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => HomePage1(),
+                                            builder: (context) => LevelOne(old_filter_where_ids: old_filter_where_ids),
                                           ),
                                         );
                                       });

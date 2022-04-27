@@ -7,17 +7,20 @@ import 'package:provider/provider.dart';
 import 'package:reports/components/customColor.dart';
 import 'package:reports/components/customDatePicker.dart';
 import 'package:reports/components/datatableCompo.dart';
+import 'package:reports/components/shrinkedDatattable.dart';
 import 'package:reports/controller/controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage1 extends StatefulWidget {
+class LevelTwo extends StatefulWidget {
+  String old_filter_where_ids;
+  LevelTwo({required this.old_filter_where_ids});
   @override
-  State<HomePage1> createState() {
-    return _HomePage1State();
+  State<LevelTwo> createState() {
+    return _LevelTwoState();
   }
 }
 
-class _HomePage1State extends State<HomePage1> {
+class _LevelTwoState extends State<LevelTwo> {
   String? specialField;
   Widget? appBarTitle;
   DateTime currentDate = DateTime.now();
@@ -27,8 +30,8 @@ class _HomePage1State extends State<HomePage1> {
   String? toDate;
   String? crntDateFormat;
   Icon actionIcon = Icon(Icons.search);
-  List<bool> visible = [];
-  List<bool> isExpanded = [];
+  // List<bool> visible = [];
+  // List<bool> isExpanded = [];
   late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   List<String> listString = ["Main Heading", "level1", "level2"];
   List<String> listShrinkData = ["F1", "F2", "F3"];
@@ -108,12 +111,12 @@ class _HomePage1State extends State<HomePage1> {
     encodedShrinkdata = json.encode(shrinkedData);
   }
 
-  toggle(int i) {
-    setState(() {
-      isExpanded[i] = !isExpanded[i];
-      visible[i] = !visible[i];
-    });
-  }
+  // toggle(int i) {
+  //   setState(() {
+  //     isExpanded[i] = !isExpanded[i];
+  //     visible[i] = !visible[i];
+  //   });
+  // }
 
   setList() {
     jsonList.clear();
@@ -170,8 +173,14 @@ class _HomePage1State extends State<HomePage1> {
     setSharedPreftojsondata();
     getShared();
     createShrinkedData();
-    isExpanded = List.generate(listString.length, (ind) => false);
-    visible = List.generate(listString.length, (ind) => true);
+    var length = Provider.of<Controller>(context, listen: false)
+        .reportSubCategoryList
+        .length;
+    print(length);
+    // isExpanded = List.generate(length, (index) => false);
+    // visible = List.generate(length, (index) => true);
+    // print("isExpanded---$isExpanded");
+    // print("visible---$visible");
   }
 
   @override
@@ -335,7 +344,7 @@ class _HomePage1State extends State<HomePage1> {
                   )
                 : Consumer<Controller>(builder: (context, value, child) {
                     if (value.reportList != null &&
-                        value.reportList.isNotEmpty) {
+                        value.reportList.isEmpty) {
                       type = value.reportList[4]["report_elements"].toString();
                       List<String> parts = type!.split(',');
                       type1 = parts[0].trim(); // prefix: "date"
@@ -482,7 +491,8 @@ class _HomePage1State extends State<HomePage1> {
                                                                 Size(10, 20),
                                                           ),
                                                           onPressed: () {
-                                                            specialField=value.specialelements[
+                                                            specialField = value
+                                                                    .specialelements[
                                                                 index]["value"];
                                                           },
                                                           child: Text(
@@ -518,10 +528,9 @@ class _HomePage1State extends State<HomePage1> {
             ),
             Consumer<Controller>(builder: (context, value, child) {
               {
-                isExpanded = List.generate(
-                    value.reportSubCategoryList.length, (index) => false);
-                visible = List.generate(
-                    value.reportSubCategoryList.length, (index) => true);
+                print(value.reportSubCategoryList.length);
+
+          
                 if (value.isLoading == true) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -534,11 +543,11 @@ class _HomePage1State extends State<HomePage1> {
                       shrinkWrap: true,
                       itemCount: value.reportSubCategoryList.length,
                       itemBuilder: (context, index) {
+                        var jsonEncoded=json.encode(value.reportSubCategoryList[index]);
+                        // print("map---${value.reportSubCategoryList[index]}");
                         return Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            // crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Ink(
                                 decoration: BoxDecoration(
@@ -547,16 +556,26 @@ class _HomePage1State extends State<HomePage1> {
                                 ),
                                 child: ListTile(
                                   onTap: () {
-                                     String  filter = value.reportList[index]["filters"]
-                                          .toString();
-                                      print("filter ..............$filter");
-                                      List<String> parts = filter.split(',');
-                                    String   filter1 = parts[1].trim();
-                                      print("filtersss ..............$filter1");
-                                   
-                                    String old_filter_where_ids=value.reportSubCategoryList[index]["acc_rowid"];
+                                    String filter = value.reportList[index]
+                                            ["filters"]
+                                        .toString();
+                                    print("filter ..............$filter");
+                                    List<String> parts = filter.split(',');
+                                    String filter1 = parts[1].trim();
+                                    print("filtersss ..............$filter1");
 
-                                     Provider.of<Controller>(context, listen: false).getSubCategoryReportList(specialField!, filter1, fromDate!, toDate!, old_filter_where_ids);
+                                    String old_filter_where_ids =widget.old_filter_where_ids+
+                                        value.reportSubCategoryList[index]
+                                            ["cat_id"]+",";
+                                    print("old_filter_where_ids--${old_filter_where_ids}");
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .getSubCategoryReportList(
+                                            specialField!,
+                                            filter1,
+                                            fromDate!,
+                                            toDate!,
+                                            old_filter_where_ids);
                                     // Navigator.push(
                                     //   context,
                                     //   MaterialPageRoute(builder: (context) => HomePage()),
@@ -564,14 +583,15 @@ class _HomePage1State extends State<HomePage1> {
                                   },
                                   title: Center(
                                     child: Text(
-                                      value.reportSubCategoryList[index]["sg"],
+                                      value.reportSubCategoryList[index]["cat_name"]!=null?value.reportSubCategoryList[index]["cat_name"]:""
+                                      ,
                                       // style: TextStyle(fontSize: 12),
                                     ),
                                   ),
                                   // subtitle:
                                   //     Center(child: Text('/report page flow')),
                                   trailing: IconButton(
-                                      icon: isExpanded[index]
+                                      icon: Provider.of<Controller>(context, listen: false).isExpanded[index]
                                           ? Icon(
                                               Icons.arrow_upward,
                                               size: 18,
@@ -582,20 +602,23 @@ class _HomePage1State extends State<HomePage1> {
                                               size: 18,
                                             ),
                                       onPressed: () {
-                                        toggle(index);
+                                        Provider.of<Controller>(context, listen: false).toggleData(index);
+                                        // toggle(index);
                                         // print("json-----${json}");
                                       }),
                                 ),
                               ),
                               SizedBox(height: size.height * 0.004),
                               Visibility(
-                                visible: visible[index],
-                                child: DataTableCompo(
-                                    decodd: encodedShrinkdata,
-                                    type: "shrinked"),
+                                visible: Provider.of<Controller>(context, listen: false).visible[index],
+                                // child:Text("haiii")
+                                    
+                                child: ShrinkedDatatable(
+                                    decodd: jsonEncoded),
+                               
                               ),
                               Visibility(
-                                visible: isExpanded[index],
+                                visible: Provider.of<Controller>(context, listen: false).isExpanded[index],
                                 child: DataTableCompo(
                                     decodd: decodd, type: "expaded"),
                               ),

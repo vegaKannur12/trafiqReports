@@ -22,7 +22,7 @@ class _DataTableCompoState extends State<DataTableCompo> {
 
   List<String>? colName;
   List<String> tableColumn = [];
-  List<String> behvr = [];
+ 
   var jsondata;
   Map<String, dynamic> mainHeader = {};
 
@@ -125,9 +125,9 @@ class _DataTableCompoState extends State<DataTableCompo> {
       colName = column.split('_');
       colsName = colName![1];
       behv = colName![0];
-      behvr.add(behv);
-      print('Behave --- $behvr');
-      // print(behvr);
+      // behvr.add(behv);
+      // print('Behave --- $behvr');
+      // // print(behvr);
 
       // print(behv[1]);
       print("column---${column}");
