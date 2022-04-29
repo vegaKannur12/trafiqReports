@@ -311,7 +311,8 @@ class ShrinkedDatatable extends StatelessWidget {
   }
 
   ////////////////////////////////////////////////////////////
-    List<DataColumn> getColumns(List<String> columns,BuildContext context) {
+    List<DataColumn> getColumns(List<String> columns,
+    BuildContext context) {
     String behv;
     String colsName;
     return columns.map((String column) {
