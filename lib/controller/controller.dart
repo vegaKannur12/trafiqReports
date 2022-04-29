@@ -212,7 +212,7 @@ class Controller extends ChangeNotifier {
   ////////////////////////////////////////////////////////////////
   
   datatableCreation(var jsonData, String level) {
-    
+
     mapTabledata.clear();
     newMp.clear();
     tableColumn.clear();
@@ -245,4 +245,7 @@ class Controller extends ChangeNotifier {
     print("valueMap---${valueMap}");
     print("newMp---${newMp}");
   }
+
+
+ 
 }
