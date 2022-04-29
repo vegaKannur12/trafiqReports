@@ -14,6 +14,22 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportSubCategoryList = [];
   List<bool> visible = [];
   List<bool> isExpanded = [];
+  String? fromDate;
+  String? todate;
+  String? searchkey;
+  List<Map<String, dynamic>> newList = [];
+  bool isSearch = false;
+
+  String? special;
+  List<String> tableColumn = [];
+  Map<String, dynamic> valueMap = {};
+  List<String>? colName;
+  int i = 0;
+  List<String>? rowName;
+  Map<String, dynamic> mapTabledata = {};
+  List<Map<String, dynamic>> newMp = [];
+    List<DataCell> datacell = [];
+
 
   /////////////////////////////////////////////////////
   getCategoryReport() async {
@@ -122,10 +138,111 @@ class Controller extends ChangeNotifier {
     }
   }
 
+  ////////////////////////////////////////////////////////clear///
+  clearSubCategoryList() {
+    reportSubCategoryList.clear();
+    // notifyListeners();///
+  }
 
-  toggleData(int i){
-    isExpanded[i]=!isExpanded[i];
-    visible[i]=!visible[i];
+  navigatorClose(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  toggleData(int i) {
+    isExpanded[i] = !isExpanded[i];
+    visible[i] = !visible[i];
     notifyListeners();
+  }
+
+  setDate(String fromD, String toD) {
+    fromDate = fromD;
+    todate = toD;
+    notifyListeners();
+  }
+
+  setSearchKey(String searchKey) {
+    print("searchKey----${searchKey}");
+
+    searchkey = searchkey;
+    notifyListeners();
+  }
+
+  setisSearch(bool isSearch) {
+    isSearch = isSearch;
+    print("isSerarch Controller----${isSearch}");
+    notifyListeners();
+  }
+
+  searchProcess(String level) {
+    print("isSearch process----${isSearch}");
+    print("searchKey process----${searchkey}");
+
+    if (level == "level1" && isSearch == true) {
+      newList = reportSubCategoryList
+          .where((cat) =>
+              cat["sg"].toUpperCase().contains(searchkey!.toUpperCase()))
+          .toList();
+      print("nw list---$newList");
+      notifyListeners();
+    }
+    if (level == "level2" && isSearch == true) {
+      newList = reportSubCategoryList
+          .where((cat) =>
+              cat["cat_name"].toUpperCase().contains(searchkey!.toUpperCase()))
+          .toList();
+      print("nw list---$newList");
+      notifyListeners();
+    }
+    if (level == "level3" && isSearch == true) {
+      newList = reportSubCategoryList
+          .where((cat) => cat["batch_name"]
+              .toUpperCase()
+              .contains(searchkey!.toUpperCase()))
+          .toList();
+      print("nw list---$newList");
+      notifyListeners();
+    }
+  }
+
+  setSpecialField(String specField) {
+    special = specField;
+    notifyListeners();
+  }
+
+  ////////////////////////////////////////////////////////////////
+  
+  datatableCreation(var jsonData, String level) {
+    
+    mapTabledata.clear();
+    newMp.clear();
+    tableColumn.clear();
+    valueMap.clear();
+    if (jsonData != null) {
+      mapTabledata = json.decode(jsonData);
+      // print("json data----${jsondata}");
+    } else {
+      print("null");
+    }
+    if (level == "level1") {
+      mapTabledata.remove("sg");
+      mapTabledata.remove("acc_rowid");
+    } else if (level == "level2") {
+      mapTabledata.remove("cat_id");
+      mapTabledata.remove("cat_name");
+    } else if (level == "level3") {
+      mapTabledata.remove("batch_code");
+      mapTabledata.remove("batch_name");
+    }
+
+    print("map after deletion${mapTabledata} ");
+    print("mapTabledata---${mapTabledata}");
+    mapTabledata.forEach((key, value) {
+      tableColumn.add(key);
+      valueMap[key] = value;
+    });
+    newMp.add(valueMap);
+    print("tableColumn---${tableColumn}");
+    print("valueMap---${valueMap}");
+    print("newMp---${newMp}");
   }
 }

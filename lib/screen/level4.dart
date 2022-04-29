@@ -11,21 +11,21 @@ import 'package:reports/components/customappbar.dart';
 import 'package:reports/components/datatableCompo.dart';
 import 'package:reports/components/shrinkedDatattable.dart';
 import 'package:reports/controller/controller.dart';
-import 'package:reports/screen/level3.dart';
+import 'package:reports/screen/level5.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LevelTwo extends StatefulWidget {
-  String old_filter_where_ids;
-  String filter_id;
+class LevelFour extends StatefulWidget {
+  // String old_filter_where_ids;
+  // String filter_id;
 
-  LevelTwo({required this.old_filter_where_ids, required this.filter_id});
+  // LevelTwo({required this.old_filter_where_ids, required this.filter_id});
   @override
-  State<LevelTwo> createState() {
-    return _LevelTwoState();
+  State<LevelFour> createState() {
+    return _LevelFourState();
   }
 }
 
-class _LevelTwoState extends State<LevelTwo> {
+class _LevelFourState extends State<LevelFour> {
   String? specialField;
   Widget? appBarTitle;
   DateTime currentDate = DateTime.now();
@@ -54,6 +54,8 @@ class _LevelTwoState extends State<LevelTwo> {
   var decodd;
   var encodedShrinkdata;
   var decoddShrinked;
+  String? dateFromShared;
+  String? datetoShared;
   final jsondata = [
     {
       "rank": "0",
@@ -86,8 +88,6 @@ class _LevelTwoState extends State<LevelTwo> {
       "g": "Graha",
     }
   ];
-  String? dateFromShared;
-  String? datetoShared;
 
   getShared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -138,15 +138,17 @@ class _LevelTwoState extends State<LevelTwo> {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(Duration(days: 0)),
-        lastDate: DateTime(2023),
-        builder: (BuildContext context, Widget? child) {
+                firstDate: DateTime(2020),
+
+        lastDate: DateTime(2023),builder: (BuildContext context, Widget? child) {
           return Theme(
-              data: ThemeData.light().copyWith(
-                colorScheme: ColorScheme.light()
-                    .copyWith(primary: P_Settings.l2appbarColor),
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light().copyWith(
+                primary: P_Settings.l3appbarColor
               ),
-              child: child!);
+            ),
+            child: child!
+          );
         });
     if (pickedDate != null) {
       setState(() {
@@ -156,21 +158,6 @@ class _LevelTwoState extends State<LevelTwo> {
       print("please select date");
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
-    fromDate =
-        fromDate == null ? dateFromShared.toString() : fromDate.toString();
-
-    toDate = toDate == null ? datetoShared.toString() : toDate.toString();
-
-    Provider.of<Controller>(context, listen: false).setDate(fromDate!, toDate!);
-
-    specialField = Provider.of<Controller>(context, listen: false).special;
-
-    Provider.of<Controller>(context, listen: false).getSubCategoryReportList(
-        specialField!,
-        widget.filter_id,
-        fromDate!,
-        toDate!,
-        widget.old_filter_where_ids);
   }
 
 /////////////////////////////////////////////////////////////////
@@ -178,15 +165,17 @@ class _LevelTwoState extends State<LevelTwo> {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2020),
+        firstDate: DateTime.now().subtract(Duration(days: 0)),
         lastDate: DateTime(2023),
         builder: (BuildContext context, Widget? child) {
           return Theme(
-              data: ThemeData.light().copyWith(
-                colorScheme: ColorScheme.light()
-                    .copyWith(primary: P_Settings.l2appbarColor),
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light().copyWith(
+                primary: P_Settings.l3appbarColor
               ),
-              child: child!);
+            ),
+            child: child!
+          );
         });
     if (pickedDate != null) {
       setState(() {
@@ -196,7 +185,7 @@ class _LevelTwoState extends State<LevelTwo> {
       print("please select date");
     }
     toDate = DateFormat('dd-MM-yyyy').format(currentDate);
-    fromDate =
+        fromDate =
         fromDate == null ? dateFromShared.toString() : fromDate.toString();
 
     toDate = toDate == null ? datetoShared.toString() : toDate.toString();
@@ -205,12 +194,12 @@ class _LevelTwoState extends State<LevelTwo> {
 
     specialField = Provider.of<Controller>(context, listen: false).special;
 
-    Provider.of<Controller>(context, listen: false).getSubCategoryReportList(
-        specialField!,
-        widget.filter_id,
-        fromDate!,
-        toDate!,
-        widget.old_filter_where_ids);
+    // Provider.of<Controller>(context, listen: false).getSubCategoryReportList(
+    //     specialField!,
+    //     widget.filter_id,
+    //     fromDate!,
+    //     toDate!,
+    //     widget.old_filter_where_ids);
   }
 
 /////////////////////////////////////////////////////////////////
@@ -220,9 +209,9 @@ class _LevelTwoState extends State<LevelTwo> {
     super.initState();
     dateFromShared = Provider.of<Controller>(context, listen: false).fromDate;
     datetoShared = Provider.of<Controller>(context, listen: false).todate;
+    crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     specialField = Provider.of<Controller>(context, listen: false).special;
 
-    crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     print(crntDateFormat);
     // Provider.of<Controller>(context, listen: false).getReportApi();
 
@@ -238,13 +227,6 @@ class _LevelTwoState extends State<LevelTwo> {
     // visible = List.generate(length, (index) => true);
     // print("isExpanded---$isExpanded");
     // print("visible---$visible");
-  }
-
-  @override
-  void deactivate() {
-    // TODO: implement deactivate
-    super.deactivate();
-    Provider.of<Controller>(context, listen: false).clearSubCategoryList();
   }
 
   @override
@@ -372,7 +354,7 @@ class _LevelTwoState extends State<LevelTwo> {
                   (BuildContext context, int selectedValue, Widget? child) {
                 return CustomAppbar(
                   title: " ",
-                  level: 'level2',
+                  level: 'level3',
                 );
               }),
         ),
@@ -511,8 +493,8 @@ class _LevelTwoState extends State<LevelTwo> {
                                                   onTap: () {
                                                     _selectToDate(context);
                                                   },
-                                                  child: Text(
-                                                      datetoShared.toString()))
+                                                  child: Text(datetoShared
+                                                      .toString()))
                                               : InkWell(
                                                   onTap: () {
                                                     _selectToDate(context);
@@ -525,7 +507,6 @@ class _LevelTwoState extends State<LevelTwo> {
                                           ? SizedBox(
                                               width: size.width * 0.2,
                                               child: IconButton(
-                                                color: P_Settings.l2appbarColor,
                                                 icon: const Icon(
                                                     Icons.arrow_upward,
                                                     color: Colors.deepPurple),
@@ -589,10 +570,10 @@ class _LevelTwoState extends State<LevelTwo> {
                                                             style:
                                                                 ElevatedButton
                                                                     .styleFrom(
-                                                              // shape: StadiumBorder(),
-
-                                                              primary: P_Settings
-                                                                  .l2datatablecolor,
+                                                            
+                                                              primary:
+                                                                  P_Settings
+                                                                      .color4,
                                                               shadowColor:
                                                                   P_Settings
                                                                       .color4,
@@ -606,41 +587,6 @@ class _LevelTwoState extends State<LevelTwo> {
                                                                   value.specialelements[
                                                                           index]
                                                                       ["value"];
-
-                                                              fromDate = fromDate ==
-                                                                      null
-                                                                  ? dateFromShared
-                                                                      .toString()
-                                                                  : fromDate
-                                                                      .toString();
-
-                                                              toDate = toDate ==
-                                                                      null
-                                                                  ? datetoShared
-                                                                      .toString()
-                                                                  : toDate
-                                                                      .toString();
-
-                                                              Provider.of<Controller>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .setDate(
-                                                                      fromDate!,
-                                                                      toDate!);
-
-                                                              Provider.of<Controller>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .getSubCategoryReportList(
-                                                                      specialField!,
-                                                                      widget
-                                                                          .filter_id,
-                                                                      fromDate!,
-                                                                      toDate!,
-                                                                      widget
-                                                                          .old_filter_where_ids);
                                                             },
                                                             child: Text(
                                                               value.specialelements[
@@ -681,7 +627,7 @@ class _LevelTwoState extends State<LevelTwo> {
                     return Container(
                       height: size.height * 0.6,
                       child: SpinKitPouringHourGlassRefined(
-                          color: P_Settings.l2appbarColor),
+                          color: P_Settings.l3appbarColor),
                     );
                   }
                   return Container(
@@ -689,14 +635,10 @@ class _LevelTwoState extends State<LevelTwo> {
                     height: size.height * 0.71,
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: value.isSearch
-                            ? value.newList.length
-                            : value.reportSubCategoryList.length,
+                        itemCount: value.reportSubCategoryList.length,
                         itemBuilder: (context, index) {
                           var jsonEncoded =
                               json.encode(value.reportSubCategoryList[index]);
-                        Provider.of<Controller>(context, listen: false).datatableCreation(jsonEncoded,"level2");
-
                           // print("map---${value.reportSubCategoryList[index]}");
                           return Padding(
                             padding: const EdgeInsets.all(5.0),
@@ -704,7 +646,7 @@ class _LevelTwoState extends State<LevelTwo> {
                               children: [
                                 Ink(
                                   decoration: BoxDecoration(
-                                    color: P_Settings.l2datatablecolor,
+                                    color: P_Settings.l3datatablecolor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ListTile(
@@ -712,64 +654,45 @@ class _LevelTwoState extends State<LevelTwo> {
                                       specialField = specialField == null
                                           ? "1"
                                           : specialField.toString();
-                                      fromDate = fromDate == null
-                                          ? dateFromShared.toString()
-                                          : fromDate.toString();
+                                      // String filter = value.reportList[index]
+                                      //         ["filters"]
+                                      //     .toString();
+                                      // print("filter ..............$filter");
+                                      // List<String> parts = filter.split(',');
+                                      // String filter1 = parts[1].trim();
+                                      // print("filtersss ..............$filter1");
 
-                                      toDate = toDate == null
-                                          ? datetoShared.toString()
-                                          : toDate.toString();
-
+                                      // String old_filter_where_ids =
+                                      //     widget.old_filter_where_ids +
+                                      //         value.reportSubCategoryList[index]
+                                      //             ["cat_id"] +
+                                      //         ",";
+                                      // print(
+                                      //     "old_filter_where_ids--${old_filter_where_ids}");
+                                      // Provider.of<Controller>(context,
+                                      //         listen: false)
+                                      //     .getSubCategoryReportList(
+                                      //         specialField!,
+                                      //         filter1,
+                                      //         fromDate!,
+                                      //         toDate!,
+                                      //         old_filter_where_ids);
                                       Provider.of<Controller>(context,
-                                              listen: false)
-                                          .setDate(fromDate!, toDate!);
-                                      String filter = value.reportList[index]
-                                              ["filters"]
-                                          .toString();
-                                      print("filter ..............$filter");
-                                      List<String> parts = filter.split(',');
-
-                                      String filter1 = parts[2].trim();
-                                      print("filtersss ..............$filter1");
-
-                                      String old_filter_where_ids =
-                                          widget.old_filter_where_ids +
-                                              value.reportSubCategoryList[index]
-                                                  ["cat_id"] +
-                                              ",";
-                                      print(
-                                          "old_filter_where_ids--${old_filter_where_ids}");
-
-                                      Provider.of<Controller>(context,
-                                              listen: false)
-                                          .setSpecialField(specialField!);
-                                      Provider.of<Controller>(context,
-                                              listen: false)
-                                          .getSubCategoryReportList(
-                                              specialField!,
-                                              filter1,
-                                              fromDate!,
-                                              toDate!,
-                                              old_filter_where_ids);
+                                              listen: false).setSpecialField(specialField!)  ;   
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LevelThree(
-                                                  old_filter_where_ids:
-                                                      old_filter_where_ids,
-                                                  filter_id: filter1,
-                                                )),
+                                        MaterialPageRoute(builder: (context) => LevelFive()),
                                       );
                                     },
                                     title: Center(
                                       child: Text(
                                         value.isSearch
-                                            ? value.newList[index]["cat_name"]
+                                            ? value.newList[index]["batch_name"]
                                             : value.reportSubCategoryList[index]
-                                                        ["cat_name"] !=
+                                                        ["batch_name"] !=
                                                     null
                                                 ? value.reportSubCategoryList[
-                                                    index]["cat_name"]
+                                                    index]["batch_name"]
                                                 : "",
                                         // style: TextStyle(fontSize: 12),
                                       ),
@@ -806,7 +729,7 @@ class _LevelTwoState extends State<LevelTwo> {
                                   // child:Text("haiii")
 
                                   child: ShrinkedDatatable(
-                                      decodd: jsonEncoded, level: "level2"),
+                                      decodd: jsonEncoded, level: "level3"),
                                 ),
                                 Visibility(
                                   visible: Provider.of<Controller>(context,

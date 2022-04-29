@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:reports/components/customColor.dart';
 import 'package:reports/controller/controller.dart';
 import 'package:reports/screen/level1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,12 +39,20 @@ class _HomePageState extends State<HomePage> {
   }
 
 ///////////////////////////////////////////////
-  Future _selectFromDate(BuildContext context) async {
+  Future _selectFromDate(BuildContext context, Size size) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now().subtract(Duration(days: 0)),
-        lastDate: DateTime(2023));
+        lastDate: DateTime(2023),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+              data: ThemeData.light().copyWith(
+                colorScheme: ColorScheme.light()
+                    .copyWith(primary: P_Settings.appbarColor),
+              ),
+              child: Container(width: size.width * 0.4, child: child!));
+        });
     if (pickedDate != null) {
       setState(() {
         currentDate = pickedDate;
@@ -55,12 +64,20 @@ class _HomePageState extends State<HomePage> {
   }
 
 /////////////////////////////////////////////////////////////////
-  Future _selectToDate(BuildContext context) async {
+  Future _selectToDate(BuildContext context, Size size) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(Duration(days: 0)),
-        lastDate: DateTime(2023));
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2023),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+              data: ThemeData.light().copyWith(
+                colorScheme: ColorScheme.light()
+                    .copyWith(primary: P_Settings.appbarColor),
+              ),
+              child: Container(width: size.width * 0.4, child: child!));
+        });
     if (pickedDate != null) {
       setState(() {
         currentDate = pickedDate;
@@ -149,6 +166,7 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: P_Settings.appbarColor,
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () async {
@@ -317,36 +335,69 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           IconButton(
                                               onPressed: () {
-                                                _selectFromDate(context);
+                                                _selectFromDate(context, size);
                                               },
                                               icon: Icon(Icons.calendar_month)),
                                           fromDate == null
-                                              ? Text(crntDateFormat.toString())
-                                              : Text(fromDate.toString())
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    _selectFromDate(
+                                                        context, size);
+                                                  },
+                                                  child: Text(crntDateFormat
+                                                      .toString()))
+                                              : InkWell(
+                                                  onTap: (() {
+                                                    _selectFromDate(
+                                                        context, size);
+                                                  }),
+                                                  child:
+                                                      Text(fromDate.toString()))
                                         ],
                                       )
                                     : Row(
                                         children: [
                                           IconButton(
                                               onPressed: () {
-                                                _selectFromDate(context);
+                                                _selectFromDate(context, size);
                                               },
                                               icon: Icon(Icons.calendar_month)),
                                           fromDate == null
-                                              ? Text(crntDateFormat.toString())
-                                              : Text(fromDate.toString())
+                                              ? InkWell(
+                                                  onTap: (() {
+                                                    _selectFromDate(
+                                                        context, size);
+                                                  }),
+                                                  child: Text(crntDateFormat
+                                                      .toString()))
+                                              : InkWell(
+                                                  onTap: () {
+                                                    _selectFromDate(
+                                                        context, size);
+                                                  },
+                                                  child:
+                                                      Text(fromDate.toString()))
                                         ],
                                       ),
                                 Row(
                                   children: [
                                     IconButton(
                                         onPressed: () {
-                                          _selectToDate(context);
+                                          _selectToDate(context, size);
                                         },
                                         icon: Icon(Icons.calendar_month)),
                                     toDate == null
-                                        ? Text(crntDateFormat.toString())
-                                        : Text(toDate.toString())
+                                        ? InkWell(
+                                            onTap: () {
+                                              _selectToDate(context, size);
+                                            },
+                                            child:
+                                                Text(crntDateFormat.toString()))
+                                        : InkWell(
+                                            onTap: () {
+                                              _selectToDate(context, size);
+                                            },
+                                            child: Text(toDate.toString()))
                                   ],
                                 )
                               ],
@@ -387,14 +438,28 @@ class _HomePageState extends State<HomePage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
                                     minLeadingWidth: 10,
-                                    onTap: () {
-                                      filter = value.reportList[index]["filters"]
+                                    onTap: () async {
+                                      fromDate = fromDate == null
+                                          ? crntDateFormat.toString()
+                                          : fromDate.toString();
+                                      toDate = toDate == null
+                                          ? crntDateFormat.toString()
+                                          : toDate.toString();
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .fromDate = fromDate;
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .todate = toDate;
+                                      filter = value.reportList[index]
+                                              ["filters"]
                                           .toString();
                                       print("filter ..............$filter");
                                       List<String> parts = filter!.split(',');
+                                      print("parts-----$parts");
                                       filter1 = parts[0].trim();
                                       print("filtersss ..............$filter1");
-                                      String old_filter_where_ids="0,";
+                                      String old_filter_where_ids = "0,";
                                       String special_field2 =
                                           value.specialelements[0]["value"];
                                       print(special_field2);
@@ -406,17 +471,24 @@ class _HomePageState extends State<HomePage> {
                                               fromDate!,
                                               toDate!,
                                               old_filter_where_ids);
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .setSpecialField("1");
+                                      // setState(() {
+                                      //   buttonClicked = true;
+                                      // });
 
-                                      setState(() {
-                                        buttonClicked = true;
-                                      });
-                                      
                                       Future.delayed(
                                           Duration(milliseconds: 100), () {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => LevelOne(old_filter_where_ids: old_filter_where_ids),
+                                            builder: (context) => LevelOne(
+                                                old_filter_where_ids:
+                                                    old_filter_where_ids,
+                                                filter_id: filter1!,
+                                                tilName: value.reportList[index]
+                                                    ['report_name']),
                                           ),
                                         );
                                       });

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reports/components/customColor.dart';
+import 'package:reports/controller/controller.dart';
 
 class CustomAppbar extends StatefulWidget {
   String title;
-  CustomAppbar({required this.title}) {
+  String level;
+  CustomAppbar({required this.title, required this.level}) {
     print(title);
   }
 
@@ -26,40 +29,39 @@ class _CustomAppbarState extends State<CustomAppbar> {
 
   onChangedValue(String value) {
     print("value inside function ---${value}");
-    // setState(() {
-    //   searchkey = value;
-    //   if (value.isEmpty) {
-    //     isSearch = false;
-    //   } else {
-    //     isSearch = true;
-    //     // newList =
-    //     // Provider.of<Controller>(context, listen: false)
-    //     //     .categoryList!
-    //     //     .where((cat) =>
-    //     //         cat["mc_name"].toUpperCase().startsWith(value.toUpperCase()))
-    //     //     .toList();
-    //   }
-    // });
+    setState(() {
+      Provider.of<Controller>(context, listen: false).searchkey = value;
+      if (value.isEmpty) {
+        Provider.of<Controller>(context, listen: false).isSearch = false;
+      }
+      if (value.isNotEmpty) {
+        Provider.of<Controller>(context, listen: false).isSearch = true;
+        Provider.of<Controller>(context, listen: false)
+            .searchProcess(widget.level);
+      }
+    });
   }
 
-  @override
-  void didUpdateWidget(covariant CustomAppbar oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-    if (widget.title != oldWidget.title) {
-      print("update----${widget.title.toString()}");
-      appBarTitle = Text(widget.title.toString());
-    }else{
-      print("elseee");
-    }
-  }
+  // @override
+  // void didUpdateWidget(covariant CustomAppbar oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   if (widget.title != oldWidget.title) {
+  //     print("update----${widget.title.toString()}");
+  //     appBarTitle = Text(widget.title.toString());
+  //   } else {
+  //     print("elseee");
+  //   }
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // print("initstate----${widget.title.toString()}");
-    appBarTitle = Text(widget.title.toString());
+    appBarTitle = Text(widget.title.toString(),
+    style: TextStyle(fontSize: 20),
+    );
   }
 
   @override
@@ -68,7 +70,19 @@ class _CustomAppbarState extends State<CustomAppbar> {
     // final formKey = GlobalKey<FormState>();
     // print("widget build context----${widget.title.toString()}");
     return AppBar(
+      backgroundColor: widget.level == "level1"
+          ? P_Settings.l1appbarColor
+          : widget.level == "level2"
+              ? P_Settings.l2appbarColor
+              : widget.level == "level3"
+                  ? P_Settings.l3appbarColor
+                  : null,
       title: appBarTitle,
+      leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.arrow_back)),
       actions: [
         IconButton(
             onPressed: () {
@@ -99,6 +113,8 @@ class _CustomAppbarState extends State<CustomAppbar> {
                     print("hellooo");
                     this.actionIcon = Icon(Icons.search);
                     this.appBarTitle = Text(widget.title);
+                    Provider.of<Controller>(context, listen: false).isSearch =
+                        false;
                     // Provider.of<Controller>(context, listen: false)
                     //     .setIssearch(false);
                   }
@@ -106,10 +122,20 @@ class _CustomAppbarState extends State<CustomAppbar> {
               });
             },
             icon: actionIcon),
-        Visibility(
-          visible: visible,
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.done)),
-        )
+        // Visibility(
+        //   visible: visible,
+        //   child: IconButton(
+        //       onPressed: () {
+        //        Provider.of<Controller>(context, listen: false).isSearch=true;
+        //        Provider.of<Controller>(context, listen: false).searchProcess(widget.level);
+        //         // if (Provider.of<Controller>(context, listen: false).isSearch ==
+        //         //     true) {
+        //         //   setState(() {});
+        //         //   //  =true;
+        //         // }
+        //       },
+        //       icon: Icon(Icons.done)),
+        // )
       ],
     );
   }

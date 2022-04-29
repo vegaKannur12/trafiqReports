@@ -12,7 +12,7 @@ class P_Image {
 class P_Settings {
   /// [title] Project Title
   static String get title => 'Order';
-
+  static Color get appbarColor => Colors.purple;
   // font color 
   static Color get fontColor => Color.fromARGB(255, 0, 0, 0);
   /// [color1] 
@@ -39,5 +39,20 @@ class P_Settings {
 
   static Color get rowcolor => Color.fromARGB(255, 220, 178, 228);
 
+  static Color get spinkitColor => Colors.purple;
 
+/////////////////////////level1///////////////////////////////////////////////
+
+static Color get l1appbarColor => Color.fromARGB(255, 109, 6, 226);
+static Color get l1datatablecolor => Color.fromARGB(255, 185, 147, 231);
+// static Color get appbarColor => Color.fromARGB(255, 109, 6, 226);
+
+/////////////////////////level2///////////////////////////////////////////////
+static Color get l2appbarColor => Color.fromARGB(255, 7, 154, 240);
+static Color get l2datatablecolor => Color.fromARGB(255, 136, 196, 231);
+
+//////////////////////////////////////////////////////////////////////////////
+
+static Color get l3appbarColor => Color.fromARGB(255, 30, 161, 129);
+static Color get l3datatablecolor => Color.fromARGB(255, 131, 201, 160);
 }
