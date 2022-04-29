@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 class Controller extends ChangeNotifier {
   bool? isLoading;
+  bool backButtnClicked=false;
   String urlgolabl = Globaldata.apiglobal;
   List<Map<String, dynamic>> reportList = [];
   List<Map<String, dynamic>> specialelements = [];
@@ -19,7 +20,7 @@ class Controller extends ChangeNotifier {
   String? searchkey;
   List<Map<String, dynamic>> newList = [];
   bool isSearch = false;
-
+   
   String? special;
   List<String> tableColumn = [];
   Map<String, dynamic> valueMap = {};
@@ -28,9 +29,9 @@ class Controller extends ChangeNotifier {
   List<String>? rowName;
   Map<String, dynamic> mapTabledata = {};
   List<Map<String, dynamic>> newMp = [];
-    List<DataCell> datacell = [];
-
-
+  List<DataCell> datacell = [];
+  List<Map<String, dynamic>> resultCopy = [];
+ 
   /////////////////////////////////////////////////////
   getCategoryReport() async {
     try {
@@ -57,6 +58,7 @@ class Controller extends ChangeNotifier {
   ////////////////////////////////////////////////////
   getCategoryReportList(String rg_id) async {
     print("rg id---${rg_id}");
+    // resultCopy.clear();
     try {
       Uri url = Uri.parse("$urlgolabl/reports_list.php");
       var body = {"rg_id": rg_id};
@@ -86,7 +88,7 @@ class Controller extends ChangeNotifier {
 
       print("specialelements.............${specialelements}");
       //  print("special_element2.........................${reportList[0]['special_element2']}");
-
+      // resultCopy=reportList;
       notifyListeners();
     } catch (e) {
       // print(e);
@@ -97,6 +99,7 @@ class Controller extends ChangeNotifier {
 ////////////////////////////////////////////////////////////////////////////////////////
   Future getSubCategoryReportList(String special_field2, String filter_id,
       String fromdate, String tilldate, String old_filter_where_ids) async {
+      // resultCopy.clear();
     print(
         "special_field2---${special_field2}  filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} old_filter_where_ids----${old_filter_where_ids}");
     try {
@@ -129,7 +132,9 @@ class Controller extends ChangeNotifier {
       visible = List.generate(length, (index) => true);
       print("isExpanded---$isExpanded");
       print("visible---$visible");
-      print("report list ---- ${reportSubCategoryList}");
+      print("report list ---- ${reportSubCategoryList}");  
+
+      // resultCopy=reportSubCategoryList;
 
       notifyListeners();
     } catch (e) {
@@ -210,9 +215,8 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////////////////
-  
-  datatableCreation(var jsonData, String level) {
 
+  datatableCreation(var jsonData, String level) {
     mapTabledata.clear();
     newMp.clear();
     tableColumn.clear();
@@ -246,6 +250,24 @@ class Controller extends ChangeNotifier {
     print("newMp---${newMp}");
   }
 
-
- 
+//  List<DataCell> createDatacell(String value,String behv) {
+//     // datacell.clear();
+//     datacell.add(
+//       DataCell(
+//         Container(
+//           width: 50,
+//           alignment:
+//               behv == "L" ? Alignment.centerLeft : Alignment.centerRight,
+//           child: Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: Text(
+//               value.toString(),
+//               style: TextStyle(fontSize: 11),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//     return datacell;
+//   }
 }

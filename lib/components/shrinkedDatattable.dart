@@ -273,7 +273,6 @@ import 'package:reports/controller/controller.dart';
 //   }
 // }
 
-
 ///////////////////////////////////////////////////////////////
 class ShrinkedDatatable extends StatelessWidget {
   var decodd;
@@ -294,16 +293,16 @@ class ShrinkedDatatable extends StatelessWidget {
             border: TableBorder.all(
               color: P_Settings.datatableColor,
             ),
-            dataRowColor: MaterialStateColor.resolveWith(
-                (states) => level == "level1"
+            dataRowColor:
+                MaterialStateColor.resolveWith((states) => level == "level1"
                     ? P_Settings.l1datatablecolor
                     : level == "level2"
                         ? P_Settings.l2datatablecolor
                         : level == "level3"
                             ? P_Settings.l3datatablecolor
                             : P_Settings.color4),
-            columns: getColumns(value.tableColumn,context),
-            rows: getRowss(value.newMp,context),
+            columns: getColumns(value.tableColumn, context),
+            rows: getRowss(value.newMp, context),
           );
         }),
       ),
@@ -311,13 +310,15 @@ class ShrinkedDatatable extends StatelessWidget {
   }
 
   ////////////////////////////////////////////////////////////
-    List<DataColumn> getColumns(List<String> columns,
-    BuildContext context) {
+  List<DataColumn> getColumns(
+    List<String> columns,
+   BuildContext context) {
     String behv;
     String colsName;
     return columns.map((String column) {
       // final isAge = column == columns[2];
-      Provider.of<Controller>(context, listen: false).colName = column.split('_');
+      Provider.of<Controller>(context, listen: false).colName =
+          column.split('_');
       colsName = Provider.of<Controller>(context, listen: false).colName![1];
       behv = Provider.of<Controller>(context, listen: false).colName![0];
       print("column---${column}");
@@ -339,25 +340,32 @@ class ShrinkedDatatable extends StatelessWidget {
   }
 
   ////////////////////////////////////////////////////////////
-  List<DataRow> getRowss(List<Map<String, dynamic>> row,BuildContext context) {
+  List<DataRow> getRowss(List<Map<String, dynamic>> row, BuildContext context) {
     return Provider.of<Controller>(context, listen: false).newMp.map((row) {
       return DataRow(
-        cells: getCelle(row,context),
+        cells: getCelle(row, context),
       );
     }).toList();
   }
 
   ///////////////////////////////////////////////////////////
-  List<DataCell> getCelle(Map<String, dynamic> data,BuildContext context) {
+  List<DataCell> getCelle(Map<String, dynamic> data, BuildContext context) {
     String behv;
     String colsName;
     print("data--$data");
     List<DataCell> datacell = [];
-    for (var i = 0; i < Provider.of<Controller>(context, listen: false).tableColumn.length; i++) {
+    for (var i = 0;
+        i < Provider.of<Controller>(context, listen: false).tableColumn.length;
+        i++) {
       data.forEach((key, value) {
-        if (Provider.of<Controller>(context, listen: false).tableColumn[i] == key) {
-          Provider.of<Controller>(context, listen: false).rowName = Provider.of<Controller>(context, listen: false).tableColumn[i].split('_');
-          colsName = Provider.of<Controller>(context, listen: false).rowName![1];
+        if (Provider.of<Controller>(context, listen: false).tableColumn[i] ==
+            key) {
+          Provider.of<Controller>(context, listen: false).rowName =
+              Provider.of<Controller>(context, listen: false)
+                  .tableColumn[i]
+                  .split('_');
+          colsName =
+              Provider.of<Controller>(context, listen: false).rowName![1];
           behv = Provider.of<Controller>(context, listen: false).rowName![0];
           // print("column---${tableColumn[i]}");
           datacell.add(
@@ -380,6 +388,7 @@ class ShrinkedDatatable extends StatelessWidget {
         }
       });
     }
-  //  print(Provider.of<Controller>(context, listen: false).datacell.length);
+    print(datacell.length);
     return datacell;
-}}
+  }
+}

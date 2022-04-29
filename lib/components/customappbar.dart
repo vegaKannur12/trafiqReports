@@ -59,8 +59,9 @@ class _CustomAppbarState extends State<CustomAppbar> {
     // TODO: implement initState
     super.initState();
     // print("initstate----${widget.title.toString()}");
-    appBarTitle = Text(widget.title.toString(),
-    style: TextStyle(fontSize: 20),
+    appBarTitle = Text(
+      widget.title.toString(),
+      style: TextStyle(fontSize: 20),
     );
   }
 
@@ -79,10 +80,21 @@ class _CustomAppbarState extends State<CustomAppbar> {
                   : null,
       title: appBarTitle,
       leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(Icons.arrow_back)),
+        onPressed: () {
+          if (widget.level == "level2") {
+            setState(() {
+               Provider.of<Controller>(context, listen: false).backButtnClicked =
+                true;
+            });
+           
+            print("backButtnClicked-----${Provider.of<Controller>(context, listen: false).backButtnClicked}");
+            
+            // print("resultCopy-----${Provider.of<Controller>(context, listen: false).resultCopy}");
+          }
+          Navigator.of(context).pop(true);
+        },
+        icon: Icon(Icons.arrow_back),
+      ),
       actions: [
         IconButton(
             onPressed: () {
