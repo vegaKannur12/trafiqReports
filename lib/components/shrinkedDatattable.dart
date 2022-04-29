@@ -359,7 +359,7 @@ class ShrinkedDatatable extends StatelessWidget {
           colsName = Provider.of<Controller>(context, listen: false).rowName![1];
           behv = Provider.of<Controller>(context, listen: false).rowName![0];
           // print("column---${tableColumn[i]}");
-          Provider.of<Controller>(context, listen: false).datacell.add(
+          datacell.add(
             DataCell(
               Container(
                 width: 50,
@@ -379,6 +379,6 @@ class ShrinkedDatatable extends StatelessWidget {
         }
       });
     }
-    // print(datacell.length);
+  //  print(Provider.of<Controller>(context, listen: false).datacell.length);
     return datacell;
 }}
