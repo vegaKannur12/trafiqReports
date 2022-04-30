@@ -443,7 +443,7 @@ class _LevelOneState extends State<LevelOne> {
                                                           const EdgeInsets.all(
                                                               5.0),
                                                       child: SizedBox(
-                                                        width: size.width * 0.2,
+                                                        width: size.width * 0.3,
                                                         // height: size.height*0.001,
                                                         child: ElevatedButton(
                                                           style: ElevatedButton
@@ -456,9 +456,9 @@ class _LevelOneState extends State<LevelOne> {
                                                                 P_Settings
                                                                     .color4,
                                                             // minimumSize:
-                                                            //     Size(10, 20),
+                                                            //     Size(100, 100),
                                                             // maximumSize:
-                                                            //     Size(10, 20),
+                                                            //     Size(100, 100),
                                                           ),
                                                           onPressed: () {
                                                             fromDate = fromDate ==
