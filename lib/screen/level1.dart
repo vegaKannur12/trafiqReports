@@ -774,6 +774,8 @@ class _LevelOneState extends State<LevelOne> {
                                                           context,
                                                           listen: false)
                                                       .tableJson;
+                                               print("tablejson --${tablejson}");
+
                                                print("tablejson length---${tablejson.length}");
                                               
                                               // print(
@@ -798,15 +800,15 @@ class _LevelOneState extends State<LevelOne> {
                                         level: "level1",
                                       ),
                                     ),
-                                    Visibility(
-                                      visible: Provider.of<Controller>(context,
-                                              listen: false)
-                                          .l1isExpanded[index],
-                                      child: ExpandedDatatable(
-                                        dedoded: tablejson,
-                                        level: "level1",
-                                      ),
-                                    ),
+                                    // Visibility(
+                                    //   visible: Provider.of<Controller>(context,
+                                    //           listen: false)
+                                    //       .l1isExpanded[index],
+                                    //   child: ExpandedDatatable(
+                                    //     dedoded: tablejson,
+                                    //     level: "level1",
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               );
