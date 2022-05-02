@@ -52,34 +52,7 @@ class _ExpandedDatatableState extends State<ExpandedDatatable> {
     print("newMp---${mapTabledata}");
   }
 
-    calculateSum() {
-    Map map = {};
-    double valueStored;
-    // print("main header---${mainHeader}");
-    mainHeader.forEach((key, value) {
-      double sum = 0;
-      // print("key---${key}");
-      for (var i = 0; i < newJson.length; i++) {
-        map = newJson[i];
-        print("map----${map}");
-        map.forEach((k, val) {
-          if (k == key) {
-            // print("mainheader[k][3]----${mainHeader[key][2]}");
-            if (mainHeader[key][2] == "Y") {
-              valueStored = double.parse(val);
-              // print("valueStored--${valueStored}");
-              sum = sum + valueStored;
-              // print("sum----${sum}");
-              total[k] = sum;
-            } else {
-              total[k] = "";
-            }
-          }
-        });
-      }
-    });
-    print("tootal map----${total}");
-  }
+  
 
   @override
   Widget build(BuildContext context) {
