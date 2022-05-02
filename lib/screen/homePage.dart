@@ -445,7 +445,7 @@ class _HomePageState extends State<HomePage> {
                                       toDate = toDate == null
                                           ? crntDateFormat.toString()
                                           : toDate.toString();
-                                          print("from date---$fromDate");
+                                      print("from date---$fromDate");
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .fromDate = fromDate;
@@ -471,7 +471,8 @@ class _HomePageState extends State<HomePage> {
                                               filter1!,
                                               fromDate!,
                                               toDate!,
-                                              old_filter_where_ids);
+                                              old_filter_where_ids,
+                                              "level1");
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .setSpecialField("1");
@@ -489,9 +490,7 @@ class _HomePageState extends State<HomePage> {
                                                     old_filter_where_ids,
                                                 filter_id: filter1!,
                                                 tilName: value.reportList[index]
-                                                    ['report_name']
-                                                    
-                                                    ),
+                                                    ['report_name']),
                                           ),
                                         );
                                       });

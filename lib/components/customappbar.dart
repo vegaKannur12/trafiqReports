@@ -42,18 +42,6 @@ class _CustomAppbarState extends State<CustomAppbar> {
     });
   }
 
-  // @override
-  // void didUpdateWidget(covariant CustomAppbar oldWidget) {
-  //   // TODO: implement didUpdateWidget
-  //   super.didUpdateWidget(oldWidget);
-  //   if (widget.title != oldWidget.title) {
-  //     print("update----${widget.title.toString()}");
-  //     appBarTitle = Text(widget.title.toString());
-  //   } else {
-  //     print("elseee");
-  //   }
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -63,6 +51,18 @@ class _CustomAppbarState extends State<CustomAppbar> {
       widget.title.toString(),
       style: TextStyle(fontSize: 20),
     );
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    if (widget.level == "level2") {
+      Provider.of<Controller>(context, listen: false).level2reportList.clear();
+    }
+    if (widget.level == "level3") {
+      Provider.of<Controller>(context, listen: false).level3reportList.clear();
+    }
   }
 
   @override
@@ -83,12 +83,13 @@ class _CustomAppbarState extends State<CustomAppbar> {
         onPressed: () {
           if (widget.level == "level2") {
             setState(() {
-               Provider.of<Controller>(context, listen: false).backButtnClicked =
-                true;
+              Provider.of<Controller>(context, listen: false).backButtnClicked =
+                  true;
             });
-           
-            print("backButtnClicked-----${Provider.of<Controller>(context, listen: false).backButtnClicked}");
-            
+
+            print(
+                "backButtnClicked-----${Provider.of<Controller>(context, listen: false).backButtnClicked}");
+
             // print("resultCopy-----${Provider.of<Controller>(context, listen: false).resultCopy}");
           }
           Navigator.of(context).pop(true);
