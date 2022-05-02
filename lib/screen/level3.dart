@@ -138,20 +138,16 @@ class _LevelThreeState extends State<LevelThree> {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-                firstDate: DateTime(2020),
-
+        firstDate: DateTime(2020),
         lastDate: DateTime(2023),
-         builder: (BuildContext context, Widget? child) {
+        builder: (BuildContext context, Widget? child) {
           return Theme(
-            data: ThemeData.light().copyWith(
-              colorScheme: ColorScheme.light().copyWith(
-                primary: P_Settings.l3appbarColor
+              data: ThemeData.light().copyWith(
+                colorScheme: ColorScheme.light()
+                    .copyWith(primary: P_Settings.l3appbarColor),
               ),
-            ),
-            child: child!
-          );
-        }
-        );
+              child: child!);
+        });
     if (pickedDate != null) {
       setState(() {
         currentDate = pickedDate;
@@ -160,7 +156,7 @@ class _LevelThreeState extends State<LevelThree> {
       print("please select date");
     }
     fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
-        fromDate =
+    fromDate =
         fromDate == null ? dateFromShared.toString() : fromDate.toString();
 
     toDate = toDate == null ? datetoShared.toString() : toDate.toString();
@@ -174,7 +170,8 @@ class _LevelThreeState extends State<LevelThree> {
         widget.filter_id,
         fromDate!,
         toDate!,
-        widget.old_filter_where_ids);
+        widget.old_filter_where_ids,
+        "level3");
   }
 
 /////////////////////////////////////////////////////////////////
@@ -183,15 +180,14 @@ class _LevelThreeState extends State<LevelThree> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now().subtract(Duration(days: 0)),
-        lastDate: DateTime(2023),builder: (BuildContext context, Widget? child) {
+        lastDate: DateTime(2023),
+        builder: (BuildContext context, Widget? child) {
           return Theme(
-            data: ThemeData.light().copyWith(
-              colorScheme: ColorScheme.light().copyWith(
-                primary: P_Settings.l3appbarColor
+              data: ThemeData.light().copyWith(
+                colorScheme: ColorScheme.light()
+                    .copyWith(primary: P_Settings.l3appbarColor),
               ),
-            ),
-            child: child!
-          );
+              child: child!);
         });
     if (pickedDate != null) {
       setState(() {
@@ -201,7 +197,7 @@ class _LevelThreeState extends State<LevelThree> {
       print("please select date");
     }
     toDate = DateFormat('dd-MM-yyyy').format(currentDate);
-        fromDate =
+    fromDate =
         fromDate == null ? dateFromShared.toString() : fromDate.toString();
 
     toDate = toDate == null ? datetoShared.toString() : toDate.toString();
@@ -215,7 +211,8 @@ class _LevelThreeState extends State<LevelThree> {
         widget.filter_id,
         fromDate!,
         toDate!,
-        widget.old_filter_where_ids);
+        widget.old_filter_where_ids,
+        "level3");
   }
 
 /////////////////////////////////////////////////////////////////
@@ -235,9 +232,8 @@ class _LevelThreeState extends State<LevelThree> {
     setSharedPreftojsondata();
     getShared();
     createShrinkedData();
-    var length = Provider.of<Controller>(context, listen: false)
-        .reportSubCategoryList
-        .length;
+    var length =
+        Provider.of<Controller>(context, listen: false).level3reportList.length;
     print(length);
     // isExpanded = List.generate(length, (index) => false);
     // visible = List.generate(length, (index) => true);
@@ -509,8 +505,8 @@ class _LevelThreeState extends State<LevelThree> {
                                                   onTap: () {
                                                     _selectToDate(context);
                                                   },
-                                                  child: Text(datetoShared
-                                                      .toString()))
+                                                  child: Text(
+                                                      datetoShared.toString()))
                                               : InkWell(
                                                   onTap: () {
                                                     _selectToDate(context);
@@ -538,8 +534,7 @@ class _LevelThreeState extends State<LevelThree> {
                                               child: IconButton(
                                                 icon: const Icon(
                                                     Icons.arrow_downward,
-                                                    color: Colors.deepPurple
-                                              ),
+                                                    color: Colors.deepPurple),
                                                 onPressed: () {
                                                   setState(() {
                                                     qtyvisible = true;
@@ -560,7 +555,6 @@ class _LevelThreeState extends State<LevelThree> {
                                           return Flexible(
                                             child: Container(
                                               alignment: Alignment.topRight,
-                                              color: P_Settings.l3datatablecolor,
                                               height: size.height * 0.07,
                                               width: size.width * 1,
                                               child: Row(
@@ -581,16 +575,14 @@ class _LevelThreeState extends State<LevelThree> {
                                                                 .all(5.0),
                                                         child: SizedBox(
                                                           width:
-                                                              size.width * 0.2,
+                                                              size.width * 0.3,
                                                           // height: size.height*0.001,
                                                           child: ElevatedButton(
                                                             style:
                                                                 ElevatedButton
                                                                     .styleFrom(
-                                                             
-                                                              primary:
-                                                                  P_Settings
-                                                                      .color4,
+                                                              primary: P_Settings
+                                                                  .l3datatablecolor,
                                                               shadowColor:
                                                                   P_Settings
                                                                       .color4,
@@ -600,7 +592,7 @@ class _LevelThreeState extends State<LevelThree> {
                                                                   Size(10, 20),
                                                             ),
                                                             onPressed: () {
-                                                             specialField =
+                                                              specialField =
                                                                   value.specialelements[
                                                                           index]
                                                                       ["value"];
@@ -637,7 +629,9 @@ class _LevelThreeState extends State<LevelThree> {
                                                                           .filter_id,
                                                                       fromDate!,
                                                                       toDate!,
-                                                                      widget.old_filter_where_ids);
+                                                                      widget
+                                                                          .old_filter_where_ids,
+                                                                      "level3");
                                                             },
                                                             child: Text(
                                                               value.specialelements[
@@ -672,7 +666,7 @@ class _LevelThreeState extends State<LevelThree> {
               ),
               Consumer<Controller>(builder: (context, value, child) {
                 {
-                  print(value.reportSubCategoryList.length);
+                  print("level3 report list${value.level3reportList.length}");
 
                   if (value.isLoading == true) {
                     return Container(
@@ -686,11 +680,15 @@ class _LevelThreeState extends State<LevelThree> {
                     height: size.height * 0.71,
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: value.reportSubCategoryList.length,
+                        itemCount: value.level3reportList.length,
                         itemBuilder: (context, index) {
                           var jsonEncoded =
-                              json.encode(value.reportSubCategoryList[index]);
+                              json.encode(value.level3reportList[index]);
                           // print("map---${value.reportSubCategoryList[index]}");
+                          if (index < 0 ||
+                              index >= value.level3reportList.length) {
+                            return const Offstage();
+                          }
                           return Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Column(
@@ -728,22 +726,24 @@ class _LevelThreeState extends State<LevelThree> {
                                       //         fromDate!,
                                       //         toDate!,
                                       //         old_filter_where_ids);
-                                       Provider.of<Controller>(context,
-                                              listen: false).setSpecialField(specialField!)  ;   
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => LevelFour()),
-                                      );
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .setSpecialField(specialField!);
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //       builder: (context) => LevelFour()),
+                                      // );
                                     },
                                     title: Center(
                                       child: Text(
                                         value.isSearch
                                             ? value.newList[index]["batch_name"]
-                                            : value.reportSubCategoryList[index]
+                                            : value.level3reportList[index]
                                                         ["batch_name"] !=
                                                     null
-                                                ? value.reportSubCategoryList[
-                                                    index]["batch_name"]
+                                                ? value.level3reportList[index]
+                                                    ["batch_name"]
                                                 : "",
                                         // style: TextStyle(fontSize: 12),
                                       ),
@@ -753,7 +753,7 @@ class _LevelThreeState extends State<LevelThree> {
                                     trailing: IconButton(
                                         icon: Provider.of<Controller>(context,
                                                     listen: false)
-                                                .isExpanded[index]
+                                                .l3isExpanded[index]
                                             ? Icon(
                                                 Icons.arrow_upward,
                                                 size: 18,
@@ -766,7 +766,7 @@ class _LevelThreeState extends State<LevelThree> {
                                         onPressed: () {
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .toggleData(index);
+                                              .toggleData(index, "level3");
                                           // toggle(index);
                                           // print("json-----${json}");
                                         }),
@@ -776,7 +776,7 @@ class _LevelThreeState extends State<LevelThree> {
                                 Visibility(
                                   visible: Provider.of<Controller>(context,
                                           listen: false)
-                                      .visible[index],
+                                      .l3visible[index],
                                   // child:Text("haiii")
 
                                   child: ShrinkedDatatable(
@@ -785,7 +785,7 @@ class _LevelThreeState extends State<LevelThree> {
                                 Visibility(
                                   visible: Provider.of<Controller>(context,
                                           listen: false)
-                                      .isExpanded[index],
+                                      .l3isExpanded[index],
                                   child: DataTableCompo(
                                       decodd: decodd, type: "expaded"),
                                 ),

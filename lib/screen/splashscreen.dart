@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reports/controller/controller.dart';
@@ -32,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 4),
     vsync: this,
   )..repeat();
   late final Animation<double> _animation = CurvedAnimation(

@@ -6,14 +6,28 @@ import 'package:reports/service/myService.dart';
 import 'package:http/http.dart' as http;
 
 class Controller extends ChangeNotifier {
+  String? old_filter_where_ids;
+  String? filter_id;
+  String? tilName;
   bool? isLoading;
+  bool backButtnClicked = false;
   String urlgolabl = Globaldata.apiglobal;
   List<Map<String, dynamic>> reportList = [];
   List<Map<String, dynamic>> specialelements = [];
   List<Map<String, dynamic>> reportCategoryList = [];
-  List<Map<String, dynamic>> reportSubCategoryList = [];
-  List<bool> visible = [];
-  List<bool> isExpanded = [];
+  List<Map<String, dynamic>> level1reportList = [];
+  List<Map<String, dynamic>> level2reportList = [];
+  List<Map<String, dynamic>> level3reportList = [];
+  List<Map<String, dynamic>> level4reportList = [];
+
+  List<bool> l1visible = [];
+  List<bool> l1isExpanded = [];
+  List<bool> l2visible = [];
+  List<bool> l2isExpanded = [];
+  List<bool> l3visible = [];
+  List<bool> l3isExpanded = [];
+  List<bool> l4visible = [];
+  List<bool> l4isExpanded = [];
   String? fromDate;
   String? todate;
   String? searchkey;
@@ -28,8 +42,8 @@ class Controller extends ChangeNotifier {
   List<String>? rowName;
   Map<String, dynamic> mapTabledata = {};
   List<Map<String, dynamic>> newMp = [];
-    List<DataCell> datacell = [];
-
+  List<DataCell> datacell = [];
+  List<Map<String, dynamic>> resultCopy = [];
 
   /////////////////////////////////////////////////////
   getCategoryReport() async {
@@ -57,6 +71,7 @@ class Controller extends ChangeNotifier {
   ////////////////////////////////////////////////////
   getCategoryReportList(String rg_id) async {
     print("rg id---${rg_id}");
+    // resultCopy.clear();
     try {
       Uri url = Uri.parse("$urlgolabl/reports_list.php");
       var body = {"rg_id": rg_id};
@@ -72,8 +87,10 @@ class Controller extends ChangeNotifier {
         reportList.add(item);
         // notifyListeners();
       }
-      // print("report list${reportList}");
+      print("report list${reportList}");
       final jsonData = reportList[0]['special_element2'];
+
+      // final jsonData ='[[{"label":"QTY","value":"1"},{"label":"BATCH COST","value":"B.batch_cost"}],[{"label":"QTY","value":"1"},{"label":"BATCH COST","value":"B.batch_cost"}]]';
       // print("${reportList[3]}");
       final parsedJson = jsonDecode(jsonData);
       print("parsed json--$parsedJson");
@@ -86,7 +103,7 @@ class Controller extends ChangeNotifier {
 
       print("specialelements.............${specialelements}");
       //  print("special_element2.........................${reportList[0]['special_element2']}");
-
+      // resultCopy=reportList;
       notifyListeners();
     } catch (e) {
       // print(e);
@@ -95,8 +112,14 @@ class Controller extends ChangeNotifier {
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-  Future getSubCategoryReportList(String special_field2, String filter_id,
-      String fromdate, String tilldate, String old_filter_where_ids) async {
+  Future getSubCategoryReportList(
+      String special_field2,
+      String filter_id,
+      String fromdate,
+      String tilldate,
+      String old_filter_where_ids,
+      String level) async {
+    // resultCopy.clear();
     print(
         "special_field2---${special_field2}  filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} old_filter_where_ids----${old_filter_where_ids}");
     try {
@@ -117,19 +140,64 @@ class Controller extends ChangeNotifier {
 
       isLoading = false;
       notifyListeners();
-      var map = jsonDecode(response.body);
-      reportSubCategoryList.clear();
-      // reportList!.clear();
-      // print(map);
-      for (var item in map) {
-        reportSubCategoryList.add(item);
+      if (level == "level1") {
+        var map1 = jsonDecode(response.body);
+
+        level1reportList.clear();
+        for (var item in map1) {
+          level1reportList.add(item);
+        }
+        var length = level1reportList.length;
+        l1isExpanded = List.generate(length, (index) => false);
+        l1visible = List.generate(length, (index) => true);
+        // print("isExpanded---$isExpanded");
+        // print("visible---$visible");
+        // print("report list ---- ${level1reportList}");
       }
-      var length = reportSubCategoryList.length;
-      isExpanded = List.generate(length, (index) => false);
-      visible = List.generate(length, (index) => true);
-      print("isExpanded---$isExpanded");
-      print("visible---$visible");
-      print("report list ---- ${reportSubCategoryList}");
+      if (level == "level2") {
+        var map2 = jsonDecode(response.body);
+        print("dfbjdjzfn${level1reportList.length}");
+        level2reportList.clear();
+        for (var item in map2) {
+          level2reportList.add(item);
+        }
+        var length = level2reportList.length;
+        l2isExpanded = List.generate(length, (index) => false);
+        l2visible = List.generate(length, (index) => true);
+        // print("isExpanded---$isExpanded");
+        // print("visible---$visible");
+        // print("report list ---- ${level2reportList}");
+      }
+      if (level == "level3") {
+        var map3 = jsonDecode(response.body);
+
+        level3reportList.clear();
+        for (var item in map3) {
+          level3reportList.add(item);
+        }
+        var length = level3reportList.length;
+        l3isExpanded = List.generate(length, (index) => false);
+        l3visible = List.generate(length, (index) => true);
+        // print("isExpanded---$isExpanded");
+        // print("visible---$visible");
+        print("report list ---- ${level3reportList}");
+      }
+      if (level == "level4") {
+        var map4 = jsonDecode(response.body);
+
+        level4reportList.clear();
+        for (var item in map4) {
+          level4reportList.add(item);
+        }
+        var length = level4reportList.length;
+        l4isExpanded = List.generate(length, (index) => false);
+        l4visible = List.generate(length, (index) => true);
+        // print("isExpanded---$isExpanded");
+        // print("visible---$visible");
+        print("report list ---- ${level4reportList}");
+      }
+
+      // resultCopy=reportSubCategoryList;
 
       notifyListeners();
     } catch (e) {
@@ -139,8 +207,22 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////////clear///
-  clearSubCategoryList() {
-    reportSubCategoryList.clear();
+  clearlevelsreportList(String level) {
+    if (level == "level1") {
+      level1reportList.clear();
+    }
+    if (level == "level2") {
+      level2reportList.clear();
+      print("level2 aftr clear---${level2reportList.length}");
+    }
+    if (level == "level3") {
+      level3reportList.clear();
+    }
+    if (level == "level4") {
+      level4reportList.clear();
+    }
+    notifyListeners();
+    // reportSubCategoryList.clear();
     // notifyListeners();///
   }
 
@@ -148,9 +230,24 @@ class Controller extends ChangeNotifier {
     Navigator.of(context).pop();
   }
 
-  toggleData(int i) {
-    isExpanded[i] = !isExpanded[i];
-    visible[i] = !visible[i];
+  toggleData(int i, String level) {
+    if (level == "level1") {
+      l1isExpanded[i] = !l1isExpanded[i];
+      l1visible[i] = !l1visible[i];
+    }
+    if (level == "level2") {
+      l2isExpanded[i] = !l2isExpanded[i];
+      l2visible[i] = !l2visible[i];
+    }
+    if (level == "level3") {
+      l3isExpanded[i] = !l3isExpanded[i];
+      l3visible[i] = !l3visible[i];
+    }
+    if (level == "level4") {
+      l4isExpanded[i] = !l4isExpanded[i];
+      l4visible[i] = !l4visible[i];
+    }
+
     notifyListeners();
   }
 
@@ -178,7 +275,7 @@ class Controller extends ChangeNotifier {
     print("searchKey process----${searchkey}");
 
     if (level == "level1" && isSearch == true) {
-      newList = reportSubCategoryList
+      newList = level1reportList
           .where((cat) =>
               cat["sg"].toUpperCase().contains(searchkey!.toUpperCase()))
           .toList();
@@ -186,7 +283,7 @@ class Controller extends ChangeNotifier {
       notifyListeners();
     }
     if (level == "level2" && isSearch == true) {
-      newList = reportSubCategoryList
+      newList = level2reportList
           .where((cat) =>
               cat["cat_name"].toUpperCase().contains(searchkey!.toUpperCase()))
           .toList();
@@ -194,7 +291,7 @@ class Controller extends ChangeNotifier {
       notifyListeners();
     }
     if (level == "level3" && isSearch == true) {
-      newList = reportSubCategoryList
+      newList = level3reportList
           .where((cat) => cat["batch_name"]
               .toUpperCase()
               .contains(searchkey!.toUpperCase()))
@@ -210,9 +307,8 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////////////////
-  
-  datatableCreation(var jsonData, String level) {
 
+  datatableCreation(var jsonData, String level) {
     mapTabledata.clear();
     newMp.clear();
     tableColumn.clear();
@@ -221,7 +317,7 @@ class Controller extends ChangeNotifier {
       mapTabledata = json.decode(jsonData);
       // print("json data----${jsondata}");
     } else {
-      print("null");
+      // print("null");
     }
     if (level == "level1") {
       mapTabledata.remove("sg");
@@ -234,18 +330,17 @@ class Controller extends ChangeNotifier {
       mapTabledata.remove("batch_name");
     }
 
-    print("map after deletion${mapTabledata} ");
-    print("mapTabledata---${mapTabledata}");
+    // print("map after deletion${mapTabledata} ");
+    // print("mapTabledata---${mapTabledata}");
     mapTabledata.forEach((key, value) {
       tableColumn.add(key);
       valueMap[key] = value;
     });
     newMp.add(valueMap);
-    print("tableColumn---${tableColumn}");
-    print("valueMap---${valueMap}");
-    print("newMp---${newMp}");
+    // print("tableColumn---${tableColumn}");
+    // print("valueMap---${valueMap}");
+    // print("newMp---${newMp}");
   }
 
-
- 
+  expandedDatatableCreat(var jsonData) {}
 }
