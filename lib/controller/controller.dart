@@ -90,8 +90,10 @@ class Controller extends ChangeNotifier {
         reportList.add(item);
         // notifyListeners();
       }
-      // print("report list${reportList}");
+      print("report list${reportList}");
       final jsonData = reportList[0]['special_element2'];
+
+      // final jsonData ='[[{"label":"QTY","value":"1"},{"label":"BATCH COST","value":"B.batch_cost"}],[{"label":"QTY","value":"1"},{"label":"BATCH COST","value":"B.batch_cost"}]]';
       // print("${reportList[3]}");
       final parsedJson = jsonDecode(jsonData);
       print("parsed json--$parsedJson");
