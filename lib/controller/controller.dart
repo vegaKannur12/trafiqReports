@@ -10,6 +10,8 @@ class Controller extends ChangeNotifier {
   // String? filter_id;
   String? tilName;
   bool? isLoading;
+  bool istabLoading=false;
+
   bool backButtnClicked = false;
   String urlgolabl = Globaldata.apiglobal;
   List<Map<String, dynamic>> reportList = [];
@@ -44,7 +46,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> newMp = [];
   List<DataCell> datacell = [];
   List<Map<String, dynamic>> resultCopy = [];
-  List<Map> tableJson = [];
+  List<Map<String, dynamic>> tableJson = [];
   List<Map> mapJsondata = [];
   /////////////////////////////////////////////////////
   getCategoryReport() async {
@@ -226,12 +228,16 @@ class Controller extends ChangeNotifier {
         "old_filter_where_ids": old_filter_where_ids,
         "special_field2": special_field2,
       };
-
+      istabLoading = true;
+      notifyListeners();
       http.Response response = await http.post(
         url,
         body: body,
       );
       tableJson.clear();
+      istabLoading = false;
+      notifyListeners();
+
       var map = jsonDecode(response.body);
       for (var item in map) {
         tableJson.add(item);
@@ -382,7 +388,9 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////////////////////////
-  expandedtableCreation(var jsonData,) {
+  expandedtableCreation(
+    var jsonData,
+  ) {
     mapJsondata.clear();
     newMp.clear();
     tableColumn.clear();
@@ -390,6 +398,6 @@ class Controller extends ChangeNotifier {
     if (jsonData != null) {
       // mapJsondata = json.decode(jsonData);
       print("json data----${jsonData}");
-    } 
+    }
   }
 }

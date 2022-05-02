@@ -53,7 +53,7 @@ class _LevelOneState extends State<LevelOne> {
   SelectDate selectD = SelectDate();
   bool isSelected = true;
   bool buttonClicked = false;
-  var tablejson;
+  List<Map<String, dynamic>> tablejson = [];
   List<Map<String, dynamic>> shrinkedData = [];
   List<Map<String, dynamic>> jsonList = [];
   var encoded;
@@ -770,21 +770,26 @@ class _LevelOneState extends State<LevelOne> {
                                               Provider.of<Controller>(context,
                                                       listen: false)
                                                   .toggleData(index, "level1");
-                                           tablejson=Provider.of<Controller>(
+
+                                              tablejson =
+                                                  Provider.of<Controller>(
                                                           context,
                                                           listen: false)
                                                       .tableJson;
-                                               print("tablejson --${tablejson}");
 
-                                               print("tablejson length---${tablejson.length}");
-                                              
+                                              print("tablejson --${tablejson}");
+
+                                              print(
+                                                  "tablejson length---${tablejson.length}");
+
                                               // print(
-                                                  // "tableJson-----${tablejson}");
+                                              // "tableJson-----${tablejson}");
                                               // encodedTablejson =
                                               //     json.encode(tablejson);
-                                              Provider.of<Controller>(
-                                                          context,
-                                                          listen: false).expandedtableCreation(tablejson);
+                                              Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .expandedtableCreation(
+                                                      tablejson);
                                             }),
                                       ),
                                     ),
@@ -800,15 +805,23 @@ class _LevelOneState extends State<LevelOne> {
                                         level: "level1",
                                       ),
                                     ),
-                                    // Visibility(
-                                    //   visible: Provider.of<Controller>(context,
-                                    //           listen: false)
-                                    //       .l1isExpanded[index],
-                                    //   child: ExpandedDatatable(
-                                    //     dedoded: tablejson,
-                                    //     level: "level1",
-                                    //   ),
-                                    // ),
+                                    Consumer<Controller>(
+                                      builder: (context, value, child) {
+                                        return Visibility(
+                                            visible: value.l1isExpanded[index],
+                                            child: 
+                                            // value.istabLoading
+                                                // ? CircularProgressIndicator()
+                                                // : 
+                                                value.tableJson.isNotEmpty
+                                                    ? ExpandedDatatable(
+                                                        dedoded:value.tableJson,
+                                                        level: "level1",
+                                                      ):Container()
+                                                    // : Container()
+                                        );
+                                      },
+                                    ),
                                   ],
                                 ),
                               );

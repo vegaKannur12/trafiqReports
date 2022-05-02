@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:reports/components/customColor.dart';
 
 class ExpandedDatatable extends StatefulWidget {
-  var dedoded;
+  List<Map<String, dynamic>> dedoded;
   String? level;
-  ExpandedDatatable({this.dedoded, this.level});
+  ExpandedDatatable({required this.dedoded, this.level});
   @override
   State<ExpandedDatatable> createState() => _ExpandedDatatableState();
 }
@@ -15,7 +15,7 @@ class _ExpandedDatatableState extends State<ExpandedDatatable> {
   List<Map<String, dynamic>> mapTabledata = [];
   List<String> tableColumn = [];
   List<String>? colName;
-  List<Map<String, dynamic>> newMp = [];
+  // List<Map<String, dynamic>> newMp = [];
   Map<String, dynamic> valueMap = {};
   List<String>? rowName;
 
@@ -26,23 +26,59 @@ class _ExpandedDatatableState extends State<ExpandedDatatable> {
     if (widget.dedoded != null) {
       // mapTabledata=widget.dedoded;
       // print("json data----${jsondata}");
+      mapTabledata = widget.dedoded;
     } else {
       print("null");
     }
     print("widget.dedoded----${widget.dedoded}");
     if (widget.dedoded != null) {
-      widget.dedoded.forEach((key, value) {
-        tableColumn.add(key);
-        valueMap[key] = value;
-      });
+     mapTabledata[0].forEach((key, value) {
+       tableColumn.add(key);
+     });
 
-      newMp.add(valueMap);
+    
+
+      // widget.dedoded.forEach((key, value) {
+      //   tableColumn.add(key);
+      //   valueMap[key] = value;
+      // });
+
+      // newMp.add(valueMap);
     }
 
     // newMp.add(valueMap);
     print("tableColumn---${tableColumn}");
     // print("valueMap---${valueMap}");
-    print("newMp---${newMp}");
+    print("newMp---${mapTabledata}");
+  }
+
+    calculateSum() {
+    Map map = {};
+    double valueStored;
+    // print("main header---${mainHeader}");
+    mainHeader.forEach((key, value) {
+      double sum = 0;
+      // print("key---${key}");
+      for (var i = 0; i < newJson.length; i++) {
+        map = newJson[i];
+        print("map----${map}");
+        map.forEach((k, val) {
+          if (k == key) {
+            // print("mainheader[k][3]----${mainHeader[key][2]}");
+            if (mainHeader[key][2] == "Y") {
+              valueStored = double.parse(val);
+              // print("valueStored--${valueStored}");
+              sum = sum + valueStored;
+              // print("sum----${sum}");
+              total[k] = sum;
+            } else {
+              total[k] = "";
+            }
+          }
+        });
+      }
+    });
+    print("tootal map----${total}");
   }
 
   @override
@@ -66,7 +102,7 @@ class _ExpandedDatatableState extends State<ExpandedDatatable> {
                         ? P_Settings.l3datatablecolor
                         : P_Settings.color4),
         columns: getColumns(tableColumn),
-        rows: getRowss(newMp),
+        rows: getRowss(mapTabledata),
       ),
     );
   }
@@ -100,7 +136,7 @@ class _ExpandedDatatableState extends State<ExpandedDatatable> {
 
   ////////////////////////////////////////////////////////////
   List<DataRow> getRowss(List<Map<String, dynamic>> row) {
-    return newMp.map((row) {
+    return mapTabledata.map((row) {
       return DataRow(
         cells: getCelle(row),
       );
