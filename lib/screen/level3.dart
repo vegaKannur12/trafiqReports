@@ -15,10 +15,19 @@ import 'package:reports/screen/level4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LevelThree extends StatefulWidget {
+  String hometileName;
+  String level1tileName;
+  String level2tileName;
+
   String old_filter_where_ids;
   String filter_id;
 
-  LevelThree({required this.old_filter_where_ids, required this.filter_id});
+  LevelThree(
+      {required this.hometileName,
+      required this.level1tileName,
+      required this.level2tileName,
+      required this.old_filter_where_ids,
+      required this.filter_id});
   @override
   State<LevelThree> createState() {
     return _LevelThreeState();
@@ -50,6 +59,7 @@ class _LevelThreeState extends State<LevelThree> {
 
   List<Map<String, dynamic>> shrinkedData = [];
   List<Map<String, dynamic>> jsonList = [];
+  String? titleName;
   var encoded;
   var decodd;
   var encodedShrinkdata;
@@ -232,9 +242,16 @@ class _LevelThreeState extends State<LevelThree> {
     setSharedPreftojsondata();
     getShared();
     createShrinkedData();
-    var length =
-        Provider.of<Controller>(context, listen: false).level3reportList.length;
-    print(length);
+    titleName = widget.hometileName +
+        ' ' +
+        '/' +
+        ' ' +
+        widget.level1tileName +
+        ' ' +
+        '/' +
+        ' ' +
+        widget.level2tileName;
+
     // isExpanded = List.generate(length, (index) => false);
     // visible = List.generate(length, (index) => true);
     // print("isExpanded---$isExpanded");
@@ -661,141 +678,190 @@ class _LevelThreeState extends State<LevelThree> {
                         );
                       }
                     }),
-              SizedBox(
-                height: size.height * 0.03,
+              Container(
+                color: P_Settings.dateviewColor,
+                height: size.height * 0.05,
+                child: Row(
+                  children: [
+                    Flexible(child: Text(titleName.toString())),
+                  ],
+                ),
               ),
-              Consumer<Controller>(builder: (context, value, child) {
-                {
-                  print("level3 report list${value.level3reportList.length}");
-
-                  if (value.isLoading == true) {
-                    return Container(
+              Provider.of<Controller>(context, listen: false).isSearch &&
+                      Provider.of<Controller>(context, listen: false)
+                              .newList
+                              .length ==
+                          0
+                  ? Container(
+                      alignment: Alignment.center,
                       height: size.height * 0.6,
-                      child: SpinKitPouringHourGlassRefined(
-                          color: P_Settings.l3appbarColor),
-                    );
-                  }
-                  return Container(
-                    // color: P_Settings.datatableColor,
-                    height: size.height * 0.71,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: value.level3reportList.length,
-                        itemBuilder: (context, index) {
-                          var jsonEncoded =
-                              json.encode(value.level3reportList[index]);
-                          // print("map---${value.reportSubCategoryList[index]}");
-                          if (index < 0 ||
-                              index >= value.level3reportList.length) {
-                            return const Offstage();
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Column(
-                              children: [
-                                Ink(
-                                  decoration: BoxDecoration(
-                                    color: P_Settings.l3datatablecolor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ListTile(
-                                    onTap: () {
-                                      // specialField = specialField == null
-                                      //     ? "1"
-                                      //     : specialField.toString();
-                                      // String filter = value.reportList[index]
-                                      //         ["filters"]
-                                      //     .toString();
-                                      // print("filter ..............$filter");
-                                      // List<String> parts = filter.split(',');
-                                      // String filter1 = parts[1].trim();
-                                      // print("filtersss ..............$filter1");
+                      child: Text(
+                        "No data Found!!!",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    )
+                  : Consumer<Controller>(builder: (context, value, child) {
+                      {
+                        print(
+                            "level3 report list${value.level3reportList.length}");
 
-                                      // String old_filter_where_ids =
-                                      //     widget.old_filter_where_ids +
-                                      //         value.reportSubCategoryList[index]
-                                      //             ["cat_id"] +
-                                      //         ",";
-                                      // print(
-                                      //     "old_filter_where_ids--${old_filter_where_ids}");
-                                      // Provider.of<Controller>(context,
-                                      //         listen: false)
-                                      //     .getSubCategoryReportList(
-                                      //         specialField!,
-                                      //         filter1,
-                                      //         fromDate!,
-                                      //         toDate!,
-                                      //         old_filter_where_ids);
-                                      Provider.of<Controller>(context,
-                                              listen: false)
-                                          .setSpecialField(specialField!);
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) => LevelFour()),
-                                      // );
-                                    },
-                                    title: Center(
-                                      child: Text(
-                                        value.isSearch
-                                            ? value.newList[index]["batch_name"]
-                                            : value.level3reportList[index]
-                                                        ["batch_name"] !=
-                                                    null
-                                                ? value.level3reportList[index]
-                                                    ["batch_name"]
-                                                : "",
-                                        // style: TextStyle(fontSize: 12),
-                                      ),
-                                    ),
-                                    // subtitle:
-                                    //     Center(child: Text('/report page flow')),
-                                    trailing: IconButton(
-                                        icon: Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .l3isExpanded[index]
-                                            ? Icon(
-                                                Icons.arrow_upward,
-                                                size: 18,
-                                              )
-                                            : Icon(
-                                                Icons.arrow_downward,
-                                                // actionIcon.icon,
-                                                size: 18,
-                                              ),
-                                        onPressed: () {
-                                          Provider.of<Controller>(context,
-                                                  listen: false)
-                                              .toggleData(index, "level3");
-                                          // toggle(index);
-                                          // print("json-----${json}");
-                                        }),
-                                  ),
-                                ),
-                                SizedBox(height: size.height * 0.004),
-                                Visibility(
-                                  visible: Provider.of<Controller>(context,
-                                          listen: false)
-                                      .l3visible[index],
-                                  // child:Text("haiii")
-
-                                  child: ShrinkedDatatable(
-                                      decodd: jsonEncoded, level: "level3"),
-                                ),
-                                Visibility(
-                                  visible: Provider.of<Controller>(context,
-                                          listen: false)
-                                      .l3isExpanded[index],
-                                  child: DataTableCompo(
-                                      decodd: decodd, type: "expaded"),
-                                ),
-                              ],
-                            ),
+                        if (value.isLoading == true) {
+                          return Container(
+                            height: size.height * 0.6,
+                            child: SpinKitPouringHourGlassRefined(
+                                color: P_Settings.l3appbarColor),
                           );
-                        }),
-                  );
-                }
-              })
+                        }
+                        return Container(
+                          // color: P_Settings.datatableColor,
+                          height: size.height * 0.6,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: value.level3reportList.length,
+                              itemBuilder: (context, index) {
+                                var jsonEncoded =
+                                    json.encode(value.level3reportList[index]);
+                                // Provider.of<Controller>(context, listen: false)
+                                //     .datatableCreation(
+                                //         jsonEncoded, "level3", "shrinked");
+                                if (index < 0 ||
+                                    index >= value.level3reportList.length) {
+                                  return const Offstage();
+                                }
+                                return Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    children: [
+                                      Ink(
+                                        decoration: BoxDecoration(
+                                          color: P_Settings.l3datatablecolor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: ListTile(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx) => AlertDialog(
+                                                // title: Text("Alert Dialog Box"),
+                                                content: Text("last page"),
+                                                actions: <Widget>[
+                                                  ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary: P_Settings
+                                                                .l3datatablecolor),
+                                                    onPressed: () {
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                    child: Text("okay"),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                            // specialField = specialField == null
+                                            //     ? "1"
+                                            //     : specialField.toString();
+                                            // String filter = value.reportList[index]
+                                            //         ["filters"]
+                                            //     .toString();
+                                            // print("filter ..............$filter");
+                                            // List<String> parts = filter.split(',');
+                                            // String filter1 = parts[1].trim();
+                                            // print("filtersss ..............$filter1");
+
+                                            // String old_filter_where_ids =
+                                            //     widget.old_filter_where_ids +
+                                            //         value.reportSubCategoryList[index]
+                                            //             ["cat_id"] +
+                                            //         ",";
+                                            // print(
+                                            //     "old_filter_where_ids--${old_filter_where_ids}");
+                                            // Provider.of<Controller>(context,
+                                            //         listen: false)
+                                            //     .getSubCategoryReportList(
+                                            //         specialField!,
+                                            //         filter1,
+                                            //         fromDate!,
+                                            //         toDate!,
+                                            //         old_filter_where_ids);
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .setSpecialField(specialField!);
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) => LevelFour()),
+                                            // );
+                                          },
+                                          title: Center(
+                                            child: Text(
+                                              value.isSearch
+                                                  ? value.newList[index]
+                                                      ["batch_name"]
+                                                  : value.level3reportList[
+                                                                  index]
+                                                              ["batch_name"] !=
+                                                          null
+                                                      ? value.level3reportList[
+                                                          index]["batch_name"]
+                                                      : "",
+                                              // style: TextStyle(fontSize: 12),
+                                            ),
+                                          ),
+                                          // subtitle:
+                                          //     Center(child: Text('/report page flow')),
+                                          trailing: IconButton(
+                                              icon: Provider.of<Controller>(
+                                                          context,
+                                                          listen: false)
+                                                      .l3isExpanded[index]
+                                                  ? Icon(
+                                                      Icons.arrow_upward,
+                                                      size: 18,
+                                                    )
+                                                  : Icon(
+                                                      Icons.arrow_downward,
+                                                      // actionIcon.icon,
+                                                      size: 18,
+                                                    ),
+                                              onPressed: () {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .toggleData(
+                                                        index, "level3");
+                                                // toggle(index);
+                                                // print("json-----${json}");
+                                              }),
+                                        ),
+                                      ),
+                                      SizedBox(height: size.height * 0.004),
+                                      Visibility(
+                                        visible: Provider.of<Controller>(
+                                                context,
+                                                listen: false)
+                                            .l3visible[index],
+                                        // child:Text("haiii")
+
+                                        child: ShrinkedDatatable(
+                                            decodd: jsonEncoded,
+                                            level: "level3"),
+                                      ),
+                                      Visibility(
+                                        visible: Provider.of<Controller>(
+                                                context,
+                                                listen: false)
+                                            .l3isExpanded[index],
+                                        child: DataTableCompo(
+                                            decodd: decodd, type: "expaded"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        );
+                      }
+                    })
             ],
           ),
         ),

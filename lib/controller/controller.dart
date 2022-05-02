@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class Controller extends ChangeNotifier {
   String? old_filter_where_ids;
-  String? filter_id;
+  // String? filter_id;
   String? tilName;
   bool? isLoading;
   bool backButtnClicked = false;
@@ -44,7 +44,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> newMp = [];
   List<DataCell> datacell = [];
   List<Map<String, dynamic>> resultCopy = [];
-
+  List<Map> tableJson = [];
+  List<Map> mapJsondata = [];
   /////////////////////////////////////////////////////
   getCategoryReport() async {
     try {
@@ -113,7 +114,7 @@ class Controller extends ChangeNotifier {
 
 ////////////////////////////////////////////////////////////////////////////////////////
   Future getSubCategoryReportList(
-      String special_field2,
+      String special_field,
       String filter_id,
       String fromdate,
       String tilldate,
@@ -121,11 +122,11 @@ class Controller extends ChangeNotifier {
       String level) async {
     // resultCopy.clear();
     print(
-        "special_field2---${special_field2}  filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} old_filter_where_ids----${old_filter_where_ids}");
+        "special_field2---${special_field}  filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} old_filter_where_ids----${old_filter_where_ids}");
     try {
       Uri url = Uri.parse("$urlgolabl/filters_list.php");
       var body = {
-        "special_field2": special_field2,
+        "special_field": special_field,
         "filter_id": filter_id,
         "fromdate": fromdate,
         "tilldate": tilldate,
@@ -207,6 +208,44 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////////clear///
+  Future getExpansionJson(
+      String special_field,
+      String filter_id,
+      String fromdate,
+      String tilldate,
+      String old_filter_where_ids,
+      String special_field2,
+      String level) async {
+    try {
+      print(
+          "special_field---${special_field} special_field2---${special_field2} filter_id---${filter_id} fromdate---${fromdate} tilldate---${tilldate} old_filter_where_ids----${old_filter_where_ids}");
+      Uri url = Uri.parse("$urlgolabl/filter_tile_expansion.php");
+      var body = {
+        "special_field": special_field,
+        "filter_id": filter_id,
+        "fromdate": fromdate,
+        "tilldate": tilldate,
+        "old_filter_where_ids": old_filter_where_ids,
+        "special_field2": special_field2,
+      };
+
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      tableJson.clear();
+      var map = jsonDecode(response.body);
+      for (var item in map) {
+        tableJson.add(item);
+      }
+      // print("tableJson-----${tableJson}");
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  /////////////////////////////////////////////////////////////
   clearlevelsreportList(String level) {
     if (level == "level1") {
       level1reportList.clear();
@@ -308,7 +347,7 @@ class Controller extends ChangeNotifier {
 
   ////////////////////////////////////////////////////////////////
 
-  datatableCreation(var jsonData, String level) {
+  datatableCreation(var jsonData, String level, String type) {
     mapTabledata.clear();
     newMp.clear();
     tableColumn.clear();
@@ -319,15 +358,17 @@ class Controller extends ChangeNotifier {
     } else {
       // print("null");
     }
-    if (level == "level1") {
-      mapTabledata.remove("sg");
-      mapTabledata.remove("acc_rowid");
-    } else if (level == "level2") {
-      mapTabledata.remove("cat_id");
-      mapTabledata.remove("cat_name");
-    } else if (level == "level3") {
-      mapTabledata.remove("batch_code");
-      mapTabledata.remove("batch_name");
+    if (type == "shrinked") {
+      if (level == "level1") {
+        mapTabledata.remove("sg");
+        mapTabledata.remove("acc_rowid");
+      } else if (level == "level2") {
+        mapTabledata.remove("cat_id");
+        mapTabledata.remove("cat_name");
+      } else if (level == "level3") {
+        mapTabledata.remove("batch_code");
+        mapTabledata.remove("batch_name");
+      }
     }
 
     // print("map after deletion${mapTabledata} ");
@@ -342,5 +383,15 @@ class Controller extends ChangeNotifier {
     // print("newMp---${newMp}");
   }
 
-  expandedDatatableCreat(var jsonData) {}
+  /////////////////////////////////////////////
+  expandedtableCreation(var jsonData,) {
+    mapJsondata.clear();
+    newMp.clear();
+    tableColumn.clear();
+    valueMap.clear();
+    if (jsonData != null) {
+      // mapJsondata = json.decode(jsonData);
+      print("json data----${jsonData}");
+    } 
+  }
 }
