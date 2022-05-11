@@ -30,6 +30,7 @@ class LevelOne extends StatefulWidget {
 }
 
 class _LevelOneState extends State<LevelOne> {
+  bool isPressed = true;
   String? specialField;
   Widget? appBarTitle;
   DateTime currentDate = DateTime.now();
@@ -461,8 +462,26 @@ class _LevelOneState extends State<LevelOne> {
                                                               .styleFrom(
                                                             // shape: StadiumBorder(),
 
-                                                            primary: P_Settings
-                                                                .l1datatablecolor,
+                                                            primary: value.specialelements[
+                                                                            index]
+                                                                        [
+                                                                        "label"] ==
+                                                                    "QTY"
+                                                                ? isPressed
+                                                                    ? P_Settings
+                                                                        .color4
+                                                                    : P_Settings
+                                                                        .l1datatablecolor
+                                                                : value.specialelements[index]
+                                                                            [
+                                                                            "label"] ==
+                                                                        "BATCH COST"
+                                                                    ? isPressed
+                                                                        ? P_Settings
+                                                                            .l1datatablecolor
+                                                                        : P_Settings
+                                                                            .color4
+                                                                    : null,
                                                             shadowColor:
                                                                 P_Settings
                                                                     .color4,
@@ -472,6 +491,15 @@ class _LevelOneState extends State<LevelOne> {
                                                             //     Size(100, 100),
                                                           ),
                                                           onPressed: () {
+                                                            specialField = value
+                                                                    .specialelements[
+                                                                index]["value"];
+
+                                                            setState(() {
+                                                              isPressed =
+                                                                  !isPressed;
+                                                            });
+
                                                             fromDate = fromDate ==
                                                                     null
                                                                 ? Provider.of<
@@ -503,10 +531,6 @@ class _LevelOneState extends State<LevelOne> {
                                                                 .setDate(
                                                                     fromDate!,
                                                                     toDate!);
-
-                                                            specialField = value
-                                                                    .specialelements[
-                                                                index]["value"];
 
                                                             Provider.of<Controller>(
                                                                     context,
@@ -809,17 +833,19 @@ class _LevelOneState extends State<LevelOne> {
                                       builder: (context, value, child) {
                                         return Visibility(
                                             visible: value.l1isExpanded[index],
-                                            child: 
-                                            // value.istabLoading
+                                            child:
+                                                // value.istabLoading
                                                 // ? CircularProgressIndicator()
-                                                // : 
+                                                // :
                                                 value.tableJson.isNotEmpty
                                                     ? ExpandedDatatable(
-                                                        dedoded:value.tableJson,
+                                                        dedoded:
+                                                            value.tableJson,
                                                         level: "level1",
-                                                      ):Container()
-                                                    // : Container()
-                                        );
+                                                      )
+                                                    : Container()
+                                            // : Container()
+                                            );
                                       },
                                     ),
                                   ],

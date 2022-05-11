@@ -719,7 +719,7 @@ class _LevelTwoState extends State<LevelTwo> {
                         }
                         return Container(
                           // color: P_Settings.datatableColor,
-                          height: size.height * 0.6,
+                          height: size.height * 0.64,
                           child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: value.isSearch
